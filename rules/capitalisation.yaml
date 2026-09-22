@@ -1,8 +1,607 @@
 # Capitalisation Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/capitalisation
-# agsm_source_date: 2026-09-22
-# Rule type: deterministic
+# Extracted from the Australian Government Style Manual (AGSM)
+# Source date: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 2 via Claude extraction.
+  - id: headings-sentence-case
+    type: deterministic
+    category: capitalisation
+    title: Headings use sentence case
+    description: >
+      All headings must be written in sentence case: capitalise only the first word
+      of the heading, any proper nouns, and any acronyms or initialisms. Do not
+      capitalise every major word (title case) in a heading.
+    test:
+      pass:
+        - "Apply for a disability support pension"
+        - "How the Australian Government funds education"
+      fail:
+        - "Apply For A Disability Support Pension"
+        - "How The Australian Government Funds Education"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-no-all-caps
+    type: deterministic
+    category: capitalisation
+    title: No all-capitals in headings
+    description: >
+      Do not write headings in all capital letters. All-caps can cause readers
+      to misread abbreviations (for example, 'ACT' could be read as the verb
+      rather than the Australian Capital Territory initialism).
+    test:
+      pass:
+        - "Submitting your tax return"
+      fail:
+        - "SUBMITTING YOUR TAX RETURN"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-no-full-stop
+    type: deterministic
+    category: capitalisation
+    title: No full stop at the end of headings
+    description: >
+      Headings, page headers, footers and captions should not end with a full stop,
+      even when the heading is a complete sentence.
+    test:
+      pass:
+        - "Register for an account"
+      fail:
+        - "Register for an account."
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: body-text-sentence-case
+    type: deterministic
+    category: capitalisation
+    title: Body text uses sentence case
+    description: >
+      In all body text, capitalise only the first word of a sentence and any
+      proper nouns. All other words, including common nouns and most adjectives,
+      should be in lower case.
+    test:
+      pass:
+        - "The information session covers Australian scholarships and grants."
+      fail:
+        - "The Information Session covers Australian Scholarships and Grants."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/punctuation-and-capitalisation
+    agsm_source_date: "2026-09-22"
+
+  - id: proper-nouns-initial-caps
+    type: deterministic
+    category: capitalisation
+    title: Proper nouns take initial capitals on each word
+    description: >
+      Every word in a proper noun (a specific name for a person, place,
+      organisation, or official body) begins with a capital letter. Common nouns
+      used generically do not.
+    test:
+      pass:
+        - "the Department of Finance"
+        - "the Australian Capital Territory"
+      fail:
+        - "the department of finance"
+        - "the australian capital territory"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/punctuation-and-capitalisation
+    agsm_source_date: "2026-09-22"
+
+  - id: common-nouns-lowercase
+    type: deterministic
+    category: capitalisation
+    title: Common nouns and adjectives stay in lower case
+    description: >
+      Common nouns and general adjectives do not take initial capitals. Only
+      capitalise an adjective when it refers to a specific national, religious,
+      or linguistic group (for example 'Australian', 'Catholic', 'English').
+    test:
+      pass:
+        - "She works in the department."
+        - "He is an Australian citizen."
+      fail:
+        - "She works in the Department."
+        - "He is an australian citizen."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/punctuation-and-capitalisation
+    agsm_source_date: "2026-09-22"
+
+  - id: acronym-spelled-out-caps
+    type: deterministic
+    category: capitalisation
+    title: Spelled-out acronyms follow proper/common noun rules, not the acronym's caps
+    description: >
+      When expanding an acronym or initialism, apply normal capitalisation rules
+      based on whether the full form is a proper noun or common noun — not based
+      on the capitalisation of the short form.
+    test:
+      pass:
+        - "NSW stands for New South Wales."
+        - "EIS stands for environmental impact statement."
+      fail:
+        - "NSW stands for new south wales."
+        - "EIS stands for Environmental Impact Statement."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/punctuation-and-capitalisation
+    agsm_source_date: "2026-09-22"
+
+  - id: title-before-name-capitalised
+    type: deterministic
+    category: capitalisation
+    title: Official titles immediately before a name are capitalised
+    description: >
+      When an official title directly precedes the name of the person holding
+      that office, capitalise the title. When the title is used generically
+      (not linked to a specific named individual), use lower case.
+    test:
+      pass:
+        - "Chief Defence Scientist Tanya Monro presented the award."
+        - "The senior policy adviser offered their view."
+      fail:
+        - "chief defence scientist Tanya Monro presented the award."
+        - "The Senior Policy Adviser offered their view."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/punctuation-and-capitalisation
+    agsm_source_date: "2026-09-22"
+
+  - id: australian-government-caps
+    type: deterministic
+    category: capitalisation
+    title: "'Australian Government' is capitalised; 'government' alone is not"
+    description: >
+      Capitalise both words in 'Australian Government' when they appear together
+      as the name of the national government. When 'government' is used on its
+      own as a subsequent or generic reference, write it in lower case.
+    test:
+      pass:
+        - "The Australian Government announced the policy. The government will review it annually."
+      fail:
+        - "The Australian Government announced the policy. The Government will review it annually."
+        - "The australian government announced the policy."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: government-word-in-names
+    type: deterministic
+    category: capitalisation
+    title: "'Government' is only capitalised when part of a formal name"
+    description: >
+      Capitalise 'Government' only when it forms part of a specific formal name
+      (for example, 'Victorian Government'). In all other uses — generic, plural,
+      or descriptive — write it in lower case.
+    test:
+      pass:
+        - "the Victorian Government"
+        - "Road maintenance is a local government responsibility."
+        - "the Australian and New Zealand governments"
+      fail:
+        - "Road maintenance is a local Government responsibility."
+        - "the australian and new zealand Governments"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: budget-capitalisation
+    type: deterministic
+    category: capitalisation
+    title: "'Budget' is capitalised when referring to the annual federal Budget"
+    description: >
+      Use a capital 'B' for 'the Budget' when referring to the specific annual
+      federal (or state) budget as an event or document. Use lower case when
+      'budget' functions as an adjective or appears in plural form.
+    test:
+      pass:
+        - "The government released this year's Budget."
+        - "The budget measures take effect from July."
+        - "successive federal budgets"
+      fail:
+        - "The government released this year's budget."
+        - "The Budget measures take effect from July."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: cabinet-crown-treasury-caps
+    type: deterministic
+    category: capitalisation
+    title: "'Cabinet', 'Crown', and 'Treasury' are always capitalised"
+    description: >
+      'The Cabinet', 'the Crown', and 'the Treasury' always take an initial
+      capital to distinguish them from their generic counterparts.
+    test:
+      pass:
+        - "It was a decision by the Cabinet."
+        - "The Governor-General is appointed by the Crown."
+        - "The Treasury conducts itself to the highest standards."
+      fail:
+        - "It was a decision by the cabinet."
+        - "The governor-general is appointed by the crown."
+        - "The treasury conducts itself to the highest standards."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: commonwealth-capitalisation
+    type: deterministic
+    category: capitalisation
+    title: "'Commonwealth' is always capitalised; 'Commonwealth government' is not used"
+    description: >
+      Always capitalise 'Commonwealth' when referring to the Commonwealth of
+      Australia. Do not use the phrase 'Commonwealth government' as a synonym
+      for 'Australian Government'.
+    test:
+      pass:
+        - "Defence is an Australian Government responsibility under the Constitution."
+        - "The Commonwealth marine area extends 200 nautical miles from the coast."
+      fail:
+        - "Defence is a Commonwealth government responsibility under the Constitution."
+        - "the commonwealth of australia"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: departments-agencies-formal-name
+    type: deterministic
+    category: capitalisation
+    title: Department and agency formal names are capitalised; generic references are not
+    description: >
+      Use initial capitals for the complete, official names of government
+      departments and agencies. When referring to the same body generically
+      after its first formal mention — using words like 'the department',
+      'the agency', 'the authority', or 'the commission' — write in lower case.
+    test:
+      pass:
+        - "The Department of Finance owns the policy. The department has been working on it for months."
+      fail:
+        - "The Department of Finance owns the policy. The Department has been working on it for months."
+        - "the department of finance"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: federal-word-caps
+    type: deterministic
+    category: capitalisation
+    title: "'Federal' is capitalised only in formal names, not as a general adjective"
+    description: >
+      Capitalise 'Federal' only when it is a component of a proper noun or
+      formal name (such as 'Federal Court of Australia'). When used as a
+      descriptive adjective, keep it in lower case.
+    test:
+      pass:
+        - "the Federal Court of Australia"
+        - "federal issues"
+        - "the federal Budget"
+      fail:
+        - "Federal issues"
+        - "the federal court of australia"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: federation-capitalisation
+    type: deterministic
+    category: capitalisation
+    title: "'Federation' is capitalised only when referring to Australia's 1901 Federation"
+    description: >
+      Use a capital 'F' for 'Federation' only when referring specifically to the
+      historical event of Australian Federation in 1901. In any other context,
+      such as architectural style or general discussion, use lower case.
+    test:
+      pass:
+        - "The flag design competition coincided with Federation in 1901."
+        - "The style of architecture popular between 1890 and 1915 is known as Federation style."
+      fail:
+        - "The federation of Australia occurred in 1901."
+        - "federation style architecture"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: government-programs-treaties
+    type: deterministic
+    category: capitalisation
+    title: Full names of government programs, treaties and protocols are capitalised
+    description: >
+      Use initial capitals for the complete formal title of any government
+      program, treaty, protocol or similar agreement. Shortened or generic
+      references to the same program or agreement use lower case.
+    test:
+      pass:
+        - "the Greater Artesian Basin Sustainability Initiative"
+        - "the initiative"
+      fail:
+        - "the greater artesian basin sustainability initiative"
+        - "the Program"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: minister-title-caps
+    type: deterministic
+    category: capitalisation
+    title: Minister and secretary titles are capitalised in full; generic references are not
+    description: >
+      Capitalise the complete official titles of ministers and departmental
+      secretaries when used in full. When referring to the role generically
+      ('the minister', 'the secretary') in subsequent mentions, use lower case.
+      Also note: always use 'for' — not 'of' — in a minister's portfolio title.
+    test:
+      pass:
+        - "The Minister for Education announced the policy. Education groups met with the minister."
+        - "The Secretary of the Department of Social Services gave the address."
+      fail:
+        - "The Minister for Education announced the policy. Education groups met with the Minister."
+        - "The Minister of Education"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: current-heads-of-state-titles
+    type: deterministic
+    category: capitalisation
+    title: Titles of current heads of state and prime ministers are capitalised; historical references are not
+    description: >
+      Capitalise the formal or abbreviated titles of current heads of state and
+      prime ministers. When referring to the position generically or to former
+      holders of the role, use lower case.
+    test:
+      pass:
+        - "The Prime Minister announced the initiative."
+        - "Sir Edmund Barton was the first prime minister of Australia."
+      fail:
+        - "The prime minister announced the initiative."
+        - "Sir Edmund Barton was the first Prime Minister of Australia."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: legislation-act-capitalisation
+    type: deterministic
+    category: capitalisation
+    title: "'Act' is always capitalised; 'bill', 'regulation', and 'ordinance' only when specific"
+    description: >
+      Always capitalise 'Act' — even when used as a shorthand reference to a
+      specific act. Capitalise 'Bill', 'Regulation', and 'Ordinance' only when
+      referring to a specific piece of legislation. Use lower case for generic
+      references.
+    test:
+      pass:
+        - "The Act separated legal ties between the 2 entities."
+        - "The bills were rejected for the second time."
+        - "The Privacy Act 1988 applies."
+      fail:
+        - "The act separated legal ties between the 2 entities."
+        - "The Bills were rejected for the second time."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: parliament-formal-names
+    type: deterministic
+    category: capitalisation
+    title: Formal parliamentary names and titles are capitalised; generic parliamentary terms are not
+    description: >
+      Capitalise formal names associated with parliament (Parliament House,
+      Parliamentary Library) and official titles of parliamentary office holders.
+      Generic terms — member of parliament, senator, backbencher, crossbencher,
+      frontbencher — are written in lower case.
+    test:
+      pass:
+        - "Parliament House"
+        - "the Parliamentary Library"
+        - "She moved from the backbench to take the new ministerial portfolio."
+        - "He was a former senator for Tasmania."
+      fail:
+        - "parliament house"
+        - "She moved from the Backbench to take the new ministerial portfolio."
+        - "He was a former Senator for Tasmania."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: senate-house-caps
+    type: deterministic
+    category: capitalisation
+    title: "'Senate' and 'House of Representatives' are always capitalised"
+    description: >
+      Always use initial capitals when referring to the Senate, the House of
+      Representatives, and their equivalent chambers in state and territory
+      parliaments. The generic phrase 'houses of parliament' is lower case.
+    test:
+      pass:
+        - "The Senate referred the matter to committee."
+        - "The Legislative Assembly will vote tomorrow."
+        - "The Senate and the House of Representatives are the houses of parliament."
+      fail:
+        - "The senate referred the matter to committee."
+        - "The legislative assembly will vote tomorrow."
+        - "The Senate and the House of Representatives are the Houses of Parliament."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: states-territories-caps
+    type: deterministic
+    category: capitalisation
+    title: State and territory formal names are capitalised; generic references are not
+    description: >
+      Use initial capitals for each word in the formal name of a state or
+      territory. When referring to a state or territory generically, use lower
+      case. Exception: use capital 'T' for 'Territory' when it is the recognised
+      short form for the Northern Territory.
+    test:
+      pass:
+        - "The South Australian Government started the project. The government will review progress."
+        - "The states and territories are responsible for education."
+        - "The Territory is a popular destination."
+      fail:
+        - "The south australian Government started the project."
+        - "The States and Territories are responsible for education."
+        - "The territory is a popular destination."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/government-terms
+    agsm_source_date: "2026-09-22"
+
+  - id: organisation-exact-name
+    type: llm-assertion
+    category: capitalisation
+    title: Organisation names are written exactly as the organisation writes them
+    description: >
+      Write the name of any organisation exactly as that organisation writes it,
+      including their preferred capitalisation, punctuation, and logograms.
+      Exception: if an organisation's name is entirely lower case with no medial
+      capitals, give it an initial capital in body text.
+    test:
+      pass:
+        - "eSafety keeps its website up to date."
+        - "Meat & Livestock Australia released its annual report."
+      fail:
+        - "ESafety keeps its website up to date."
+        - "Meat and Livestock Australia released its annual report."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/organisation-names
+    agsm_source_date: "2026-09-22"
+
+  - id: organisation-generic-ref-lowercase
+    type: deterministic
+    category: capitalisation
+    title: Generic references to organisations use lower case
+    description: >
+      After using a full, formal organisation name, any subsequent generic
+      reference — such as 'the department', 'the university', 'the agency',
+      'the commission', or 'the company' — must be in lower case.
+    test:
+      pass:
+        - "Australian Academy of the Humanities — the academy"
+        - "Department of Finance — the department"
+      fail:
+        - "Australian Academy of the Humanities — the Academy"
+        - "Department of Finance — the Department"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/organisation-names
+    agsm_source_date: "2026-09-22"
+
+  - id: organisation-the-article-lowercase
+    type: deterministic
+    category: capitalisation
+    title: "'The' in an organisation name uses lower case in body text"
+    description: >
+      When an organisation's official name begins with 'The' (capital T), use
+      lower case 'the' when mentioning it within body text. Use the capitalised
+      form only in correspondence (emails/letters) or in alphabetical lists.
+    test:
+      pass:
+        - "Next year the University of Sydney will renovate its science buildings."
+      fail:
+        - "Next year The University of Sydney will renovate its science buildings."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/organisation-names
+    agsm_source_date: "2026-09-22"
+
+  - id: place-names-initial-caps
+    type: deterministic
+    category: capitalisation
+    title: Australian place names use initial capitals, including roads, streets, and public buildings
+    description: >
+      All official Australian place names are proper nouns and take initial
+      capitals on every word. Generic or plural references to the same type
+      of feature are lower case.
+    test:
+      pass:
+        - "George Street"
+        - "Monaro Highway"
+        - "the Adelaide Hills"
+        - "St Paul's Cathedral is close to Federation Square. The cathedral ..."
+      fail:
+        - "george street"
+        - "monaro highway"
+        - "St paul's cathedral"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/australian-place-names
+    agsm_source_date: "2026-09-22"
+
+  - id: dual-place-names
+    type: deterministic
+    category: capitalisation
+    title: Official dual place names use a spaced forward slash in the order given by the official source
+    description: >
+      When writing official dual names (a First Nations language name paired with
+      an English name), separate the two parts with a spaced forward slash.
+      Maintain the order specified in the Australian Place Names dataset.
+    test:
+      pass:
+        - "Kata Tjuta / Mount Olga"
+        - "Kunanyi / Mount Wellington"
+      fail:
+        - "Kata Tjuta/Mount Olga"
+        - "Mount Olga / Kata Tjuta"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/australian-place-names
+    agsm_source_date: "2026-09-22"
+
+  - id: personal-names-initial-caps
+    type: deterministic
+    category: capitalisation
+    title: Personal names use initial capitals; follow the individual's own style for unusual forms
+    description: >
+      Capitalise the names of real and fictitious people using initial capitals
+      for each word. However, if a person deliberately uses a non-standard
+      form (such as entirely lower case), follow their preference.
+    test:
+      pass:
+        - "Oodgeroo Noonuccal"
+        - "bell hooks"
+        - "kd lang"
+      fail:
+        - "oodgeroo noonuccal"
+        - "Bell Hooks"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/personal-names
+    agsm_source_date: "2026-09-22"
+
+  - id: name-particles-capitalisation
+    type: llm-assertion
+    category: capitalisation
+    title: Particles in family names follow the person's own preference; capitalise at sentence start
+    description: >
+      Particles in names (such as 'van', 'de', 'von', 'di') are usually lower
+      case, but always follow the individual's documented preference. Regardless
+      of the individual's normal style, the particle must be capitalised if the
+      name begins a sentence.
+    test:
+      pass:
+        - "Kim van Netten"
+        - "Van Netten was appointed to the role."
+      fail:
+        - "Kim Van Netten"
+        - "van Netten was appointed to the role."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/names-and-terms/personal-names
+    agsm_source_date: "2026-09-22"
+
+  - id: minimize-capitals-principle
+    type: llm-assertion
+    category: capitalisation
+    title: Minimise use of capitals — avoid capitalising for emphasis or perceived importance
+    description: >
+      Overusing capital letters disrupts reading flow and does not convey
+      importance or respect. Only capitalise where a rule in this guide
+      explicitly requires it. Capitalising roles, programs, or terms out of
+      deference or emphasis — without a formal-name justification — is incorrect.
+    test:
+      pass:
+        - "Department of the Prime Minister and Cabinet, then 'the department'"
+        - "Minister for the Public Service, then 'the minister'"
+      fail:
+        - "Department of the Prime Minister and Cabinet, then 'the Department'"
+        - "Minister for the Public Service, then 'the Minister'"
+    severity: warning
+    source: https://www.stylemanual.gov.au/style-manual-resources/quick-guides/quick-guide-spelling-capitals-links-and-dashes
+    agsm_source_date: "2026-09-22"

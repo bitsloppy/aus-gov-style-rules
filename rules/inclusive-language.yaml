@@ -1,8 +1,767 @@
 # Inclusive Language Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/style-manual-for-authors-editors-and-printers/inclusive-language
-# agsm_source_date: 2026-09-22
-# Rule type: llm-assertion (judgment required)
+# Source: Australian Government Style Manual (AGSM)
+# Extracted: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 3 via Claude extraction.
+  # ============================================================
+  # Aboriginal and Torres Strait Islander peoples
+  # ============================================================
+
+  - id: atsi-avoid-shorthand-terms
+    type: deterministic
+    category: inclusive-language
+    title: Avoid shorthand terms and acronyms for First Nations peoples
+    description: >
+      Do not use abbreviated or shorthand terms such as 'Aborigines', 'Islanders',
+      or the acronym 'ATSI' when referring to Aboriginal and Torres Strait Islander
+      peoples. These terms are disrespectful and erase the diversity of First Nations
+      communities.
+    test:
+      pass:
+        - "The program was developed in consultation with Aboriginal and Torres Strait Islander peoples."
+        - "First Nations people are encouraged to apply."
+      fail:
+        - "The policy affects ATSI communities across Australia."
+        - "Aborigines and Islanders are welcome to attend."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-use-present-tense
+    type: llm-assertion
+    category: inclusive-language
+    title: Write about First Nations peoples and cultures in the present tense
+    description: >
+      Refer to First Nations peoples, their cultures, languages, and practices in the
+      present tense unless describing a specific past event. Using the past tense
+      implies that First Nations peoples and cultures no longer exist.
+    test:
+      pass:
+        - "The Yolŋu people of north-east Arnhem Land maintain a rich artistic tradition."
+        - "Hundreds of distinct First Nations languages are spoken across Australia today."
+      fail:
+        - "Aboriginal Australians once had hundreds of distinct languages."
+        - "Torres Strait Islander peoples traditionally gathered at this site."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-avoid-blood-quantum
+    type: deterministic
+    category: inclusive-language
+    title: Do not use blood quantum or part-lineage terms for First Nations people
+    description: >
+      Terms that describe degree of First Nations ancestry — such as 'half-caste',
+      'full-blood', 'part Aboriginal', or any percentage-based description — are deeply
+      offensive. These terms reflect harmful colonial policies and must never be used.
+    test:
+      pass:
+        - "She is a proud Wiradjuri woman."
+        - "He identifies as a First Nations Australian."
+      fail:
+        - "She is half-Aboriginal."
+        - "He is a quarter Torres Strait Islander."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-avoid-possessive-language
+    type: llm-assertion
+    category: inclusive-language
+    title: Avoid possessive or 'us versus them' language about First Nations peoples
+    description: >
+      Phrases like 'our Aboriginal peoples' or 'Australian Indigenous peoples' imply
+      ownership over First Nations people and are not acceptable. Similarly, framing
+      that sets up a dichotomy between First Nations people and other Australians
+      perpetuates exclusion.
+    test:
+      pass:
+        - "We are committed to working alongside Aboriginal and Torres Strait Islander communities."
+      fail:
+        - "We must support our Aboriginal peoples."
+        - "Australian Indigenous peoples face many challenges."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-capitalise-welcome-acknowledgement
+    type: deterministic
+    category: inclusive-language
+    title: Capitalise 'Welcome to Country' and 'Acknowledgement of Country'
+    description: >
+      Both 'Welcome to Country' and 'Acknowledgement of Country' are distinct cultural
+      practices and must always be written with initial capitals. They are not
+      interchangeable — a Welcome to Country is performed by a traditional owner;
+      anyone can give an Acknowledgement of Country.
+    test:
+      pass:
+        - "The conference opened with a Welcome to Country."
+        - "Staff include an Acknowledgement of Country in their email signatures."
+      fail:
+        - "The event opened with a welcome to country."
+        - "We gave an acknowledgement of country before the meeting."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-no-italics-first-nations-languages
+    type: deterministic
+    category: inclusive-language
+    title: Do not italicise words or names from First Nations languages
+    description: >
+      Words and names from First Nations languages must not be italicised. First Nations
+      languages are Australian languages, not foreign languages, so they should not be
+      treated as exotic or foreign terms requiring italicisation.
+    test:
+      pass:
+        - "The Ngunnawal people are the traditional custodians of the Canberra region."
+        - "The Dreaming is a complex system of spiritual beliefs held by many Aboriginal peoples."
+      fail:
+        - "The *Ngunnawal* people are the traditional custodians of the Canberra region."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-languages-not-extinct
+    type: deterministic
+    category: inclusive-language
+    title: Describe dormant First Nations languages as 'sleeping', not 'extinct'
+    description: >
+      First Nations languages not in widespread current use should be described as
+      'sleeping' rather than 'extinct'. Many communities are actively working to revive
+      these languages, and 'extinct' falsely implies a permanent, irreversible end.
+    test:
+      pass:
+        - "Some First Nations languages are currently sleeping, with communities working to revive them."
+      fail:
+        - "Many Aboriginal languages are now extinct."
+        - "The language has been extinct for over a century."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-capitalise-dreaming
+    type: deterministic
+    category: inclusive-language
+    title: Capitalise 'the Dreaming' when used in its spiritual or cultural context
+    description: >
+      When 'the Dreaming' refers to the spiritual belief systems of Aboriginal peoples,
+      it must be capitalised. Using lowercase 'dreaming' in this context diminishes its
+      cultural and spiritual significance. Note that 'Dreamtime' is falling out of use.
+    test:
+      pass:
+        - "The Dreaming encompasses the spiritual and physical worlds for many Aboriginal peoples."
+      fail:
+        - "The dreaming is an important concept in Aboriginal spirituality."
+        - "Aboriginal people believe in the dreamtime."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-preferred-collective-terms
+    type: llm-assertion
+    category: inclusive-language
+    title: Prefer specific or community-endorsed terms over broad labels for First Nations peoples
+    description: >
+      When referring to First Nations peoples collectively, prefer 'First Nations people',
+      'First Australians', or 'Aboriginal and/or Torres Strait Islander peoples'. Where
+      possible, use the specific nation, community, or island name.
+    test:
+      pass:
+        - "The Ngunnawal and Ngambri peoples are the traditional custodians of the Canberra region."
+        - "The program is open to First Nations people across Australia."
+      fail:
+        - "Indigenous Australians have a rich cultural heritage."
+        - "Aboriginals are invited to apply."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-indigenous-capitalisation
+    type: deterministic
+    category: inclusive-language
+    title: Capitalise 'Indigenous' when referring to First Nations Australians
+    description: >
+      If the term 'Indigenous' is used to refer to First Nations Australians, it must
+      always be capitalised. Lowercase 'indigenous' is only appropriate in international
+      contexts.
+    test:
+      pass:
+        - "The report examines outcomes for Indigenous Australians in remote communities."
+        - "Indigenous communities were consulted throughout the process."
+      fail:
+        - "The report examines outcomes for indigenous Australians."
+        - "indigenous communities were consulted."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-avoid-myth-legend-spiritual
+    type: deterministic
+    category: inclusive-language
+    title: Do not use 'myth', 'legend', or 'folklore' for First Nations spiritual beliefs
+    description: >
+      Terms like 'myth', 'legend', or 'folklore' are minimising and disrespectful when
+      applied to the beliefs of First Nations peoples. Treat these belief systems with
+      the same seriousness and respect as any other religion or spiritual tradition.
+    test:
+      pass:
+        - "Many Aboriginal peoples hold deep beliefs about the Rainbow Serpent as an ancestral being."
+      fail:
+        - "The Aboriginal legend of the Rainbow Serpent is well known."
+        - "Aboriginal mythology includes Dreamtime stories."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  - id: atsi-strengths-based-language
+    type: llm-assertion
+    category: inclusive-language
+    title: Use empowering, strengths-based language about First Nations peoples and cultures
+    description: >
+      Content about First Nations peoples should emphasise strengths, achievements, and
+      continuing connections to culture and country. Avoid deficit framing that positions
+      communities as problems to be solved.
+    test:
+      pass:
+        - "The program supports First Nations people to achieve their community goals."
+        - "Aboriginal and Torres Strait Islander cultures continue to thrive across Australia."
+      fail:
+        - "The program seeks to address the Aboriginal and Torres Strait Islander problems within the community."
+        - "We are helping to save Aboriginal culture."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/aboriginal-and-torres-strait-islander-peoples
+    agsm_source_date: "2026-09-22"
+
+  # ============================================================
+  # Age diversity
+  # ============================================================
+
+  - id: age-mention-only-when-relevant
+    type: llm-assertion
+    category: inclusive-language
+    title: Only mention a person's age or age group when it is directly relevant
+    description: >
+      Avoid referring to a person's age or categorising someone by age group unless
+      the information is necessary for the content. Gratuitous age references can
+      carry unintended bias.
+    test:
+      pass:
+        - "You can access your superannuation once you turn 65."
+      fail:
+        - "The elderly patient received excellent care at the hospital."
+        - "An older man made a complaint about the noise."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/age-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: age-avoid-elderly-old-people
+    type: deterministic
+    category: inclusive-language
+    title: Avoid 'elderly' and 'old people'; use 'older people', 'older Australians', or 'seniors'
+    description: >
+      The term 'elderly' carries stereotyping connotations and is not acceptable in
+      Australian Government content. 'Old people' is disrespectful. Preferred alternatives
+      are 'older people', 'older Australians', 'senior Australians', 'seniors', or
+      'retired people'/'retirees', depending on context.
+    test:
+      pass:
+        - "More older Australians are using smartphones to manage their finances."
+        - "The service is designed for senior Australians living independently."
+      fail:
+        - "The program targets elderly Australians."
+        - "Old people are more likely to experience social isolation."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/age-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: age-young-people-preferred
+    type: deterministic
+    category: inclusive-language
+    title: Use 'young people' or 'youth'; avoid 'junior/juniors' and exercise caution with 'youths'
+    description: >
+      The most neutral terms for younger people are 'young people' and 'youth'. Avoid
+      'junior' or 'juniors'. Exercise caution with the plural 'youths', which is frequently
+      used to refer to young males only and can carry negative connotations.
+    test:
+      pass:
+        - "The program supports young people transitioning from school to work."
+        - "Youth unemployment fell during the latest quarter."
+      fail:
+        - "The juniors were involved in the decision-making process."
+        - "Youths in the suburb were responsible for the incident."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/age-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: age-students-by-study-level
+    type: llm-assertion
+    category: inclusive-language
+    title: Refer to students by level of study, not age
+    description: >
+      When writing about students, describe them by the level of study they are
+      undertaking (e.g. 'preschool students', 'high-school students', 'postgraduate
+      students') rather than by age.
+    test:
+      pass:
+        - "High-school students will have access to the new learning platform."
+        - "Postgraduate students can apply for the research scholarship."
+      fail:
+        - "Mature-age students are eligible for the same support as younger students."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/age-diversity
+    agsm_source_date: "2026-09-22"
+
+  # ============================================================
+  # Cultural and linguistic diversity
+  # ============================================================
+
+  - id: cald-identity-only-when-relevant
+    type: llm-assertion
+    category: inclusive-language
+    title: Mention cultural or linguistic identity only when it is necessary
+    description: >
+      A person's cultural background, heritage, or language should only be mentioned
+      when directly relevant to the content. Foregrounding cultural difference without
+      a clear reason can be othering.
+    test:
+      pass:
+        - "The community centre serves residents across the inner west."
+        - "Interpreting services are available for people who need them."
+      fail:
+        - "The Chinese-born woman was awarded the government contract."
+        - "A Vietnamese man has launched a successful local business."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/cultural-and-linguistic-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: cald-avoid-ethnic
+    type: deterministic
+    category: inclusive-language
+    title: Avoid 'ethnic Australians' or 'ethnic groups' as general descriptors
+    description: >
+      Terms like 'ethnic Australians' or 'ethnic groups' imply that migrant heritage
+      makes someone less authentically Australian. Use 'multicultural communities' as
+      a general alternative, or be specific about the community being described.
+    test:
+      pass:
+        - "The campaign is aimed at multicultural communities across Sydney."
+      fail:
+        - "Ethnic Australians are encouraged to apply for the role."
+        - "Services are available to ethnic groups across the region."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/cultural-and-linguistic-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: cald-migrant-terminology
+    type: llm-assertion
+    category: inclusive-language
+    title: Use 'migrants', 'immigrants', or 'new arrivals' only for recent arrivals; not settled citizens
+    description: >
+      When referring to people who have recently arrived in Australia, use neutral
+      terms such as 'migrants', 'immigrants', or 'new arrivals'. Once people have
+      settled and become Australian citizens, continuing to apply these labels suggests
+      a temporary or marginal status.
+    test:
+      pass:
+        - "Support services are available for new arrivals during their first year in Australia."
+      fail:
+        - "The migrants who arrived fifty years ago built strong communities here."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/cultural-and-linguistic-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: cald-given-name-family-name
+    type: deterministic
+    category: inclusive-language
+    title: Use 'given name' and 'family name' instead of 'Christian name', 'first name', or 'surname'
+    description: >
+      When asking for a person's name, use 'given name' and 'family name'. Terms like
+      'Christian name', 'first name', 'forename', and 'surname' assume European naming
+      conventions and exclude people from cultures with different naming systems or orders.
+    test:
+      pass:
+        - "Please provide your given name and family name."
+        - "Enter your given name in the first field and your family name in the second."
+      fail:
+        - "Please provide your Christian name and surname."
+        - "Enter your first name and last name."
+        - "Please fill in your forename and surname."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/cultural-and-linguistic-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: cald-dual-identity-en-dash
+    type: deterministic
+    category: inclusive-language
+    title: Use an en dash (not a hyphen) to express dual cultural identity as a compound adjective
+    description: >
+      When a dual cultural identity modifies a noun as a compound adjective, join the
+      two identity terms with an en dash (e.g. 'Japanese–Australian community'). When
+      the dual identity is expressed as a noun phrase, no dash is used.
+    test:
+      pass:
+        - "The Vietnamese–Australian community celebrated the Lunar New Year festival."
+        - "Vietnamese Australians celebrated the Lunar New Year festival."
+      fail:
+        - "The Vietnamese-Australian community celebrated the festival."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/cultural-and-linguistic-diversity
+    agsm_source_date: "2026-09-22"
+
+  # ============================================================
+  # Gender and sexual diversity
+  # ============================================================
+
+  - id: gender-neutral-language
+    type: llm-assertion
+    category: inclusive-language
+    title: Use gender-neutral language throughout; avoid gendered assumptions
+    description: >
+      Write in a way that does not assume or impose a gender unless it is directly
+      relevant. Gender-neutral language ensures content is inclusive of all genders
+      and does not discriminate on the basis of gender or sexual identity.
+    test:
+      pass:
+        - "Applicants must submit their documentation by the closing date."
+        - "Each participant must bring their own equipment to the session."
+      fail:
+        - "Each applicant must bring his documentation to the interview."
+        - "The ideal candidate will demonstrate his ability to lead a team."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: gender-singular-they
+    type: llm-assertion
+    category: inclusive-language
+    title: Use singular 'they/them' as a gender-neutral pronoun
+    description: >
+      When referring to a person whose gender is unknown, when gender is irrelevant,
+      or when a person uses they/them pronouns, use singular 'they', 'them', 'their',
+      'themselves', or 'themself'. Do not default to 'he' or 'he or she' in generic
+      contexts.
+    test:
+      pass:
+        - "If a customer has a complaint, they should contact the helpline directly."
+        - "Every employee must complete their onboarding documentation before starting."
+      fail:
+        - "If a customer has a complaint, he or she should contact the helpline."
+        - "Every employee must complete his onboarding documentation."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: gender-neutral-job-titles
+    type: deterministic
+    category: inclusive-language
+    title: Use gender-neutral job titles; avoid '-man'/'-woman' endings and feminine-marked forms
+    description: >
+      Replace gendered job titles with gender-neutral equivalents. Avoid titles ending
+      in '-man' (e.g. 'policeman', 'fireman', 'foreman') and feminine-marked titles
+      such as 'actress', 'hostess', 'waitress', or 'stewardess'.
+    test:
+      pass:
+        - "The report was prepared by a police officer."
+        - "The actor received a standing ovation."
+        - "Please speak with a flight attendant if you need assistance."
+      fail:
+        - "The report was prepared by a policeman."
+        - "The actress received a standing ovation."
+        - "Please speak to a stewardess if you need assistance."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: gender-title-ms-mx
+    type: deterministic
+    category: inclusive-language
+    title: Use 'Ms' as the default title for women; use 'Mx' only when a person specifies it
+    description: >
+      'Ms' is widely accepted as the default title for women because it does not
+      disclose marital status. 'Mx' is used by non-binary people and those who do not
+      wish to be identified by gender; only use it when a person has specified this
+      preference.
+    test:
+      pass:
+        - "The letter was addressed to Ms Chen."
+        - "Mx Taylor has requested accessible seating."
+      fail:
+        - "The letter was addressed to Miss Chen, who appears to be unmarried."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: gender-use-preferred-pronouns
+    type: llm-assertion
+    category: inclusive-language
+    title: Learn and use a person's stated pronouns; default to gender-neutral if unknown
+    description: >
+      When writing about a specific individual, use the pronouns they prefer. If this
+      is not known and cannot be confirmed, use gender-neutral pronouns (singular 'they').
+      Never assume a person's pronouns based on their name, appearance, or any other cue.
+    test:
+      pass:
+        - "Sam confirmed they would attend the conference."
+        - "The minister stated that she supports the proposed reform."
+      fail:
+        - "Sam confirmed he would attend the conference. [When Sam uses they/them]"
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: gender-lgbtiq-terminology
+    type: deterministic
+    category: inclusive-language
+    title: Use 'LGBTI' or 'LGBTIQ+' when referring to these communities
+    description: >
+      Australian Government agencies use both 'LGBTI' and 'LGBTIQ+'. The '+' in
+      LGBTIQ+ represents additional sexual identities. Avoid using outdated
+      abbreviations such as 'LGBT' alone or terms that exclude intersex people.
+    test:
+      pass:
+        - "The policy includes protections for LGBTI Australians."
+        - "Services are available to members of the LGBTIQ+ community."
+      fail:
+        - "The policy includes protections for LGBT people."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  - id: gender-sex-distinction
+    type: llm-assertion
+    category: inclusive-language
+    title: Distinguish clearly between 'gender' and 'sex'; do not use them interchangeably
+    description: >
+      'Gender' relates to social and cultural identity and expression. 'Sex' refers to
+      a person's legal status, determined at birth based on observed sex characteristics.
+      These terms have distinct meanings and should not be used as though they are
+      synonymous.
+    test:
+      pass:
+        - "The form asks for the applicant's sex as recorded on official documents."
+        - "The policy addresses gender equality in the workplace."
+      fail:
+        - "The form asks applicants to specify their gender as male or female."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/gender-and-sexual-diversity
+    agsm_source_date: "2026-09-22"
+
+  # ============================================================
+  # Disability and neurodiversity
+  # ============================================================
+
+  - id: disability-person-first-default
+    type: llm-assertion
+    category: inclusive-language
+    title: Use person-first language for disability by default in Australian Government content
+    description: >
+      For Australian Government content, use person-first language as the default when
+      writing about disability (e.g. 'person with disability', 'person who is deaf or
+      hard of hearing'). Only use identity-first language (e.g. 'disabled person') if
+      user research or direct community feedback indicates this is preferred.
+    test:
+      pass:
+        - "The service is available to people with disability."
+        - "Funding supports people with intellectual disability to live independently."
+      fail:
+        - "The service is available to disabled people."
+        - "Funding supports intellectually disabled people to live independently."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-uncountable-noun
+    type: deterministic
+    category: inclusive-language
+    title: Use 'disability' as an uncountable noun (not 'a disability')
+    description: >
+      In Australian Government style, 'disability' is treated as an uncountable noun.
+      Write 'person with disability' rather than 'person with a disability'.
+    test:
+      pass:
+        - "People with disability are encouraged to apply."
+        - "The organisation supports people living with disability."
+      fail:
+        - "People with a disability are encouraged to apply."
+        - "The organisation supports people living with a disability."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-avoid-offensive-terms
+    type: deterministic
+    category: inclusive-language
+    title: Avoid outdated and offensive disability-related terms
+    description: >
+      Do not use terms such as 'handicapped', 'crippled', 'invalid', 'incapacitated',
+      'mad', 'mute', 'deaf and dumb', or 'person without sight'. Also avoid euphemisms
+      like 'differently abled' or 'handicapable', which many people with disability
+      consider condescending.
+    test:
+      pass:
+        - "Accessible parking is available near the entrance."
+        - "She is a person who is blind."
+        - "He is a person who is deaf or hard of hearing."
+      fail:
+        - "The handicapped parking space is near the entrance."
+        - "He is mute and communicates by sign language."
+        - "The deaf and dumb community requires specialised support."
+        - "She is differently abled."
+    severity: error
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-no-inspiration-hero-victim
+    type: llm-assertion
+    category: inclusive-language
+    title: Do not frame people with disability as inspirational, heroic, or tragic merely because of their disability
+    description: >
+      Avoid describing a person as inspirational, heroic, or brave solely because they
+      have a disability. Do not write about people with disability as if they are victims
+      to be pitied. Focus on the person's actual actions, roles, and achievements.
+    test:
+      pass:
+        - "She is a researcher whose work has influenced national health policy."
+        - "He competed in the national athletics championship."
+      fail:
+        - "Despite her disability, she is an inspiration to us all."
+        - "The brave wheelchair-bound man overcame enormous adversity to complete the marathon."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-comparison-terms
+    type: deterministic
+    category: inclusive-language
+    title: Use 'person without disability', 'sighted person', or 'hearing person' for comparisons
+    description: >
+      When making comparisons involving disability status, use 'person without disability'
+      rather than 'able-bodied'. Use 'sighted person' for someone who is not blind, and
+      'hearing person' for someone who is not deaf.
+    test:
+      pass:
+        - "The study compared outcomes for people with disability and people without disability."
+        - "The information is designed to be accessible to both sighted and blind users."
+      fail:
+        - "The study compared outcomes for disabled and able-bodied participants."
+        - "Instructions were provided for normal and hearing-impaired users."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-deaf-hard-of-hearing
+    type: deterministic
+    category: inclusive-language
+    title: Use 'person who is deaf or hard of hearing'; avoid 'hearing impaired'
+    description: >
+      Refer to people with hearing loss as 'person who is deaf or hard of hearing'.
+      The World Federation of the Deaf disapproves of 'hearing impaired'. Capitalise
+      'Deaf' (capital D) when referring to the cultural and community identity of Deaf
+      people who use sign language as their primary language.
+    test:
+      pass:
+        - "The video includes captions for people who are deaf or hard of hearing."
+        - "The Deaf community uses Auslan as its primary language."
+      fail:
+        - "The video includes captions for hearing-impaired viewers."
+        - "Services are tailored for deaf and dumb Australians."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-blind-low-vision
+    type: deterministic
+    category: inclusive-language
+    title: Use 'person who is blind' or 'person who has low vision'; avoid 'the blind'
+    description: >
+      Use 'person who is blind' or 'person who has low vision' when referring to people
+      with vision impairment. Do not use collective terms like 'the blind' or the phrase
+      'person without sight'.
+    test:
+      pass:
+        - "Screen reader software is available for people who are blind or have low vision."
+      fail:
+        - "The app was designed for the blind."
+        - "Resources are available for persons without sight."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-mental-illness-having-not-being
+    type: deterministic
+    category: inclusive-language
+    title: Describe people as 'having' a mental health condition, not 'being' the diagnosis
+    description: >
+      When referring to a person's mental health condition, describe the person as
+      'having' the condition rather than using the diagnosis as a defining label.
+      Write 'has schizophrenia' not 'is a schizophrenic'; 'has depression'
+      not 'is a depressive'. Use 'people with mental illness' or 'people with mental
+      ill-health', not 'the mentally ill'.
+    test:
+      pass:
+        - "Alice has depression and receives ongoing support."
+        - "The program supports people with mental illness."
+      fail:
+        - "Alice is a depressive who struggles at work."
+        - "The program supports the mentally ill."
+        - "Lu is bipolar."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-accessible-parking
+    type: deterministic
+    category: inclusive-language
+    title: Use 'accessible parking' not 'handicapped parking' or 'disabled parking'
+    description: >
+      Use 'accessible parking' to refer to parking reserved for people with disability.
+      The term 'handicapped parking' is outdated and uses an offensive term.
+    test:
+      pass:
+        - "Accessible parking is available near the main entrance."
+      fail:
+        - "Handicapped parking is available near the main entrance."
+        - "Disabled parking is located at the rear of the building."
+    severity: warning
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-neurodiversity-natural-variation
+    type: llm-assertion
+    category: inclusive-language
+    title: Frame neurological differences as natural human variation, not deficits
+    description: >
+      Neurodiversity — encompassing conditions such as autism and ADHD — should be
+      framed as a natural part of human variation, not as defects or problems requiring
+      a cure. Follow individual and community preferences on disability identity.
+    test:
+      pass:
+        - "The workplace supports neurodivergent employees through flexible arrangements."
+        - "People with autism bring diverse perspectives and strengths to the team."
+      fail:
+        - "The program helps autistic people manage their disorder."
+        - "Staff with ADHD may struggle to meet normal workplace expectations."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"
+
+  - id: disability-mention-only-when-relevant
+    type: llm-assertion
+    category: inclusive-language
+    title: Mention disability only when it is directly relevant to the content
+    description: >
+      Do not refer to a person's disability unless it is directly pertinent to the
+      content. Gratuitously mentioning disability reduces a person to a single
+      characteristic and can be othering.
+    test:
+      pass:
+        - "The scientist presented her findings at the national conference."
+        - "The minister announced a new housing package today."
+      fail:
+        - "The wheelchair-bound scientist presented her findings at the national conference."
+        - "The autistic minister announced a new housing package today."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/accessible-and-inclusive-content/inclusive-language/disability-and-neurodiversity
+    agsm_source_date: "2026-09-22"

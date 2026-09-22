@@ -1,8 +1,752 @@
 # Structuring Content Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/structuring-content
-# agsm_source_date: 2026-09-22
-# Rule type: deterministic + llm-assertion (mixed)
+# Source: Australian Government Style Manual (AGSM)
+# Extracted: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 2–3 via Claude extraction.
+  # ─── HEADINGS ───────────────────────────────────────────────────────────────
+
+  - id: headings-sentence-case
+    type: deterministic
+    category: structuring
+    title: Headings use sentence case
+    description: >
+      Headings must use sentence case: capitalise only the first word, proper nouns,
+      and acronyms/initialisms. Do not use title case (capitalising every word) or
+      all-capitals for headings.
+    test:
+      pass:
+        - "Apply for a driver's licence"
+        - "Use keywords to start headings"
+      fail:
+        - "Apply For A Driver's Licence"
+        - "HOW TO APPLY FOR A LICENCE"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-no-full-stop
+    type: deterministic
+    category: structuring
+    title: No full stop at the end of headings
+    description: >
+      Headings must not end with a full stop, even when the heading is phrased
+      as a complete sentence.
+    test:
+      pass:
+        - "Apply for a grant"
+        - "How the process works"
+      fail:
+        - "Apply for a grant."
+        - "How the process works."
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-max-70-chars
+    type: deterministic
+    category: structuring
+    title: Headings are 70 characters or fewer
+    description: >
+      Each heading should be no longer than 70 characters including spaces.
+      Longer headings are harder to read and may signal that too many ideas
+      are crammed into one section.
+    test:
+      pass:
+        - "Apply for a community grant"
+        - "Use keywords at the start of headings"
+      fail:
+        - "How to successfully apply for a community development grant for your local area in the current financial year"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-frontloaded-keywords
+    type: llm-assertion
+    category: structuring
+    title: Headings begin with the most relevant keyword
+    description: >
+      The most important keyword(s) for a heading should appear at the start,
+      not buried later in the phrase. Frontloaded headings help readers quickly
+      assess relevance when scanning or using screen readers.
+    test:
+      pass:
+        - "Eligibility requirements for the grant"
+        - "Privacy policy for online services"
+      fail:
+        - "Find out about the eligibility requirements for the grant"
+        - "Information about our privacy policy for online services"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-descriptive-not-vague
+    type: llm-assertion
+    category: structuring
+    title: Headings describe content specifically, not vague filler phrases
+    description: >
+      A heading must specifically describe the topic of the content beneath it.
+      Generic headings like 'More information', 'Related information', or
+      'Overview' give no meaningful signal to the user and should be rewritten.
+    test:
+      pass:
+        - "Apply for a business registration"
+        - "Contact the grants team"
+      fail:
+        - "More information"
+        - "Related information"
+        - "Overview"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-no-questions
+    type: llm-assertion
+    category: structuring
+    title: Avoid phrasing headings as questions
+    description: >
+      Headings should not be written as questions starting with 'why', 'how',
+      or 'what'. Question-form headings push the key information to the end,
+      slowing down scanning. State the topic directly instead.
+    test:
+      pass:
+        - "Eligibility for the grant"
+        - "Documents needed to apply"
+      fail:
+        - "How do I apply for the grant?"
+        - "What documents do I need?"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-no-skipped-levels
+    type: llm-assertion
+    category: structuring
+    title: Do not skip heading levels
+    description: >
+      Headings must follow a complete sequential hierarchy — H1 to H2 to H3
+      to H4. Never jump from H1 directly to H3, or from H2 to H4, as this
+      breaks navigation for sighted users and assistive technology users alike.
+    test:
+      pass:
+        - "H1 page title > H2 main section > H3 subsection (correct)"
+      fail:
+        - "H1 page title > H3 subsection (skipped H2)"
+        - "H2 section > H4 sub-subsection (skipped H3)"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-one-h1-per-page
+    type: deterministic
+    category: structuring
+    title: Only one H1 heading per page
+    description: >
+      Each webpage should have exactly one level-1 heading. Using multiple H1
+      headings undermines the page's identity in search results and confuses
+      screen reader users navigating by headings.
+    test:
+      pass:
+        - "A page with a single H1: 'Grants for small business'"
+      fail:
+        - "A page with two H1 headings: 'Grants for small business' and 'How to apply'"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-parallel-structure
+    type: llm-assertion
+    category: structuring
+    title: All headings at the same level share a parallel grammatical structure
+    description: >
+      Headings at the same level within a section should use the same grammatical
+      form — for example, all noun phrases or all imperative verbs. Mixed
+      structures at the same level make content harder to scan.
+    test:
+      pass:
+        - "H2: Apply online | H2: Provide your documents | H2: Receive your decision"
+        - "H2: Eligibility | H2: Required documents | H2: Application process"
+      fail:
+        - "H2: How to apply | H2: Document requirements | H2: You will receive a decision"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  - id: headings-text-between
+    type: llm-assertion
+    category: structuring
+    title: Include at least one sentence between consecutive headings
+    description: >
+      A heading must not immediately follow another heading with no body text
+      in between. Even a single introductory sentence creates a clear distinction
+      between sections.
+    test:
+      pass:
+        - "## Eligibility\nYou must meet all of the following criteria.\n### Age requirements"
+      fail:
+        - "## Eligibility\n### Age requirements"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/headings
+    agsm_source_date: "2026-09-22"
+
+  # ─── LISTS ──────────────────────────────────────────────────────────────────
+
+  - id: lists-minimum-two-items
+    type: deterministic
+    category: structuring
+    title: Lists must have at least two items
+    description: >
+      A list must contain at least two items. A single-item list should be
+      rewritten as body text rather than formatted as a list.
+    test:
+      pass:
+        - "You will need:\n- a passport\n- a birth certificate"
+      fail:
+        - "You will need:\n- a passport"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-parallel-structure
+    type: llm-assertion
+    category: structuring
+    title: All items in a list share the same grammatical structure
+    description: >
+      Every item in a list should begin with the same word type (e.g. all verbs
+      or all nouns), use the same tense, and follow the same sentence pattern.
+      Inconsistent grammatical forms within a list make it harder to read.
+    test:
+      pass:
+        - "- read the guide\n- complete the form\n- submit your application"
+      fail:
+        - "- read the guide\n- completing the form\n- your application should be submitted"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-no-trailing-semicolons-or-commas
+    type: deterministic
+    category: structuring
+    title: No semicolons or commas at the end of list items
+    description: >
+      In any bullet or numbered list, individual list items must not end with
+      a semicolon (;) or comma (,). Current government style requires minimal
+      punctuation in lists.
+    test:
+      pass:
+        - "- apples\n- oranges\n- bananas"
+      fail:
+        - "- apples;\n- oranges;\n- bananas."
+        - "- apples,\n- oranges,\n- bananas."
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-no-and-or-between-items
+    type: deterministic
+    category: structuring
+    title: Do not place 'and' or 'or' after list items
+    description: >
+      List items in general content should not have 'and' or 'or' placed after
+      intermediate items. The lead-in sentence should make the relationship
+      between items clear.
+    test:
+      pass:
+        - "You can contact us by:\n- phone\n- email\n- post"
+      fail:
+        - "You can contact us by:\n- phone, or\n- email, or\n- post."
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-no-etc
+    type: deterministic
+    category: structuring
+    title: Do not end a list with 'etc.'
+    description: >
+      Do not append 'etc.' to the end of a list to signal incompleteness.
+      Instead, use an appropriate lead-in phrase such as 'including', 'for example',
+      or 'such as' to indicate the list is not exhaustive.
+    test:
+      pass:
+        - "Documents such as:\n- a passport\n- a birth certificate"
+      fail:
+        - "You may need:\n- a passport\n- a birth certificate\n- etc."
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-lead-in-colon
+    type: deterministic
+    category: structuring
+    title: Phrase lead-ins for lists end with a colon
+    description: >
+      When a list is introduced by a phrase (incomplete sentence), the lead-in
+      must end with a colon. Sentence lead-ins may end with either a colon or
+      a full stop, but one style should be used consistently throughout a document.
+    test:
+      pass:
+        - "You will need:\n- a passport\n- a birth certificate"
+        - "To complete your application:\n- sign the form\n- attach evidence"
+      fail:
+        - "You will need\n- a passport\n- a birth certificate"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-fragment-lowercase-start
+    type: deterministic
+    category: structuring
+    title: Fragment list items begin with a lowercase letter
+    description: >
+      In fragment lists — where each item completes a phrase lead-in to form
+      a sentence — list items should begin with a lowercase letter, unless the
+      item starts with a proper noun or acronym.
+    test:
+      pass:
+        - "Queensland is famous for its:\n- islands and coral reefs\n- tropical rainforest\n- beautiful beaches."
+      fail:
+        - "Queensland is famous for its:\n- Islands and coral reefs\n- Tropical rainforest\n- Beautiful beaches."
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-fragment-final-full-stop
+    type: deterministic
+    category: structuring
+    title: Fragment lists place a full stop only on the final item
+    description: >
+      In a fragment list, a full stop is added only after the very last item.
+      No full stops appear after any intermediate items.
+    test:
+      pass:
+        - "Contact us by:\n- phone\n- email\n- post."
+      fail:
+        - "Contact us by:\n- phone.\n- email.\n- post."
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-numbered-for-ordered-steps
+    type: llm-assertion
+    category: structuring
+    title: Use numbered lists only when sequence matters
+    description: >
+      Numbered (ordered) lists should be reserved for situations where the order
+      of items is meaningful — such as step-by-step instructions or ranked
+      outcomes. Use bullet lists when the sequence of items is not important.
+    test:
+      pass:
+        - "How to register:\n1. Create an account\n2. Verify your email\n3. Complete your profile"
+        - "Our office locations (unordered bullet list)"
+      fail:
+        - "Our office locations numbered 1–4 where order is arbitrary"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/lists
+    agsm_source_date: "2026-09-22"
+
+  - id: lists-multilevel-en-dash
+    type: deterministic
+    category: structuring
+    title: Use en dashes for the second level of multilevel lists
+    description: >
+      When a multilevel list is necessary, second-level items must use en dashes
+      (–) as the list marker, not hollow bullets, hyphens, or other symbols.
+    test:
+      pass:
+        - "- tree nuts\n  – almonds\n  – cashews"
+      fail:
+        - "- tree nuts\n  o almonds\n  o cashews"
+        - "- tree nuts\n  * almonds\n  * cashews"
+    severity: warning
+    source: https://www.stylemanual.gov.au/style-manual-resources/quick-guides/quick-guide-lists
+    agsm_source_date: "2026-09-22"
+
+  # ─── PARAGRAPHS ─────────────────────────────────────────────────────────────
+
+  - id: paragraphs-one-topic
+    type: llm-assertion
+    category: structuring
+    title: Each paragraph covers one topic only
+    description: >
+      A paragraph should be devoted to a single idea or theme. When a new idea
+      emerges, start a new paragraph. Do not introduce a different topic partway
+      through a paragraph.
+    test:
+      pass:
+        - "The grant supports regional arts projects. Funding is available for projects that run between January and June."
+      fail:
+        - "The grant supports regional arts projects. To apply, submit a form by 1 March. The minister announced this scheme in 2024."
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/paragraphs
+    agsm_source_date: "2026-09-22"
+
+  - id: paragraphs-topic-sentence-first
+    type: llm-assertion
+    category: structuring
+    title: Each paragraph begins with a topic or transition sentence
+    description: >
+      The opening sentence of every paragraph should either state the paragraph's
+      main point (topic sentence) or explicitly link the current paragraph to
+      the one before it (transition sentence).
+    test:
+      pass:
+        - "Our rapid response team began operating in 2019. It was created following a stakeholder survey that identified delays in repairs."
+      fail:
+        - "A stakeholder survey in 2018 revealed dissatisfaction with repair times. Our rapid response team then began operating in 2019."
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/paragraphs
+    agsm_source_date: "2026-09-22"
+
+  - id: paragraphs-max-length
+    type: llm-assertion
+    category: structuring
+    title: Most paragraphs are 2–3 sentences; 6 sentences maximum
+    description: >
+      Web and mobile content should limit paragraphs to 2 or 3 sentences.
+      Long-form documents such as reports may use up to 6 sentences per paragraph.
+      Single-sentence paragraphs are allowed but should not be overused.
+    test:
+      pass:
+        - "The grant supports regional arts projects. Applications open each November."
+      fail:
+        - "The grant supports regional arts projects. Funding is available from January to June. Applications open in November. You can apply online or by post. Late applications are not accepted. The minister announced the scheme in 2024. Contact the grants team if you need assistance."
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/paragraphs
+    agsm_source_date: "2026-09-22"
+
+  - id: paragraphs-max-sentence-length
+    type: deterministic
+    category: structuring
+    title: Sentences are 25 words or fewer
+    description: >
+      Every sentence in body text should be 25 words or fewer. Long sentences
+      increase cognitive load and are harder to follow, especially on mobile
+      devices and for users with lower literacy.
+    test:
+      pass:
+        - "Apply online before the closing date."
+        - "You must provide a certified copy of your passport."
+      fail:
+        - "Please be aware that in order to complete your application successfully you are required to provide all documents listed in section 3 of the application form before the stated deadline."
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/paragraphs
+    agsm_source_date: "2026-09-22"
+
+  - id: paragraphs-pronoun-clarity
+    type: llm-assertion
+    category: structuring
+    title: Pronouns at the start of a paragraph must have a clear referent
+    description: >
+      When starting a paragraph with a pronoun such as 'this', 'these', or 'they',
+      the noun it refers to must already be unambiguously established. If there
+      is any doubt, restate the noun explicitly at the start of the new paragraph.
+    test:
+      pass:
+        - "The appropriations increased in March 2020 to account for unforeseen COVID-19 expenditure."
+      fail:
+        - "These increased in March 2020 to account for unforeseen COVID-19 expenditure. [where 'these' refers to amounts listed in a preceding list]"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/paragraphs
+    agsm_source_date: "2026-09-22"
+
+  # ─── TABLES ─────────────────────────────────────────────────────────────────
+
+  - id: tables-appropriate-use
+    type: llm-assertion
+    category: structuring
+    title: Tables are only used for comparative or structured data
+    description: >
+      Use a table only when content is too complex or detailed for prose or a
+      list, and when users need to compare values, find exact figures, or
+      understand how data is categorised.
+    test:
+      pass:
+        - "A table comparing grant amounts across 4 states and 3 financial years"
+      fail:
+        - "A 2-row, 1-column table listing 2 bullet points"
+        - "A table with a single row of data and no comparative value"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  - id: tables-must-have-caption-and-headers
+    type: deterministic
+    category: structuring
+    title: Every table requires a caption and row/column headings
+    description: >
+      All tables must have a descriptive title or caption and proper row and
+      column headings. Tables without these elements are inaccessible. The
+      table must also be cross-referenced in the surrounding text.
+    test:
+      pass:
+        - "Table 1: Average monthly rainfall by state (2020–2023), with labelled column and row headers"
+      fail:
+        - "A table with no caption and no column or row headings"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  - id: tables-no-empty-cells
+    type: deterministic
+    category: structuring
+    title: Table cells must not be empty
+    description: >
+      Every cell in a table must contain content. Where data is absent, use
+      'nil', 'n/a', or the numeric zero (0) — whichever accurately reflects
+      the situation. Never leave cells completely blank.
+    test:
+      pass:
+        - "A cell containing 'n/a' where data is not applicable"
+        - "A cell containing '0' where the true numeric value is zero"
+      fail:
+        - "A completely empty table cell"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  - id: tables-no-colour-only-meaning
+    type: deterministic
+    category: structuring
+    title: Do not use colour as the sole way to convey meaning in tables
+    description: >
+      Tables must not rely on colour alone to communicate information. Colour-blind
+      users and screen reader users cannot perceive colour-only indicators.
+    test:
+      pass:
+        - "A cell coloured red and labelled 'Not met'"
+      fail:
+        - "A cell coloured red with no text label indicating its meaning"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  - id: tables-cross-reference-in-text
+    type: llm-assertion
+    category: structuring
+    title: Reference tables by name in body text; not as 'above' or 'below'
+    description: >
+      Every table must be mentioned in the body text, placed immediately after
+      that reference. Refer to tables by number or title — never as 'the table
+      below' or 'the table above', as table position may shift across formats.
+    test:
+      pass:
+        - "Table 2 shows average rainfall has declined across all states."
+      fail:
+        - "See the table below for a breakdown."
+        - "As shown in the above table, rainfall varies by region."
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  - id: tables-no-nested-tables
+    type: deterministic
+    category: structuring
+    title: Do not nest tables inside other tables
+    description: >
+      A table must not contain another table inside it. Nested tables are
+      inaccessible and difficult to read on all devices.
+    test:
+      pass:
+        - "A standalone table with no inner tables"
+      fail:
+        - "A table cell that itself contains a table"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  - id: tables-complex-summary
+    type: llm-assertion
+    category: structuring
+    title: Complex tables include a summary for screen reader users
+    description: >
+      Tables with irregular headers, merged cells spanning multiple rows or
+      columns, or other complexity should include a brief summary that describes
+      the table structure and what the rows and columns represent.
+    test:
+      pass:
+        - "A complex multi-header table with a summary: 'Rows show states; columns show funding categories for 2020–2023.'"
+      fail:
+        - "A complex table with merged headers and no summary, captioned only as 'Table 3: Funding'"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/tables
+    agsm_source_date: "2026-09-22"
+
+  # ─── LINKS ──────────────────────────────────────────────────────────────────
+
+  - id: links-descriptive-text
+    type: llm-assertion
+    category: structuring
+    title: Link text must describe the destination without surrounding context
+    description: >
+      Link text must make sense when read in isolation. Generic link text such
+      as 'click here', 'read more', 'here', or 'more information' is not acceptable.
+    test:
+      pass:
+        - "[Apply for a community grant](#)"
+        - "[Annual Report 2023–24 [PDF 2.1 MB]](#)"
+      fail:
+        - "[Click here](#) to apply"
+        - "Find out [more](#) about the grant"
+        - "[Here](#) is the annual report"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/links
+    agsm_source_date: "2026-09-22"
+
+  - id: links-frontloaded-keywords
+    type: llm-assertion
+    category: structuring
+    title: Link text begins with the most descriptive keyword
+    description: >
+      The most important word(s) should appear at the very start of link text.
+      Frontloading helps users scanning a page quickly assess link relevance,
+      particularly when using screen readers that navigate by link.
+    test:
+      pass:
+        - "[Grant eligibility criteria](#)"
+        - "[Workshop registration form](#)"
+      fail:
+        - "[Find out about grant eligibility criteria](#)"
+        - "[Register for our upcoming workshop here](#)"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/structuring-content/links
+    agsm_source_date: "2026-09-22"
+
+  - id: links-file-type-and-size
+    type: deterministic
+    category: structuring
+    title: Links to downloadable files include file type and size
+    description: >
+      When linking to a non-HTML file (such as PDF, DOCX, or XLSX), the link
+      text must include the document title, file type in brackets, and file
+      size in kilobytes (kB) or megabytes (MB).
+    test:
+      pass:
+        - "[Annual Report 2023–24 [PDF 2.1 MB]](#)"
+        - "[Application form [DOCX 45 kB]](#)"
+      fail:
+        - "[Annual Report](#)"
+        - "[Download the application form](#)"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/links
+    agsm_source_date: "2026-09-22"
+
+  - id: links-email-as-link-text
+    type: deterministic
+    category: structuring
+    title: Use the email address itself as the link text for mailto links
+    description: >
+      When creating a mailto link, the visible link text must be the email
+      address itself — not a person's name or a generic phrase.
+    test:
+      pass:
+        - "[grants@agency.gov.au](mailto:grants@agency.gov.au)"
+      fail:
+        - "[Contact the grants team](mailto:grants@agency.gov.au)"
+        - "[Sarah Jones](mailto:sarah.jones@agency.gov.au)"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/links
+    agsm_source_date: "2026-09-22"
+
+  - id: links-deep-link-to-specific-page
+    type: llm-assertion
+    category: structuring
+    title: Link directly to the specific page the user needs
+    description: >
+      When linking to another site or service, link directly to the specific
+      page that meets the user's need (deep linking), not to the site's homepage.
+    test:
+      pass:
+        - "[Apply for a tax file number](https://www.ato.gov.au/individuals-and-families/tax-file-number/apply-for-a-tfn)"
+      fail:
+        - "[ATO website](https://www.ato.gov.au)"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/structuring-content/links
+    agsm_source_date: "2026-09-22"
+
+  - id: links-no-duplicate-content
+    type: llm-assertion
+    category: structuring
+    title: Link to existing content rather than duplicating it
+    description: >
+      When information already exists elsewhere, link to it rather than
+      reproducing it. Duplicated content creates confusion about which version
+      is authoritative and increases maintenance burden.
+    test:
+      pass:
+        - "For eligibility criteria, see the [grants policy page](#)."
+      fail:
+        - "Eligibility criteria: [full criteria text copied here, also available on another page]"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/structuring-content/links
+    agsm_source_date: "2026-09-22"
+
+  # ─── TEXT BOXES AND CALLOUTS ─────────────────────────────────────────────────
+
+  - id: callouts-supporting-content-only
+    type: llm-assertion
+    category: structuring
+    title: Text boxes hold supporting content, not primary information
+    description: >
+      Text boxes and callouts are appropriate for summaries, examples,
+      checklists, definitions, and other supplementary content. Critical
+      information that must be read in sequence should remain in the body text,
+      not isolated in a text box that readers may skip or read out of order.
+    test:
+      pass:
+        - "A text box containing an example: 'A business with fewer than 5 employees would qualify under Category B.'"
+      fail:
+        - "A text box containing the only description of how to complete the application form"
+    severity: warning
+    source: https://www.stylemanual.gov.au/structuring-content/text-boxes-and-callouts
+    agsm_source_date: "2026-09-22"
+
+  - id: callouts-no-overuse
+    type: llm-assertion
+    category: structuring
+    title: Use text boxes and callouts sparingly
+    description: >
+      Text boxes and callouts lose their ability to draw attention when used
+      too frequently. Reserve them for genuinely notable information.
+    test:
+      pass:
+        - "A page with one callout box highlighting a key eligibility definition"
+      fail:
+        - "A page where every second paragraph is followed by a callout box"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/structuring-content/text-boxes-and-callouts
+    agsm_source_date: "2026-09-22"
+
+  - id: callouts-html-aside-element
+    type: deterministic
+    category: structuring
+    title: Use the HTML aside element to mark up web text boxes
+    description: >
+      In HTML, text boxes must be marked up using the <aside> element or
+      the ARIA role='complementary' attribute. Using a plain <div> provides
+      no semantic meaning to assistive technologies.
+    test:
+      pass:
+        - "<aside>Example: A business with fewer than 5 employees would qualify.</aside>"
+      fail:
+        - "<div class='callout'>Example: A business with fewer than 5 employees would qualify.</div>"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/text-boxes-and-callouts
+    agsm_source_date: "2026-09-22"
+
+  - id: callouts-no-word-floating-textboxes
+    type: deterministic
+    category: structuring
+    title: Do not use floating text boxes in Microsoft Word or PowerPoint
+    description: >
+      Floating text boxes in Microsoft Word and PowerPoint are not accessible
+      to most screen reader users. Use bordered paragraph styles or a one-by-one
+      table to visually distinguish callout content in Office documents.
+    test:
+      pass:
+        - "Callout content in Word using a bordered paragraph style"
+      fail:
+        - "Content placed in a floating Insert > Text Box in a Word document"
+    severity: error
+    source: https://www.stylemanual.gov.au/structuring-content/text-boxes-and-callouts
+    agsm_source_date: "2026-09-22"

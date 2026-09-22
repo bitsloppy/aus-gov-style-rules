@@ -1,8 +1,650 @@
 # Referencing Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/referencing-and-attribution
-# agsm_source_date: 2026-09-22
-# Rule type: deterministic
+# Source: Australian Government Style Manual (AGSM)
+# Extracted: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 2 via Claude extraction.
+  # ─── AUTHOR-DATE STYLE ───────────────────────────────────────────────────────
+
+  - id: author-date-name-year-no-comma
+    type: deterministic
+    category: referencing
+    title: No comma between author name and year in author-date citations
+    description: >
+      In author-date in-text citations, write the author's name and the year
+      of publication without a comma separating them. The year always appears
+      in parentheses. Either put the name as part of the sentence followed by
+      the year in parentheses, or put both name and year together in parentheses.
+    test:
+      pass:
+        - "Jones (2017) reported similar results."
+        - "Other results were similar (Jones 2017)."
+      fail:
+        - "Jones, (2017) reported similar results."
+        - "Other results were similar (Jones, 2017)."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-two-authors-and-not-ampersand
+    type: deterministic
+    category: referencing
+    title: Use 'and' not '&' between two authors in author-date citations
+    description: >
+      When citing a work by two authors in an author-date in-text citation,
+      join the names with 'and'. Do not use an ampersand (&), whether the
+      names appear inside or outside parentheses.
+    test:
+      pass:
+        - "Black and Jones (2017) reported similar results."
+        - "(Black and Jones 2017)"
+      fail:
+        - "Black & Jones (2017) reported similar results."
+        - "(Black & Jones 2017)"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-three-plus-et-al-intext
+    type: deterministic
+    category: referencing
+    title: Use 'et al.' (not full author list) for 3+ authors in in-text citations
+    description: >
+      For a work with three or more authors, in-text citations give only the
+      first author's name followed by 'et al.' (not italicised). Do not list
+      all authors in the in-text citation.
+    test:
+      pass:
+        - "Holmes et al. (2019) reported many changes."
+        - "(Watson et al. 2017)"
+      fail:
+        - "Watson, Black, Jones and Abaza (2017)"
+        - "(Watson, Black, Jones and Abaza 2017)"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-et-al-not-italicised
+    type: deterministic
+    category: referencing
+    title: Do not italicise 'et al.' in citations
+    description: >
+      The term 'et al.' should appear in roman (non-italic) type in both
+      in-text citations and reference lists, regardless of the referencing
+      system used.
+    test:
+      pass:
+        - "Holmes et al. (2019)"
+      fail:
+        - "Holmes *et al.* (2019)"
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-page-numbers-direct-quote-only
+    type: deterministic
+    category: referencing
+    title: Include page numbers in author-date citations only for direct quotations
+    description: >
+      Page numbers are added to an in-text author-date citation only when the
+      source is paginated and the content being cited is a direct quotation.
+      Separate the year from page numbers with a colon (no space before or
+      after the colon).
+    test:
+      pass:
+        - "'These were identical results' (White and Jones 2019:23-24)."
+        - "White and Jones (2019:23-24) claimed that these were 'identical results'."
+      fail:
+        - "(White and Jones 2019, p. 23-24)"
+        - "White and Jones (2019, pp. 23-24)"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-multiple-works-semicolon-alphabetical
+    type: deterministic
+    category: referencing
+    title: Separate multiple works in one citation with semicolons, in alphabetical order
+    description: >
+      When citing more than one work in a single parenthetical citation,
+      separate each citation with a semicolon. Arrange the works in
+      alphabetical order by the first author's name.
+    test:
+      pass:
+        - "(Abaza 2019; Pratt 2013; White and Jones 2017)"
+      fail:
+        - "(White and Jones 2017; Pratt 2013; Abaza 2019)"
+        - "(Abaza 2019, Pratt 2013, White and Jones 2017)"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-same-author-same-year-letter-suffix
+    type: deterministic
+    category: referencing
+    title: Add letter suffixes to years when citing multiple works by the same author in the same year
+    description: >
+      When the same author has two or more works published in the same year,
+      append a lowercase letter directly after the year — 'a' for the first
+      work cited, 'b' for the second, and so on. Apply this in both in-text
+      citations and the reference list.
+    test:
+      pass:
+        - "(Dobell 2018a, 2018b)"
+        - "Dobell 2018a"
+      fail:
+        - "(Dobell 2018, 2018)"
+        - "(Dobell 2018 [1], 2018 [2])"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-no-date-nd
+    type: deterministic
+    category: referencing
+    title: Use 'n.d.' when a source has no date of publication
+    description: >
+      If a source does not carry a publication date, write 'n.d.' (including
+      the full stops) in place of the year in both the in-text citation and
+      the reference list entry.
+    test:
+      pass:
+        - "White and Jones (n.d.) reported similar results."
+        - "(White and Jones n.d.)"
+      fail:
+        - "White and Jones (no date)"
+        - "(White and Jones -)"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-org-shortened-form-intext
+    type: deterministic
+    category: referencing
+    title: Use shortened form of organisation names in author-date in-text citations
+    description: >
+      When citing an organisation as author in an in-text author-date citation,
+      use the organisation's recognised abbreviated or shortened name rather
+      than the full name. The full name appears in the reference list.
+    test:
+      pass:
+        - "(DFAT 2018)"
+        - "The ABC (2019) reported ..."
+      fail:
+        - "(Department of Foreign Affairs and Trade 2018)"
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-reflist-heading-references
+    type: deterministic
+    category: referencing
+    title: Head the reference list 'References'
+    description: >
+      The list of full citations that corresponds to the in-text author-date
+      citations must be headed 'References' (not 'Bibliography', 'Sources',
+      or any other label).
+    test:
+      pass:
+        - "References\n\nJackson D ..."
+      fail:
+        - "Bibliography\n\nJackson D ..."
+        - "Sources\n\nJackson D ..."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-reflist-name-format
+    type: deterministic
+    category: referencing
+    title: In the reference list, write family name before initials with no comma and no full stops in initials
+    description: >
+      In an author-date reference list, each personal author's family name
+      comes first, followed by initials (not given names). No comma separates
+      the family name from the initials, and initials are written without
+      full stops between letters.
+    test:
+      pass:
+        - "Smith AB"
+        - "Jackson D, Li X and Chandran P"
+      fail:
+        - "Smith, AB"
+        - "Smith A.B."
+        - "AB Smith"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-reflist-all-authors
+    type: deterministic
+    category: referencing
+    title: List all authors in the reference list (no 'et al.' abbreviation)
+    description: >
+      Unlike in-text citations, a reference list entry must include all
+      authors' names regardless of how many there are. Do not use 'et al.'
+      in the reference list.
+    test:
+      pass:
+        - "Jackson D, Li X and Chandran P (2018) 'Safety and equity', Psychological Science Australia, 2(4):223-240."
+      fail:
+        - "Jackson D et al. (2018) 'Safety and equity', Psychological Science Australia, 2(4):223-240."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-title-italics-complete-works
+    type: deterministic
+    category: referencing
+    title: Italicise titles of complete works; use single quotes for parts of a publication
+    description: >
+      In reference list entries, italicise the title of a standalone complete
+      published work (book, report, journal name, etc.). Titles that are parts
+      of a larger publication — such as articles, chapters, poems, or episodes
+      — should be enclosed in single quotation marks and not italicised.
+    test:
+      pass:
+        - "Mackenzie J (2011) *The editor's companion*, 2nd edn, Cambridge University Press, Melbourne."
+        - "Yik J (2017) 'Changing Australian medicine names', *Australian Prescriber*."
+      fail:
+        - "Mackenzie J (2011) 'The editor's companion', Cambridge University Press, Melbourne."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-online-hyperlink-and-accessed-date
+    type: deterministic
+    category: referencing
+    title: Hyperlink the title of online works and include an accessed date
+    description: >
+      For any work available freely online, hyperlink the title in the
+      reference list entry. Always add an accessed date at the end of the
+      entry. In digital content, you do not need to write out the URL
+      separately if the title is hyperlinked.
+    test:
+      pass:
+        - "DFAT (2018) [Fact sheets for countries and regions – India], DFAT, accessed 9 July 2021."
+      fail:
+        - "DFAT (2018) Fact sheets for countries and regions – India, DFAT."
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-full-date-for-newspapers-social-media
+    type: deterministic
+    category: referencing
+    title: Include full date (day month year) for newspaper articles and social media posts
+    description: >
+      When the source is a newspaper article, blog post, or social media
+      post, the reference list entry should show the complete publication date
+      (day month year in the author-date format), not just the year.
+    test:
+      pass:
+        - "Richardson A (24 May 2018) 'Australia imports almost all of its oil ...', The Conversation."
+      fail:
+        - "Richardson A (2018) 'Australia imports almost all of its oil ...', The Conversation."
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  - id: author-date-reflist-element-order
+    type: deterministic
+    category: referencing
+    title: Follow the prescribed element order in author-date reference list entries
+    description: >
+      Each entry in an author-date reference list must follow this sequence:
+      (1) author or authoring organisation name, (2) publication date in
+      parentheses, (3) title and any series or issue details, (4) publisher
+      details, (5) accessed date for digital content.
+    test:
+      pass:
+        - "Jones AB (2017) *Research findings*, CSIRO, Canberra."
+      fail:
+        - "*Research findings* (2017) Jones AB, CSIRO, Canberra."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/author-date
+    agsm_source_date: "2026-09-22"
+
+  # ─── DOCUMENTARY-NOTE STYLE ──────────────────────────────────────────────────
+
+  - id: doc-note-marker-after-punctuation
+    type: deterministic
+    category: referencing
+    title: Place footnote/endnote reference markers after sentence punctuation, not before
+    description: >
+      In the documentary-note system, superscript reference markers (numbers
+      or symbols) must be placed after commas, full stops, and other
+      punctuation — not before them, and not in the middle of a phrase or
+      clause.
+    test:
+      pass:
+        - "Other researchers reported similar results.¹"
+        - "results,¹ which"
+      fail:
+        - "Other researchers¹ reported similar results."
+        - "Other researchers reported similar results¹."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-one-marker-multiple-citations
+    type: deterministic
+    category: referencing
+    title: Use a single reference marker for multiple citations at the same point
+    description: >
+      When two or more works need to be cited at the same location in the
+      text, use only one reference marker and combine all citations in a
+      single note, separating the entries within the note with a semicolon.
+      Do not place two or more reference markers consecutively.
+    test:
+      pass:
+        - "Similar results were reported.¹\n1 AB Smith, ...; D Jackson, ..."
+      fail:
+        - "Similar results were reported.¹,²"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-no-latin-abbreviations
+    type: deterministic
+    category: referencing
+    title: Do not use 'ibid.', 'op. cit.', or 'loc. cit.' in documentary-note citations
+    description: >
+      The AGSM explicitly advises against using the Latin abbreviations
+      'ibid.', 'op. cit.', and 'loc. cit.' in the documentary-note system.
+      Instead, repeat citations using a shortened form (author family name +
+      short title).
+    test:
+      pass:
+        - "Eades, *Aboriginal ways of using English*."
+      fail:
+        - "ibid."
+        - "Hyslop, op. cit., p 171."
+        - "Hyslop, loc. cit."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-author-name-initials-first
+    type: deterministic
+    category: referencing
+    title: In documentary-note citations, write initials before family name
+    description: >
+      Author names in documentary-note footnotes and endnotes are formatted
+      with initials first, then family name (the reverse of the author-date
+      reference list format). Initials should not have full stops between
+      the letters.
+    test:
+      pass:
+        - "AB Smith, ..."
+        - "CD Jones and EF Baker"
+      fail:
+        - "Smith, AB, ..."
+        - "A.B. Smith, ..."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-short-citation-name-and-title-only
+    type: deterministic
+    category: referencing
+    title: Use author family name and short title only in subsequent (short-form) citations
+    description: >
+      After the first full citation in a documentary-note text, subsequent
+      references to the same source use a shortened form containing only the
+      author's family name (no initials) and a short version of the title.
+    test:
+      pass:
+        - "Eades, *Aboriginal ways of using English*."
+        - "Laurence, 'Number and natural language'."
+      fail:
+        - "D Eades, Aboriginal Studies Press, Canberra, 2013."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-element-order
+    type: deterministic
+    category: referencing
+    title: Follow the prescribed element order in documentary-note citations
+    description: >
+      Full citations in documentary notes must follow this sequence:
+      (1) author or authoring organisation, (2) title, (3) publisher details,
+      (4) publication date, (5) accessed date for digital content. This order
+      differs from the author-date reference list, where the date comes second.
+    test:
+      pass:
+        - "AB Smith, 'Abbreviations in scientific content', *Scientific Communication Studies*, 2019, 23(4):1-12."
+      fail:
+        - "AB Smith (2019), 'Abbreviations in scientific content', *Scientific Communication Studies*, 23(4):1-12."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-footnotes-preferred-digital
+    type: deterministic
+    category: referencing
+    title: Prefer footnotes over endnotes for digital documentary-note content
+    description: >
+      In digital content using the documentary-note system, footnotes (notes
+      at the end of the page) are preferred because readers can see the
+      source without navigating away from the content they are reading.
+    test:
+      pass:
+        - "[Digital content uses footnotes at the bottom of each page]"
+      fail:
+        - "[Digital content uses endnotes at the end of the document]"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-numbers-preferred-over-symbols
+    type: deterministic
+    category: referencing
+    title: Use numbers (not symbols) as reference markers unless the content has many numbers
+    description: >
+      In the documentary-note system, reference markers should normally be
+      sequential numbers. Symbols (asterisk, dagger, etc.) should only be
+      used in content with mathematical equations or other numerical content
+      where a superscript number could be confused with an exponent.
+    test:
+      pass:
+        - "Other researchers reported similar results.¹"
+      fail:
+        - "Other researchers reported similar results.*"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-symbols-order
+    type: deterministic
+    category: referencing
+    title: Use reference symbols in the prescribed order when symbols are required
+    description: >
+      If symbols are used as reference markers, they must appear in this
+      sequence: asterisk (*), dagger (†), double dagger (‡), section sign (§),
+      hash (#). After five symbols are used on a page, double them (**,  ††,
+      etc.) and restart on each new page.
+    test:
+      pass:
+        - "* first note, † second note, ‡ third note"
+      fail:
+        - "# first note, * second note"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  - id: doc-note-section-notes-heading
+    type: deterministic
+    category: referencing
+    title: Use the heading 'Notes' for documentary-note footnotes in digital content and for endnotes
+    description: >
+      In digital documentary-note content, the footnote section should be
+      headed 'Notes'. Endnote sections also use 'Notes'. In print-only
+      publications, footnotes do not need a heading.
+    test:
+      pass:
+        - "Notes\n\n1 AB Smith ..."
+      fail:
+        - "Footnotes\n\n1 AB Smith ..."
+        - "References\n\n1 AB Smith ..."
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/documentary-note
+    agsm_source_date: "2026-09-22"
+
+  # ─── LEGAL MATERIAL ──────────────────────────────────────────────────────────
+
+  - id: legal-legislation-title-first
+    type: deterministic
+    category: referencing
+    title: Put the legislation title first in legal citations (unless context is obvious)
+    description: >
+      When citing legislation in-text or in notes, place the Act or
+      regulation title first, followed by the specific section or subsection
+      reference.
+    test:
+      pass:
+        - "The Loans Security Act 1973 (subsection 5A(b)) provides for ..."
+      fail:
+        - "Commonwealth legislation (subsection 5A(b), Loans Security Act 1973) provides for ..."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/legal-material
+    agsm_source_date: "2026-09-22"
+
+  - id: legal-separate-lists-legislation-cases
+    type: deterministic
+    category: referencing
+    title: Provide separate reference lists for legislation and legal cases, in alphabetical order
+    description: >
+      When a reference list for legal material is required, set up two
+      separate sections headed 'Legislation' and 'Legal cases' respectively.
+      Arrange all entries alphabetically within each section.
+    test:
+      pass:
+        - "Legislation\n\nLoans Security Act 1973\nMajor Bank Levy Act 2017\n\nLegal cases\n\nDutton v Republic of South Africa [1999] FCA 2"
+      fail:
+        - "References\n\nLoans Security Act 1973\nDutton v Republic of South Africa [1999] FCA 2"
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/legal-material
+    agsm_source_date: "2026-09-22"
+
+  - id: legal-reflist-roman-type
+    type: deterministic
+    category: referencing
+    title: Use roman (non-italic) type for Act and case titles in legal reference lists
+    description: >
+      Although Acts and case names are italicised when referred to in
+      running text, they should appear in roman (non-italic) type when listed
+      in a legal reference list, because continuous italicised text is harder
+      to read in list form.
+    test:
+      pass:
+        - "Major Bank Levy Act 2017"
+        - "South Australia v Commonwealth (1942) 65 CLR 373"
+      fail:
+        - "*Major Bank Levy Act 2017*"
+        - "*South Australia v Commonwealth* (1942) 65 CLR 373"
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/legal-material
+    agsm_source_date: "2026-09-22"
+
+  - id: legal-use-authorised-titles
+    type: deterministic
+    category: referencing
+    title: Use the authorised legislation title from official government databases
+    description: >
+      Always verify and use the official, authorised title of any legislation
+      before citing it. Use the Federal Register of Legislation for
+      Commonwealth law, or the relevant state/territory legislative database
+      for state law.
+    test:
+      pass:
+        - "Major Bank Levy Act 2017"
+      fail:
+        - "Major Banks Levy Act 2017"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/legal-material
+    agsm_source_date: "2026-09-22"
+
+  - id: legal-reflist-conditional
+    type: llm-assertion
+    category: referencing
+    title: Include a legal reference list only when genuinely needed
+    description: >
+      A formal legal reference list should only be included in content when
+      at least one of these conditions is met: readers need it to understand
+      the content, the content also has a reference list for non-legal sources,
+      or the agency's style requires one.
+    test:
+      pass:
+        - "[Content with a non-legal reference list that also includes a separate Legislation list]"
+      fail:
+        - "[Short general-audience page about government services that includes a formal Legislation reference list]"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/legal-material
+    agsm_source_date: "2026-09-22"
+
+  # ─── SHORTENED FORMS ─────────────────────────────────────────────────────────
+
+  - id: shortened-forms-roman-type-lowercase
+    type: deterministic
+    category: referencing
+    title: Write referencing shortened forms in roman type starting with a lowercase letter
+    description: >
+      All shortened forms used in citations — including those derived from
+      Latin — should appear in roman (non-italic) type. They should always
+      begin with a lowercase letter.
+    test:
+      pass:
+        - "vol 3"
+        - "et al."
+        - "edn 2"
+      fail:
+        - "*et al.*"
+        - "Vol 3"
+        - "*edn* 2"
+    severity: warning
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/shortened-forms-used-referencing
+    agsm_source_date: "2026-09-22"
+
+  - id: shortened-forms-no-full-stops-except-latin-and-nd
+    type: deterministic
+    category: referencing
+    title: English citation abbreviations have no full stops; Latin shortened forms and 'n.d.' retain full stops
+    description: >
+      Common English citation abbreviations such as 'vol', 'edn', 'ed',
+      'ch', 'p', 'pp' are written without full stops. However, certain
+      Latin-derived shortened forms ('c.', 'cf.', 'et al.', 'et seq.',
+      'ibid.', 'id.') and 'n.d.' retain their full stops.
+    test:
+      pass:
+        - "vol 3"
+        - "edn 2"
+        - "n.d."
+        - "et al."
+      fail:
+        - "vol. 3"
+        - "edn. 2"
+        - "nd"
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/shortened-forms-used-referencing
+    agsm_source_date: "2026-09-22"
+
+  - id: shortened-forms-avoid-latin-abbreviations
+    type: deterministic
+    category: referencing
+    title: Avoid 'ibid.', 'op. cit.', 'loc. cit.', and 'id.' unless a publisher requires them
+    description: >
+      The AGSM advises that using Latin citation abbreviations such as
+      'ibid.', 'op. cit.', 'loc. cit.', and 'id.' is no longer common
+      practice and should be avoided. They may be used only when a specific
+      publisher explicitly requires them.
+    test:
+      pass:
+        - "Eades, *Aboriginal ways of using English*. [Short citation repeating source]"
+      fail:
+        - "ibid."
+        - "Hyslop, op. cit., p 171."
+        - "id., Australian mandarins."
+    severity: error
+    source: https://www.stylemanual.gov.au/referencing-and-attribution/shortened-forms-used-referencing
+    agsm_source_date: "2026-09-22"

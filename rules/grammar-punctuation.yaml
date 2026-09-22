@@ -1,20 +1,1191 @@
 # Grammar and Punctuation Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions
-# agsm_source_date: 2026-09-22
-# Rule type: deterministic (binary, consistent output)
+# Source: Australian Government Style Manual (AGSM)
+# Extracted: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 2 via Claude extraction.
-# Each rule follows this schema:
-#
-# - id: string (kebab-case, unique)
-#   type: deterministic | llm-assertion
-#   category: grammar-punctuation
-#   title: string
-#   description: string (our words, not AGSM prose)
-#   test:
-#     pass: []     # examples that conform
-#     fail: []     # examples that violate
-#   source: https://www.stylemanual.gov.au/...
-#   agsm_source_date: YYYY-MM-DD
+  # ── APOSTROPHES ──────────────────────────────────────────────────────────────
+
+  - id: apostrophe-possessive-singular
+    type: deterministic
+    category: grammar-punctuation
+    title: Singular noun possession uses apostrophe + s
+    description: >
+      To show that a singular noun owns or relates to something, attach an
+      apostrophe followed by the letter s directly to the noun — regardless
+      of the noun's final letter. This applies to all regular singular nouns.
+    test:
+      pass:
+        - "the committee's report"
+        - "the bus's passengers"
+      fail:
+        - "the committees report"
+        - "the bus' passengers"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-possessive-proper-name-s
+    type: deterministic
+    category: grammar-punctuation
+    title: Proper names ending in s still take apostrophe + s
+    description: >
+      When a proper name ends in the letter s, add an apostrophe and a second
+      s to show possession — even when that extra s is not pronounced aloud.
+    test:
+      pass:
+        - "Burns's report"
+        - "James's profession"
+        - "Laos's population"
+      fail:
+        - "Burns' report"
+        - "James' profession"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-possessive-plural-s
+    type: deterministic
+    category: grammar-punctuation
+    title: Plural nouns ending in s take apostrophe only (no extra s)
+    description: >
+      When a plural noun already ends in s, show possession by adding only
+      an apostrophe after the s — do not add another s.
+    test:
+      pass:
+        - "both committees' reports"
+        - "the Joneses' submission"
+      fail:
+        - "both committees's reports"
+        - "the Joneses's submission"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-no-possessive-pronouns
+    type: deterministic
+    category: grammar-punctuation
+    title: Possessive pronouns never take an apostrophe
+    description: >
+      Words such as its, yours, theirs, ours, hers, and whose are already
+      possessive pronouns or determiners — never add an apostrophe to them.
+      The word "it's" (with apostrophe) means "it is" or "it has", not possession.
+    test:
+      pass:
+        - "Put the report in its place."
+        - "The fault is ours."
+      fail:
+        - "Put the report in it's place."
+        - "The fault is our's."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-no-descriptive-phrase
+    type: deterministic
+    category: grammar-punctuation
+    title: Descriptive noun phrases do not use an apostrophe
+    description: >
+      When the first noun in a phrase describes or categorises the second
+      rather than owning it, no apostrophe is needed. Classic examples include
+      compound nouns that name a type of thing: workers compensation,
+      visitors book, drivers licence.
+    test:
+      pass:
+        - "workers compensation"
+        - "visitors book"
+        - "drivers licence"
+      fail:
+        - "worker's compensation"
+        - "visitor's book"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-no-plural-nouns
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not use an apostrophe to make a noun plural (greengrocer's apostrophe)
+    description: >
+      Apostrophes never form the plural of ordinary nouns, decade names, or
+      shortened forms. Add only a plain s to pluralise. Using an apostrophe
+      before the s in a plain plural is a common error.
+    test:
+      pass:
+        - "the 2020s"
+        - "committee reports"
+        - "newer 747s"
+        - "fresh avocados"
+      fail:
+        - "the 2020's"
+        - "committee report's"
+        - "newer 747's"
+        - "fresh avocado's"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-plural-single-letter-digit
+    type: deterministic
+    category: grammar-punctuation
+    title: Use apostrophe + s to pluralise single letters and single digits
+    description: >
+      Single letters and single-digit numbers are pluralised with an apostrophe
+      before the s. This is an exception to the general no-apostrophe-for-plurals
+      rule and exists to prevent ambiguity in reading.
+    test:
+      pass:
+        - "Dot your i's and cross your t's."
+        - "Binary code uses 0's and 1's."
+      fail:
+        - "Dot your is and cross your ts."
+        - "Binary code uses 0s and 1s."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-plural-acronym-no-apostrophe
+    type: deterministic
+    category: grammar-punctuation
+    title: Plural of an acronym or initialism uses plain s, not apostrophe + s
+    description: >
+      To pluralise an acronym or initialism, add a lowercase s with no
+      apostrophe before it. Reserve the apostrophe + s only for showing
+      possession, not for making the word plural.
+    test:
+      pass:
+        - "MPs"
+        - "LGAs"
+        - "PCs"
+      fail:
+        - "MP's"
+        - "LGA's"
+        - "PC's"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-no-place-names
+    type: deterministic
+    category: grammar-punctuation
+    title: Australian place names do not use apostrophes
+    description: >
+      Official Australian place names that are derived from possessives are
+      written without an apostrophe, following the conventions of geographic
+      naming authorities.
+    test:
+      pass:
+        - "Kings Cross"
+        - "Mrs Macquaries Chair"
+      fail:
+        - "King's Cross"
+        - "Mrs Macquarie's Chair"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  - id: apostrophe-its-its-confusion
+    type: deterministic
+    category: grammar-punctuation
+    title: Distinguish it's (contraction) from its (possessive determiner)
+    description: >
+      "It's" (with apostrophe) is a contraction of "it is" or "it has".
+      "Its" (no apostrophe) shows that something belongs to or is associated
+      with "it". Test by substituting "it is" — if the sentence still makes
+      sense, use the apostrophe; otherwise do not.
+    test:
+      pass:
+        - "It's time to give the committee its terms of reference."
+      fail:
+        - "Its time to give the committee it's terms of reference."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/apostrophes
+    agsm_source_date: "2026-09-22"
+
+  # ── BRACKETS AND PARENTHESES ─────────────────────────────────────────────────
+
+  - id: brackets-parentheses-removable
+    type: deterministic
+    category: grammar-punctuation
+    title: Only use brackets when bracketed text can be removed without changing meaning
+    description: >
+      Brackets (parentheses) enclose text that is not essential to the
+      grammatical structure or core meaning of the sentence. Remove the
+      bracketed text as a check: the remaining sentence must still be
+      complete and grammatically correct.
+    test:
+      pass:
+        - "The winning tenderer (a local company) signed the contract on Tuesday."
+      fail:
+        - "The winning tenderer (They were a local company.) signed the contract."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/brackets-and-parentheses
+    agsm_source_date: "2026-09-22"
+
+  - id: brackets-square-for-insertions
+    type: deterministic
+    category: grammar-punctuation
+    title: Use square brackets to mark insertions or paraphrases within quoted text
+    description: >
+      When you add words to a quotation that were not in the original — for
+      clarification or context — enclose the addition in square brackets to
+      signal it is your editorial insertion, not the original author's words.
+    test:
+      pass:
+        - "'The High Court [in Canberra] is the highest court in the land,' she said."
+      fail:
+        - "'The High Court (in Canberra) is the highest court in the land,' she said."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/brackets-and-parentheses
+    agsm_source_date: "2026-09-22"
+
+  - id: brackets-sic-square
+    type: deterministic
+    category: grammar-punctuation
+    title: Use square brackets with italicised sic to flag errors in original quoted text
+    description: >
+      When reproducing a quotation that contains an error from the original
+      source, insert [sic] in italics inside square brackets immediately after
+      the error to show the mistake belongs to the original writer, not to you.
+    test:
+      pass:
+        - "The report began, 'The office was previously in Melberne [sic].'"
+      fail:
+        - "The report began, 'The office was previously in Melberne (sic).'"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/brackets-and-parentheses
+    agsm_source_date: "2026-09-22"
+
+  - id: brackets-nested-use-square
+    type: deterministic
+    category: grammar-punctuation
+    title: Use square brackets, not double parentheses, when nesting inside parentheses
+    description: >
+      When you must nest parenthetical information inside an existing set of
+      parentheses, use square brackets for the inner pair. Never place one set
+      of round parentheses inside another.
+    test:
+      pass:
+        - "Parliament House (architects Mitchell/Giurgola & Thorp [New York]) opened in 1988."
+      fail:
+        - "Parliament House (architects Mitchell/Giurgola & Thorp (New York)) opened in 1988."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/brackets-and-parentheses
+    agsm_source_date: "2026-09-22"
+
+  # ── COLONS ───────────────────────────────────────────────────────────────────
+
+  - id: colon-before-list
+    type: deterministic
+    category: grammar-punctuation
+    title: Use a colon to introduce a list, not mid-sentence where the list flows naturally
+    description: >
+      A colon is correct before a list when the preceding text could stand
+      alone (or is a deliberate lead-in). Do not insert a colon when the list
+      items complete a sentence naturally — for example, after the verb "are".
+    test:
+      pass:
+        - "We need to:\n- check Appendix A\n- ask Mary about the chapter"
+        - "Pick any 2 of the 3: low price, high speed, high quality."
+      fail:
+        - "Pick any 2 of: low price, high speed and high quality."
+        - "The requirements for the position are: strong communication skills."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/colons
+    agsm_source_date: "2026-09-22"
+
+  - id: colon-lowercase-after
+    type: deterministic
+    category: grammar-punctuation
+    title: Use lower case after a colon unless a proper noun or a full question follows
+    description: >
+      The first word after a colon is lower case in most cases. Two exceptions:
+      (1) the word is a proper noun; (2) the text after the colon is a complete
+      question sentence, in which case capitalise its first word.
+    test:
+      pass:
+        - "We had to write 66 reports: it took months."
+        - "The election was fought on a simple question: Which party had the best economic credentials?"
+      fail:
+        - "We had to write 66 reports: It took months."
+        - "The election was fought on a simple question: which party had the best economic credentials?"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/colons
+    agsm_source_date: "2026-09-22"
+
+  - id: colon-ratio-no-space
+    type: deterministic
+    category: grammar-punctuation
+    title: Write mathematical ratios with a colon and no surrounding spaces
+    description: >
+      In ratios, the colon separates the two values with no space before or
+      after it.
+    test:
+      pass:
+        - "The government proposes a 50:50 split."
+        - "The cost-benefit ratio will be 7.5:1."
+      fail:
+        - "The government proposes a 50 : 50 split."
+        - "The cost-benefit ratio will be 7.5 : 1."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/colons
+    agsm_source_date: "2026-09-22"
+
+  # ── COMMAS ───────────────────────────────────────────────────────────────────
+
+  - id: comma-introductory-phrase
+    type: deterministic
+    category: grammar-punctuation
+    title: Place a comma after introductory phrases and clauses
+    description: >
+      When a sentence opens with an adverbial phrase, adverbial clause, or
+      other introductory element, separate it from the main clause with a
+      comma. A short sentence beginning with a single introductory word may
+      omit the comma.
+    test:
+      pass:
+        - "During the meeting, we discussed Item 9."
+        - "Although they were tired, the firefighters pressed on."
+        - "Unless the consultation starts early, it will not finish on time."
+      fail:
+        - "During the meeting we discussed Item 9."
+        - "Although they were tired the firefighters pressed on."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/commas
+    agsm_source_date: "2026-09-22"
+
+  - id: comma-non-essential-clause-pair
+    type: deterministic
+    category: grammar-punctuation
+    title: Enclose non-essential clauses with a pair of commas
+    description: >
+      When a clause or phrase adds information but is not needed for the core
+      meaning, surround it with a matched pair of commas. If you can remove
+      the clause and the sentence remains grammatically complete and
+      meaning-preserving, it needs the comma pair.
+    test:
+      pass:
+        - "The business report, which the manager had edited, explained the agency's strategy."
+        - "My colleague, Mx Lesley May, will exercise my proxy vote."
+      fail:
+        - "The business report which the manager had edited explained the agency's strategy."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/commas
+    agsm_source_date: "2026-09-22"
+
+  - id: comma-no-oxford-default
+    type: deterministic
+    category: grammar-punctuation
+    title: Omit the Oxford (serial) comma unless needed to prevent ambiguity
+    description: >
+      In a simple list of items in a sentence, avoid placing a comma before
+      the final "and" or "or". Use the Oxford comma only when the last item
+      in a list is itself a compound phrase joined by "and", or when omitting
+      it would create genuine ambiguity.
+    test:
+      pass:
+        - "The delegation visited Brisbane, Canberra and Adelaide."
+        - "The industries most affected are retail trade, wholesale trade, and accommodation and food services."
+      fail:
+        - "The delegation visited Brisbane, Canberra, and Adelaide."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/commas
+    agsm_source_date: "2026-09-22"
+
+  - id: comma-no-splice
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not join two independent sentences with only a comma (comma splice)
+    description: >
+      Two complete sentences (independent clauses) cannot be joined by a comma
+      alone. Either use a full stop, or add a coordinating conjunction (and,
+      but, or, so) after the comma.
+    test:
+      pass:
+        - "The report was finished last week, but the minister has not approved its release."
+        - "The report was finished last week. The minister has not approved its release."
+      fail:
+        - "The report was finished last week, the minister has not approved its release."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/commas
+    agsm_source_date: "2026-09-22"
+
+  - id: comma-numbers-four-digits
+    type: deterministic
+    category: grammar-punctuation
+    title: Use commas to group digits in numbers of 4 or more digits
+    description: >
+      Numbers from 1,000 upward use commas to separate digit groups of three,
+      reading right to left. Do not use spaces instead (screen readers may
+      read the halves as separate numbers). Do not add commas after a decimal
+      point or in dates and postcodes.
+    test:
+      pass:
+        - "The agency handles around 6,500 complaints each year."
+        - "505,607,400"
+        - "1,279.0044"
+      fail:
+        - "The agency handles around 6 500 complaints each year."
+        - "505 607 400"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/commas
+    agsm_source_date: "2026-09-22"
+
+  - id: comma-no-latin-abbreviation
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not follow Latin shortened forms (e.g., i.e.) with a comma
+    description: >
+      When using Latin shortened forms such as e.g. or i.e. inside
+      parentheses, do not place a comma after them. The comma after the
+      abbreviation is incorrect Australian government style.
+    test:
+      pass:
+        - "Exports of rare earths (e.g. lithium, europium) have soared."
+      fail:
+        - "Exports of rare earths (e.g., lithium, europium) have soared."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/commas
+    agsm_source_date: "2026-09-22"
+
+  # ── DASHES ───────────────────────────────────────────────────────────────────
+
+  - id: dash-prefer-words-for-spans
+    type: llm-assertion
+    category: grammar-punctuation
+    title: Use words (from/to, between/and) rather than en dashes for spans in general content
+    description: >
+      In body text and headings, write number or date spans using the phrase
+      "from … to" or "between … and" rather than an en dash. En dashes for
+      spans are permitted in technical content with many ranges, financial
+      year headings, titles, terms of office, lifespans, and limited-space
+      contexts (tables, lists, social media).
+    test:
+      pass:
+        - "She worked from 10 to 28 January."
+        - "The help desk operates between 9 am and 4 pm daily."
+      fail:
+        - "She worked from 10–28 January."
+        - "The help desk operates between 9 am – 4 pm daily."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/dashes
+    agsm_source_date: "2026-09-22"
+
+  - id: dash-financial-year-format
+    type: deterministic
+    category: grammar-punctuation
+    title: Write financial years as 4-digit–2-digit with an unspaced en dash
+    description: >
+      Financial year spans use four digits for the first year and two digits
+      for the second (e.g. 2022–23), joined by an en dash with no spaces on
+      either side. When the span crosses a century, use four digits on both
+      sides (e.g. 1999–2000).
+    test:
+      pass:
+        - "The 2022–23 budget"
+        - "The 1999–2000 budget"
+      fail:
+        - "The 2022-23 budget"
+        - "The 2022 – 23 budget"
+        - "The 2022–2023 budget"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/dashes
+    agsm_source_date: "2026-09-22"
+
+  - id: dash-spaced-en-not-em
+    type: deterministic
+    category: grammar-punctuation
+    title: Use a spaced en dash (not an em dash) for parenthetical information in sentences
+    description: >
+      Australian government style uses a spaced en dash — with a single space
+      on each side — to set off non-essential or parenthetical information
+      within a sentence. Unspaced em dashes are not standard Australian
+      government style for this purpose.
+    test:
+      pass:
+        - "Three rivers – the Murray, Darling and Murrumbidgee – were discussed."
+      fail:
+        - "Three rivers—the Murray, Darling and Murrumbidgee—were discussed."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/dashes
+    agsm_source_date: "2026-09-22"
+
+  - id: dash-coordinate-nouns-en-not-hyphen
+    type: deterministic
+    category: grammar-punctuation
+    title: Join coordinate nouns with an en dash, not a hyphen
+    description: >
+      When two nouns each retain their full meaning and together describe one
+      entity or relationship (coordinate nouns), connect them with an en dash.
+      A hyphen would incorrectly imply a compound noun.
+    test:
+      pass:
+        - "the Murray–Darling Basin"
+        - "a Sydney–Melbourne flight"
+        - "student–teacher ratio"
+      fail:
+        - "the Murray-Darling Basin"
+        - "student-teacher ratio"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/dashes
+    agsm_source_date: "2026-09-22"
+
+  # ── ELLIPSES ─────────────────────────────────────────────────────────────────
+
+  - id: ellipsis-three-dots-symbol
+    type: deterministic
+    category: grammar-punctuation
+    title: Use the single ellipsis character (…), not three separate full stops
+    description: >
+      An ellipsis is a single typographic character (Unicode U+2026), not
+      three individual full stop characters typed in a row. Use the dedicated
+      symbol or insert it via its HTML entity or keyboard shortcut.
+    test:
+      pass:
+        - "The report is well written, but it needs … more work."
+      fail:
+        - "The report is well written, but it needs ... more work."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/ellipses
+    agsm_source_date: "2026-09-22"
+
+  - id: ellipsis-spaces
+    type: deterministic
+    category: grammar-punctuation
+    title: Place a single space before and after an ellipsis
+    description: >
+      An ellipsis must be surrounded by a single space on each side. The only
+      exception is when an exclamation mark or question mark immediately
+      follows the ellipsis — in that case, attach the mark without a space.
+    test:
+      pass:
+        - "The report is well written, but it needs … more work."
+        - "He asked, 'What does the Army do during exercises …?'"
+      fail:
+        - "The report is well written, but it needs…more work."
+        - "The report is well written, but it needs …more work."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/ellipses
+    agsm_source_date: "2026-09-22"
+
+  - id: ellipsis-no-following-punctuation
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not follow an ellipsis with a full stop, comma, or semicolon
+    description: >
+      After an ellipsis, do not add a full stop, comma, or semicolon. A
+      question mark or exclamation mark may follow when the meaning requires
+      it, without an intervening space.
+    test:
+      pass:
+        - "The review clarified that the Army might have to fight on home ground … To be properly equipped, the Army needs a new troop carrier."
+      fail:
+        - "The review clarified that the Army might have to fight on home ground …. To be properly equipped, the Army needs a new troop carrier."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/ellipses
+    agsm_source_date: "2026-09-22"
+
+  # ── EXCLAMATION MARKS ────────────────────────────────────────────────────────
+
+  - id: exclamation-mark-no-formal
+    type: llm-assertion
+    category: grammar-punctuation
+    title: Do not use exclamation marks in formal government content
+    description: >
+      Exclamation marks are not part of the Australian government voice in
+      formal documents such as reports, briefs, or official correspondence.
+      They may appear sparingly in informal or promotional material and social
+      media, but should be avoided if they could create a sense of panic.
+    test:
+      pass:
+        - "The department has not breached its staffing cap."
+        - "Congratulations to our 2020 Australia Day Award recipients!"
+      fail:
+        - "A state of emergency has been declared for all areas of the ACT!"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/exclamation-marks
+    agsm_source_date: "2026-09-22"
+
+  - id: exclamation-mark-single-only
+    type: deterministic
+    category: grammar-punctuation
+    title: Use only one exclamation mark per sentence — never two or more
+    description: >
+      When an exclamation mark is appropriate, use exactly one. Multiple
+      consecutive exclamation marks are not acceptable in government content
+      and reduce the impact of the emphasis.
+    test:
+      pass:
+        - "Nearly half of Australians do!"
+      fail:
+        - "Nearly half of Australians do!!!"
+        - "Nearly half of Australians do!!"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/exclamation-marks
+    agsm_source_date: "2026-09-22"
+
+  # ── FULL STOPS ───────────────────────────────────────────────────────────────
+
+  - id: full-stop-end-of-sentence
+    type: deterministic
+    category: grammar-punctuation
+    title: End every declarative sentence with a full stop
+    description: >
+      A full stop closes every sentence that is not a question or exclamation.
+      This includes the last item of a list that is structured as a sentence
+      fragment continuation.
+    test:
+      pass:
+        - "The committee met yesterday."
+      fail:
+        - "The committee met yesterday"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/full-stops
+    agsm_source_date: "2026-09-22"
+
+  - id: full-stop-no-url-or-email
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not add a full stop after a standalone URL or email address
+    description: >
+      When a web address or email address appears on a line by itself or as a
+      sentence fragment, do not follow it with a full stop. A full stop could
+      be mistaken as part of the address itself.
+    test:
+      pass:
+        - "Website: department.gov.au"
+        - "Email: example@department.gov.au"
+      fail:
+        - "Website: department.gov.au."
+        - "Email: example@department.gov.au."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/full-stops
+    agsm_source_date: "2026-09-22"
+
+  - id: full-stop-not-in-link-text
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not include a full stop inside hyperlink text
+    description: >
+      Place the full stop that closes a sentence after the closing tag of a
+      hyperlink, not inside the linked text itself.
+    test:
+      pass:
+        - "The People team manages the [add a new employee form]."
+      fail:
+        - "The People team manages the [add a new employee form.]"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/full-stops
+    agsm_source_date: "2026-09-22"
+
+  - id: full-stop-no-headings-captions
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not end headings, captions, or units of measurement with a full stop
+    description: >
+      Headings, stand-alone list headings, page headers, footers, captions,
+      and symbols or units of measurement do not take a full stop at the end.
+    test:
+      pass:
+        - "Key findings"
+        - "Figure 1: Annual rainfall"
+        - "50 km"
+      fail:
+        - "Key findings."
+        - "Figure 1: Annual rainfall."
+        - "50 km."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/full-stops
+    agsm_source_date: "2026-09-22"
+
+  # ── HYPHENS ──────────────────────────────────────────────────────────────────
+
+  - id: hyphen-compound-adjective-before-noun
+    type: deterministic
+    category: grammar-punctuation
+    title: Hyphenate compound adjectives before a noun but not when they follow the noun
+    description: >
+      When two or more words function together as an adjective that comes
+      before the noun they describe, hyphenate them. When the same phrase
+      comes after the noun (in predicative position), drop the hyphen.
+    test:
+      pass:
+        - "the up-to-date accounts"
+        - "the accounts are up to date"
+        - "an 11-year-old child"
+        - "a child who is 11 years old"
+      fail:
+        - "the up to date accounts"
+        - "the accounts are up-to-date"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  - id: hyphen-prefix-same-vowel
+    type: deterministic
+    category: grammar-punctuation
+    title: Use a hyphen when a single-syllable prefix ends and the base word begins with the same vowel
+    description: >
+      To prevent two identical vowels running together in a confusing way,
+      add a hyphen between a single-syllable prefix and a base word that
+      starts with the same vowel (e.g. de-emphasise, re-enter, pre-eminent).
+      Exception: established words like cooperate and coordinate where the
+      combined form is universally recognised.
+    test:
+      pass:
+        - "de-emphasise"
+        - "re-enter"
+        - "pre-eminent"
+        - "cooperate"
+        - "coordinate"
+      fail:
+        - "deemphasise"
+        - "reenter"
+        - "preeminent"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  - id: hyphen-prefix-capital
+    type: deterministic
+    category: grammar-punctuation
+    title: Hyphenate a prefix when it attaches to a word beginning with a capital letter
+    description: >
+      When a prefix is added to a proper noun or other word that begins with
+      a capital letter, always use a hyphen to join them.
+    test:
+      pass:
+        - "un-Australian activities"
+        - "pro-European"
+      fail:
+        - "unAustralian activities"
+        - "proEuropean"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  - id: hyphen-ex-prefix-always
+    type: deterministic
+    category: grammar-punctuation
+    title: Always hyphenate the prefix ex- when it means former
+    description: >
+      Every word formed with "ex-" meaning "former" requires a hyphen between
+      the prefix and the base word, regardless of the base word's first letter.
+    test:
+      pass:
+        - "ex-president"
+        - "ex-councillor"
+      fail:
+        - "expresident"
+        - "excouncillor"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  - id: hyphen-no-ly-adverb-participle
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not hyphenate a compound where an adverb ending in -ly modifies a participle
+    description: >
+      When an adverb ending in -ly comes before a participle (a verb form
+      ending in -ing or -ed), do not hyphenate them — the -ly signals clearly
+      that the adverb modifies what follows. Exceptions are "fully-fashioned"
+      and "fully-fledged".
+    test:
+      pass:
+        - "a fully loaded truck"
+        - "his rapidly declining health"
+        - "a partly read book"
+      fail:
+        - "a fully-loaded truck"
+        - "his rapidly-declining health"
+        - "a partly-read book"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  - id: hyphen-numbers-21-99
+    type: deterministic
+    category: grammar-punctuation
+    title: Hyphenate written-out numbers from twenty-one to ninety-nine
+    description: >
+      When numbers between 21 and 99 are written as words, join the tens and
+      units with a hyphen.
+    test:
+      pass:
+        - "twenty-one"
+        - "ninety-nine"
+        - "two hundred and thirty-four"
+      fail:
+        - "twenty one"
+        - "ninety nine"
+        - "two hundred and thirty four"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  - id: hyphen-no-hanging
+    type: deterministic
+    category: grammar-punctuation
+    title: Repeat shared words rather than using hanging (floating) hyphens
+    description: >
+      A hanging hyphen — where a prefix or first compound element is left
+      dangling before a slash or conjunction — reduces clarity. Instead,
+      repeat the full word for each item.
+    test:
+      pass:
+        - "full-time and part-time positions"
+      fail:
+        - "full- and part-time positions"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/hyphens
+    agsm_source_date: "2026-09-22"
+
+  # ── QUOTATION MARKS ──────────────────────────────────────────────────────────
+
+  - id: quotation-marks-single-primary
+    type: deterministic
+    category: grammar-punctuation
+    title: Use single quotation marks for direct speech and short quotations
+    description: >
+      Australian government style uses single quotation marks (not double)
+      as the primary marks for direct speech and short quotations. Double
+      quotation marks are reserved for quotations that occur inside an
+      already-quoted passage.
+    test:
+      pass:
+        - "'Yes, that's all that happened,' she replied."
+      fail:
+        - '"Yes, that''s all that happened," she replied.'
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/quotation-marks
+    agsm_source_date: "2026-09-22"
+
+  - id: quotation-marks-block-no-quotes
+    type: deterministic
+    category: grammar-punctuation
+    title: Block quotations (approx. 30+ words) are formatted without quotation marks
+    description: >
+      Long quotations are set as block quotations — indented from the margin —
+      and do not use quotation marks. The visual formatting signals the quoted
+      material. Use the HTML blockquote element for digital content.
+    test:
+      pass:
+        - "As Templeton (2019) writes:\nAccording to the Auditor-General, the transport benefits were lower than the costs."
+      fail:
+        - "As Templeton (2019) writes:\n'According to the Auditor-General, the transport benefits were lower than the costs.'"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/quotation-marks
+    agsm_source_date: "2026-09-22"
+
+  - id: quotation-marks-punctuation-inside
+    type: deterministic
+    category: grammar-punctuation
+    title: Punctuation belonging to quoted text goes inside the closing quotation mark
+    description: >
+      When a punctuation mark (full stop, question mark, comma, etc.) is part
+      of the quoted text itself, place it before the closing quotation mark.
+      When the punctuation belongs to the surrounding sentence, place it after
+      the closing mark.
+    test:
+      pass:
+        - "'Is it okay to ask a colleague out for coffee?' I asked HR."
+        - "She said that it was 'time to start work'."
+        - "'It has arrived,' said the manager."
+      fail:
+        - "'Is it okay to ask a colleague out for coffee'? I asked HR."
+        - "She said, 'It has arrived'."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/quotation-marks
+    agsm_source_date: "2026-09-22"
+
+  - id: quotation-marks-one-punctuation-only
+    type: deterministic
+    category: grammar-punctuation
+    title: Use only one end punctuation mark when quotation and sentence marks conflict
+    description: >
+      When closing a quotation creates a situation where two punctuation marks
+      could apply (e.g. an exclamation mark inside the quote and a question
+      mark for the surrounding sentence), choose the stronger mark and use it
+      once only.
+    test:
+      pass:
+        - "The Speaker called 'Order!'"
+        - "Did you hear him say, 'That's unlikely'?"
+      fail:
+        - "The Speaker called 'Order!'."
+        - "Did you hear him say, 'That's unlikely.'?"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/quotation-marks
+    agsm_source_date: "2026-09-22"
+
+  # ── SEMICOLONS ───────────────────────────────────────────────────────────────
+
+  - id: semicolon-avoid-linking-sentences
+    type: llm-assertion
+    category: grammar-punctuation
+    title: Avoid using semicolons to link sentences; prefer a full stop or comma + conjunction
+    description: >
+      Semicolons linking two independent clauses add complexity. In most
+      cases, replace the semicolon with a full stop to start a new sentence,
+      or use a comma followed by a coordinating conjunction. Use a semicolon
+      only when the connection between the clauses is very close and both
+      sides are complete sentences.
+    test:
+      pass:
+        - "Find out if it's optional or compulsory before you start. Ask someone if you don't know."
+      fail:
+        - "Find out if it's optional or compulsory before you start; ask someone if you don't know."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/semicolons
+    agsm_source_date: "2026-09-22"
+
+  - id: semicolon-no-list-items
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not end bullet or numbered list items with semicolons
+    description: >
+      Each bullet or numbered list item should not end with a semicolon.
+      Semicolons at the end of list items clutter the list and make it harder
+      to read. End list items appropriately according to whether they are
+      fragments or sentences.
+    test:
+      pass:
+        - "- integrity, persistence and good judgement\n- experience in projects of this type"
+      fail:
+        - "- integrity, persistence and good judgement;\n- experience in projects of this type;"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/semicolons
+    agsm_source_date: "2026-09-22"
+
+  - id: semicolon-complex-list-with-commas
+    type: deterministic
+    category: grammar-punctuation
+    title: Use semicolons to separate items in a complex sentence list when items contain commas
+    description: >
+      In a run-on sentence list where individual items already contain commas,
+      use semicolons as the separator between items so readers can see what
+      belongs together. Prefer a bullet list wherever possible.
+    test:
+      pass:
+        - "The project will go ahead in Rose Bay, Tasmania; West End, Queensland; and Fitzroy North, Victoria."
+      fail:
+        - "The project will go ahead in Rose Bay, Tasmania, West End, Queensland, and Fitzroy North, Victoria."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/punctuation/semicolons
+    agsm_source_date: "2026-09-22"
+
+  # ── ABBREVIATIONS ────────────────────────────────────────────────────────────
+
+  - id: abbreviation-no-full-stop
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not add a full stop after most abbreviations
+    description: >
+      Abbreviations do not take a full stop in Australian government style.
+      Exceptions are: the abbreviation ends a sentence with no other closing
+      punctuation; scientific names of plants and animals; and the reference
+      abbreviation "n.d." (no date). For contractions (Dr, Ltd) see the
+      contractions guidance.
+    test:
+      pass:
+        - "misc goods"
+        - "Sizzling Outback Tours Inc."
+        - "Have you reviewed the relevant para?"
+      fail:
+        - "misc. goods"
+        - "Have you reviewed the relevant para.?"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/abbreviations
+    agsm_source_date: "2026-09-22"
+
+  - id: abbreviation-no-start-sentence
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not begin a sentence with an abbreviation — write the word in full
+    description: >
+      Abbreviations must not be used at the start of a sentence. Write the
+      full word instead.
+    test:
+      pass:
+        - "Appendix B explains this further."
+      fail:
+        - "App B explains this further."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/abbreviations
+    agsm_source_date: "2026-09-22"
+
+  # ── ACRONYMS AND INITIALISMS ─────────────────────────────────────────────────
+
+  - id: acronym-define-first-use
+    type: deterministic
+    category: grammar-punctuation
+    title: Define acronyms and initialisms at first use by spelling out the full term
+    description: >
+      The first time you use an acronym or initialism, write the full term
+      first and follow it immediately with the shortened form in parentheses.
+      After that, use only the shortened form. For very well-known forms (DNA,
+      NT, etc.) you may reverse the order or omit the definition.
+    test:
+      pass:
+        - "The Department of Social Services (DSS) manages a range of benefits."
+        - "All living organisms have DNA (deoxyribonucleic acid) within their cells."
+      fail:
+        - "DSS manages a range of benefits."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/acronyms-and-initialisms
+    agsm_source_date: "2026-09-22"
+
+  - id: acronym-no-full-stop
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not place full stops within or after acronyms and initialisms
+    description: >
+      Acronyms and initialisms are written without any full stops between or
+      after the letters. The only exception is when the acronym or initialism
+      ends a sentence and no other punctuation follows.
+    test:
+      pass:
+        - "Will you be attending COAG this month?"
+        - "She's now working in FOI."
+      fail:
+        - "Will you be attending C.O.A.G. this month?"
+        - "She's now working in F.O.I."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/acronyms-and-initialisms
+    agsm_source_date: "2026-09-22"
+
+  - id: acronym-avoid-possessive-at-definition
+    type: deterministic
+    category: grammar-punctuation
+    title: Avoid possessive or plural forms of an acronym when first defining it
+    description: >
+      When introducing an acronym or initialism for the first time, present
+      it in plain form — do not use a possessive apostrophe or plural s on
+      the same occurrence where you are defining the term. Use the full
+      defined form first, then adopt the possessive or plural form in later
+      uses if needed.
+    test:
+      pass:
+        - "It's compulsory for certain businesses to have an Australian Business Number (ABN). The Australian Business Register manages ABNs."
+      fail:
+        - "Find information on the Department of Veterans' Affairs' (DVA's) website."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/acronyms-and-initialisms
+    agsm_source_date: "2026-09-22"
+
+  # ── CONTRACTIONS ─────────────────────────────────────────────────────────────
+
+  - id: contraction-no-full-stop
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not add a full stop after a contraction unless it ends the sentence
+    description: >
+      Contractions (Dr, Ltd, Cth, aren't, don't) do not take a trailing full
+      stop in Australian English, unlike US English. The only exception is
+      when the contraction appears at the very end of a sentence with no other
+      closing punctuation.
+    test:
+      pass:
+        - "Tempo Australia Ltd hired him last year."
+        - "He is currently working for Tempo Australia Ltd."
+      fail:
+        - "Tempo Australia Ltd. hired him last year."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/contractions
+    agsm_source_date: "2026-09-22"
+
+  - id: contraction-single-apostrophe-only
+    type: deterministic
+    category: grammar-punctuation
+    title: Use only one apostrophe in a grammatical contraction, even with multiple omissions
+    description: >
+      A grammatical contraction uses exactly one apostrophe, positioned at
+      the site of the first or main omission, regardless of how many letters
+      are dropped from the combined words.
+    test:
+      pass:
+        - "shan't"
+        - "won't"
+        - "don't"
+      fail:
+        - "sha'n't"
+        - "wo'n't"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/contractions
+    agsm_source_date: "2026-09-22"
+
+  - id: contraction-no-abbreviate-sentence-start
+    type: deterministic
+    category: grammar-punctuation
+    title: Do not start a sentence with a single-word contraction; write the full word
+    description: >
+      Single-word contractions (Cth, Ltd, etc.) must not begin a sentence —
+      use the complete word. This rule does not apply to grammatical
+      contractions (don't, aren't), which may begin a sentence.
+    test:
+      pass:
+        - "Commonwealth resources are available."
+        - "Don't forget your notes for the meeting."
+      fail:
+        - "Cth resources are available."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/contractions
+    agsm_source_date: "2026-09-22"
+
+  - id: contraction-no-before-numeral
+    type: deterministic
+    category: grammar-punctuation
+    title: Use the contraction 'no' (for number) only immediately before a numeral
+    description: >
+      The contraction "no" standing in for "number" (from numero) is only
+      acceptable when it is directly followed by a numeral. In all other
+      contexts, write "number" in full to avoid confusion with the negation
+      "no".
+    test:
+      pass:
+        - "Archive box no 152 has been found."
+        - "I won't be able to get their manager's number until tomorrow."
+      fail:
+        - "I won't be able to get their manager's no until tomorrow."
+        - "There are a no of options available."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/shortened-words-and-phrases/contractions
+    agsm_source_date: "2026-09-22"
+
+  # ── SPELLING ─────────────────────────────────────────────────────────────────
+
+  - id: spelling-one-dictionary
+    type: llm-assertion
+    category: grammar-punctuation
+    title: Use one Australian English dictionary consistently throughout a document
+    description: >
+      All spelling should follow a single Australian English dictionary —
+      either the Australian Concise Oxford Dictionary or the Macquarie
+      Dictionary. Mixing spellings from different dictionaries or from
+      non-Australian varieties within the same document is incorrect.
+    test:
+      pass:
+        - "The organisation recognised the programme's value."
+      fail:
+        - "The organization recognised the program's value."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/spelling
+    agsm_source_date: "2026-09-22"
+
+  - id: spelling-first-listed-variant
+    type: llm-assertion
+    category: grammar-punctuation
+    title: Use the first spelling listed in the preferred dictionary for variable spellings
+    description: >
+      When a word has more than one accepted spelling in the chosen dictionary,
+      always use the first listed entry. This ensures consistency across
+      government content.
+    test:
+      pass:
+        - "acknowledgement"
+      fail:
+        - "acknowledgment"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/spelling
+    agsm_source_date: "2026-09-22"

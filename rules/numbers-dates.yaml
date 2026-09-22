@@ -1,8 +1,971 @@
 # Numbers and Dates Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers
-# agsm_source_date: 2026-09-22
-# Rule type: deterministic
+# Extracted from the Australian Government Style Manual (AGSM)
+# Source date: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 2 via Claude extraction.
+  # ─── CHOOSING NUMERALS OR WORDS ───────────────────────────────────────────
+
+  - id: numeral-threshold-two-and-above
+    type: deterministic
+    category: numbers-dates
+    title: Use numerals for 2 and above in body text
+    description: >
+      In body text, write numbers as numerals when they are 2 or greater.
+      Write zero and one as words to prevent confusion with the letters O,
+      I, l and the numeral 7 in certain typefaces.
+    test:
+      pass:
+        - "They were open to discussing 3 options."
+        - "Only one person agreed to it."
+        - "Their aim is zero net emissions by 2050."
+      fail:
+        - "They were open to discussing three options."
+        - "Only 1 person agreed with it."
+        - "Their aim is 0 net emissions by 2050."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  - id: number-at-sentence-start-use-words
+    type: deterministic
+    category: numbers-dates
+    title: Write numbers as words when starting a sentence
+    description: >
+      A sentence must not begin with a numeral. Write the number as a word,
+      or rearrange the sentence to avoid starting with a number. Rearranging
+      is often the cleaner option for large numbers.
+    test:
+      pass:
+        - "Twelve people from our group went to the rally."
+        - "From our group, 12 people went to the rally."
+        - "The board received 621 complaints."
+      fail:
+        - "12 people from our group went to the rally."
+        - "621 complaints were received by the board."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  - id: fractions-as-words-in-general-text
+    type: deterministic
+    category: numbers-dates
+    title: Write fractions as words in general text
+    description: >
+      In general body text, express fractions as hyphenated words (e.g.
+      two-thirds, three-quarters) when the exact value is not critical. Use
+      decimals only when precision matters.
+    test:
+      pass:
+        - "About two-thirds of staff attended last week's meeting."
+        - "The dam was three-quarters full."
+      fail:
+        - "About 2/3 of staff attended last week's meeting."
+        - "The dam was 3/4 full."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  - id: comma-separator-four-or-more-digits
+    type: deterministic
+    category: numbers-dates
+    title: Use commas to group digits in numbers with 4 or more digits
+    description: >
+      Numbers with four or more digits use commas to separate digit groups of
+      three, counting from right to left. Do not use spaces as separators —
+      screen readers may announce spaced digits as separate numbers.
+    test:
+      pass:
+        - "1,750"
+        - "25,690"
+        - "745,902,350"
+        - "The government awards 2,500 grants annually."
+      fail:
+        - "1750"
+        - "25 690"
+        - "The government awards 2 500 grants annually."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  - id: large-rounded-numbers-numeral-word-combo
+    type: deterministic
+    category: numbers-dates
+    title: Combine numerals and words for large rounded numbers from a million
+    description: >
+      For rounded numbers of a million or more, pair the numeral with the
+      word (e.g. 2.5 million, $50 billion). This is easier to read than
+      writing all the digits as a numeral.
+    test:
+      pass:
+        - "There are over 1.4 million students enrolled in Australian tertiary institutions."
+        - "The budget allocated $50 billion to that initiative."
+      fail:
+        - "There are over 1,400,000 students enrolled in Australian tertiary institutions."
+        - "The budget allocated $50,000,000,000 to that initiative."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  - id: numerals-always-with-units-of-measurement
+    type: deterministic
+    category: numbers-dates
+    title: Always use numerals with units of measurement
+    description: >
+      When a number accompanies a unit of measurement, always write it as a
+      numeral — even for zero and one. Writing "one kilometre" or "five
+      tonnes" alongside a unit is incorrect.
+    test:
+      pass:
+        - "1 km"
+        - "1 kilometre"
+        - "5 t"
+        - "5 tonnes"
+      fail:
+        - "one kilometre"
+        - "five tonnes"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  - id: consistent-format-in-comparisons
+    type: deterministic
+    category: numbers-dates
+    title: Use consistent number formats when comparing values
+    description: >
+      When comparing two or more numbers in a sentence, use the same format
+      for all of them. Do not mix words and numerals, or mix decimal and
+      non-decimal forms.
+    test:
+      pass:
+        - "For those aged 75 to 84, the rate was 2.5 times as high as for the control group. This fell to 1.1 times as high for those aged 85 and over."
+      fail:
+        - "For those aged 75 to 84, the rate was over twice as high. This fell to 1.1 times as high for those aged 85 and over."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/choosing-numerals-or-words
+    agsm_source_date: "2026-09-22"
+
+  # ─── CURRENCY ──────────────────────────────────────────────────────────────
+
+  - id: currency-symbol-no-space-before-numeral
+    type: deterministic
+    category: numbers-dates
+    title: No space between currency symbol and numeral
+    description: >
+      Place the currency symbol immediately before the numeral with no space
+      between them.
+    test:
+      pass:
+        - "$27.99"
+        - "A$19.49"
+        - "US$7.25"
+      fail:
+        - "$ 27.99"
+        - "A$ 19.49"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/currency
+    agsm_source_date: "2026-09-22"
+
+  - id: currency-decimal-always-two-places
+    type: deterministic
+    category: numbers-dates
+    title: Use exactly two decimal places for decimal currency amounts
+    description: >
+      When a currency amount includes cents, always write exactly two digits
+      after the decimal point. Never write $0.4 when you mean $0.40.
+    test:
+      pass:
+        - "$0.50"
+        - "$0.80"
+        - "$0.04"
+      fail:
+        - "$0.4"
+        - "$0.8"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/currency
+    agsm_source_date: "2026-09-22"
+
+  - id: currency-aud-prefix-when-ambiguous
+    type: llm-assertion
+    category: numbers-dates
+    title: Use A$ prefix when Australian dollars may be confused with another currency
+    description: >
+      In content where readers might confuse Australian dollars with another
+      currency (e.g. internationally-facing content or content mentioning
+      multiple dollar currencies), use A$ with no space between the A and $.
+    test:
+      pass:
+        - "The minimum wage in Australia is A$19.49 per hour."
+        - "The journalist was paid A$89 per hour during her posting in Hong Kong."
+      fail:
+        - "The minimum wage in Australia is A $19.49 per hour."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/currency
+    agsm_source_date: "2026-09-22"
+
+  - id: currency-no-symbol-and-iban-together
+    type: deterministic
+    category: numbers-dates
+    title: Do not use both a currency symbol and an IBAN code for the same amount
+    description: >
+      Choose either the currency symbol (e.g. $) or the 3-letter IBAN code
+      (e.g. USD), but never both together for the same amount.
+    test:
+      pass:
+        - "The minimum wage in the United States is currently US$7.25 per hour."
+        - "Minimum wages: AUD19.49 per hour"
+      fail:
+        - "The minimum wage in the United States is currently $7.25 USD per hour."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/currency
+    agsm_source_date: "2026-09-22"
+
+  - id: currency-inexact-amounts-use-words
+    type: llm-assertion
+    category: numbers-dates
+    title: Use words for inexact or approximate money amounts
+    description: >
+      When a money amount is an approximation or idiomatic expression rather
+      than a precise figure, write it in words rather than using symbols and
+      numerals.
+    test:
+      pass:
+        - "This approach is likely to save thousands of dollars."
+        - "The contract was worth several million dollars."
+      fail:
+        - "This approach is likely to save $thousands."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/currency
+    agsm_source_date: "2026-09-22"
+
+  # ─── DATES ─────────────────────────────────────────────────────────────────
+
+  - id: date-format-day-month-year
+    type: deterministic
+    category: numbers-dates
+    title: Write dates in day month year order with no commas
+    description: >
+      Australian date convention uses the sequence day, month, year. Write
+      the day and year as numerals and spell out the month name in full. Do
+      not include any commas or other punctuation within the date.
+    test:
+      pass:
+        - "31 December 2020"
+        - "Thursday 31 December 2020"
+        - "1 May 1997"
+      fail:
+        - "December 31, 2020"
+        - "Thursday, 31 December 2020"
+        - "31/12/2020"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: date-no-ordinal-suffix-in-full-dates
+    type: deterministic
+    category: numbers-dates
+    title: Do not use ordinal suffixes (st/nd/rd/th) in full date expressions
+    description: >
+      In a full date that includes the month, write the day as a plain
+      numeral without an ordinal suffix. Ordinal suffixes are only acceptable
+      when the day is mentioned without the month.
+    test:
+      pass:
+        - "1 May 1997"
+        - "12 February 2020"
+      fail:
+        - "1st May 1997"
+        - "12th February 2020"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: date-no-abbreviation-in-body-text
+    type: deterministic
+    category: numbers-dates
+    title: Do not abbreviate month or day names in body text
+    description: >
+      Write month and day names in full in body text. Abbreviations (Jan,
+      Feb, Sat, Sun) are only acceptable when space is limited, such as in
+      tables, charts or social media posts.
+    test:
+      pass:
+        - "The conference was held on Saturday 22 December."
+      fail:
+        - "The conference was held on Sat 22 Dec."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: date-numeric-format-forward-slash
+    type: deterministic
+    category: numbers-dates
+    title: Use forward slash (d/m/yyyy) for all-numeric dates
+    description: >
+      When space requires an all-numeric date (e.g. in tables), use the
+      Australian day/month/year sequence with unspaced forward slashes.
+      Single-digit days and months do not require a leading zero in this
+      format.
+    test:
+      pass:
+        - "4/6/2021"
+        - "7/12/2020"
+        - "1/7/2020"
+      fail:
+        - "6/4/2021"
+        - "2021-06-04"
+        - "4-6-2021"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: decades-no-apostrophe
+    type: deterministic
+    category: numbers-dates
+    title: "Write decades with an 's' — no apostrophe for the plural"
+    description: >
+      To form the plural of a decade, add a lowercase 's' directly after the
+      digits with no apostrophe. An apostrophe before the 's' incorrectly
+      implies a possessive form.
+    test:
+      pass:
+        - "2010s"
+        - "1980s"
+      fail:
+        - "2010's"
+        - "1980's"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: year-spans-body-text-use-words
+    type: deterministic
+    category: numbers-dates
+    title: Use "from … to" or "between … and" for year spans in body text
+    description: >
+      In general body text, connect spans of years with words ("from 2015
+      to 2019" or "between 2015 and 2019"). Do not substitute the connecting
+      word with an en dash in body text.
+    test:
+      pass:
+        - "the years 2015 to 2019"
+        - "from 2015 to 2019"
+        - "between 2015 and 2019"
+      fail:
+        - "the years 2015–2019"
+        - "from 2015–2019"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: financial-year-en-dash
+    type: deterministic
+    category: numbers-dates
+    title: Use an unspaced en dash for financial and calendar year spans
+    description: >
+      For financial years, calendar years, and year spans in publication
+      titles, terms of office, or lifespans, use an unspaced en dash (not a
+      hyphen or forward slash).
+    test:
+      pass:
+        - "the 2021–22 financial year"
+        - "Corporate plan 2024–28"
+        - "Julia Gillard (2010–2013)"
+      fail:
+        - "the 2021-22 financial year"
+        - "the 2021/22 financial year"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: year-written-in-full
+    type: deterministic
+    category: numbers-dates
+    title: "Write years as full four-digit numerals — do not abbreviate"
+    description: >
+      When referring to a year on its own, always write it as a four-digit
+      numeral. Do not shorten to two digits or use an apostrophe to signal
+      missing digits.
+    test:
+      pass:
+        - "1945"
+        - "2020"
+      fail:
+        - "'45"
+        - "45"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  # ─── TIME ──────────────────────────────────────────────────────────────────
+
+  - id: time-colon-separator
+    type: deterministic
+    category: numbers-dates
+    title: Use a colon (not a full stop) to separate hours and minutes
+    description: >
+      Write times of day with a colon between hours and minutes. A full stop
+      can be misread as a decimal point — for example, "10.50" may be
+      interpreted as ten-point-five rather than ten fifty.
+    test:
+      pass:
+        - "8:30 am"
+        - "11:15 pm"
+        - "The bus leaves at 8:22 am."
+      fail:
+        - "8.30 am"
+        - "11.15 pm"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: time-am-pm-lowercase
+    type: deterministic
+    category: numbers-dates
+    title: Write "am" and "pm" in lowercase
+    description: >
+      The time indicators am and pm are written entirely in lowercase letters.
+      They should be separated from the preceding numeral by a space.
+    test:
+      pass:
+        - "10 am"
+        - "6:30 pm"
+        - "Please respond by 10 am tomorrow."
+      fail:
+        - "10 AM"
+        - "6:30 PM"
+        - "10 Am"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: time-no-redundant-am-pm-words
+    type: deterministic
+    category: numbers-dates
+    title: Do not combine "am" or "pm" with words that repeat their meaning
+    description: >
+      Do not use "am" or "pm" alongside words such as "morning", "afternoon"
+      or "evening" that already convey the same half of the day.
+    test:
+      pass:
+        - "We'll meet at 7:30 am tomorrow."
+        - "They finish at 4 pm on Tuesday."
+      fail:
+        - "We'll meet at 7:30 am tomorrow morning."
+        - "They finish at 4 pm on Tuesday afternoon."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: time-noon-midday-midnight
+    type: deterministic
+    category: numbers-dates
+    title: Use "noon", "midday" or "midnight" instead of "12 am" or "12 pm"
+    description: >
+      The expressions 12 am and 12 pm are ambiguous and easily confused.
+      Use noon, midday or midnight to make the meaning immediately clear.
+    test:
+      pass:
+        - "I woke to a text message at midnight."
+        - "The lunch meeting is at midday tomorrow."
+      fail:
+        - "The lunch meeting is at 12 pm tomorrow."
+        - "The deadline is 12 am Friday."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: time-24hr-clock-leading-zero
+    type: deterministic
+    category: numbers-dates
+    title: 24-hour clock times always use four digits with a leading zero
+    description: >
+      When using the 24-hour clock, write four digits separated by a colon.
+      Hours below 10 must include a leading zero (e.g. 07:38, not 7:38).
+    test:
+      pass:
+        - "07:38"
+        - "00:45"
+        - "23:18"
+      fail:
+        - "7:38"
+        - "0:45"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  - id: time-24hr-no-am-pm
+    type: deterministic
+    category: numbers-dates
+    title: Do not add "am" or "pm" to 24-hour clock times
+    description: >
+      The 24-hour clock is self-contained. Adding am or pm to a 24-hour
+      clock time is redundant and incorrect.
+    test:
+      pass:
+        - "06:45"
+        - "23:18"
+      fail:
+        - "06:45 am"
+        - "23:18 pm"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/dates-and-time
+    agsm_source_date: "2026-09-22"
+
+  # ─── FRACTIONS AND DECIMALS ─────────────────────────────────────────────────
+
+  - id: decimal-leading-zero
+    type: deterministic
+    category: numbers-dates
+    title: Include a leading zero before the decimal point for values less than one
+    description: >
+      Decimal values less than 1 must include a zero before the decimal
+      point. Omitting this zero makes the number harder to read and can be
+      missed.
+    test:
+      pass:
+        - "0.59"
+        - "0.5"
+        - "$0.50"
+      fail:
+        - ".59"
+        - ".5"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/fractions-and-decimals
+    agsm_source_date: "2026-09-22"
+
+  - id: decimal-full-stop-not-comma
+    type: deterministic
+    category: numbers-dates
+    title: Use a full stop (not a comma) as the decimal separator
+    description: >
+      In Australian content, the decimal separator is a full stop. Do not use
+      a comma as a decimal separator (a European convention).
+    test:
+      pass:
+        - "2.5687"
+        - "0.59"
+      fail:
+        - "2,5687"
+        - "0,59"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/fractions-and-decimals
+    agsm_source_date: "2026-09-22"
+
+  - id: decimal-for-precision-not-fraction
+    type: llm-assertion
+    category: numbers-dates
+    title: Use decimals (not fractions) when precision is required
+    description: >
+      When an exact value is important, express it as a decimal numeral
+      rather than a fraction. Fractions are appropriate only for approximate
+      values.
+    test:
+      pass:
+        - "They had 7.5 full-time equivalent staff in the section."
+        - "Australia received 412.8 mm of rainfall this year."
+      fail:
+        - "They had 7½ full-time equivalent staff in the section."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/fractions-and-decimals
+    agsm_source_date: "2026-09-22"
+
+  # ─── MEASUREMENT AND UNITS ─────────────────────────────────────────────────
+
+  - id: measurement-non-breaking-space
+    type: deterministic
+    category: numbers-dates
+    title: Use a non-breaking space between a number and its unit of measurement
+    description: >
+      Always insert a non-breaking space between the quantity and the unit
+      symbol or name. This prevents the number and unit being split across
+      two lines, which would make the measurement hard to read.
+    test:
+      pass:
+        - "56 km"
+        - "The post should be at least 1.5 m tall."
+      fail:
+        - "56km"
+        - "1.5m"
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  - id: measurement-no-plural-s-on-symbols
+    type: deterministic
+    category: numbers-dates
+    title: Do not add 's' to unit symbols to indicate the plural
+    description: >
+      Unit symbols serve as both singular and plural forms. Adding an 's' to
+      a unit symbol (e.g. kms, kgs) is incorrect.
+    test:
+      pass:
+        - "56 km"
+        - "10 kg"
+      fail:
+        - "56 kms"
+        - "10 kgs"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  - id: measurement-no-full-stop-after-unit
+    type: deterministic
+    category: numbers-dates
+    title: Do not place a full stop after a unit symbol (except at sentence end)
+    description: >
+      Unit symbols are not abbreviations and do not take a trailing full
+      stop. A full stop appearing after a unit mid-sentence is incorrect.
+    test:
+      pass:
+        - "80 kg of flour were needed"
+        - "The distance is 5 km."
+      fail:
+        - "80 kg. of flour were needed"
+        - "5 km. away from the city"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  - id: measurement-same-units-in-comparisons
+    type: deterministic
+    category: numbers-dates
+    title: Use the same units and decimal places when comparing measurements
+    description: >
+      When presenting two or more measurements for comparison, use identical
+      units and the same number of decimal places throughout. Mixing units
+      in the same comparison makes it difficult for readers to compare values.
+    test:
+      pass:
+        - "The fire burnt almost 3,000 km², of which more than 1,000 km² was national park."
+        - "The smaller jug held 1.5 L and the bigger jug held 2.0 L."
+      fail:
+        - "The fire burnt almost 300,000 ha, of which more than 1,000 km² was national park."
+        - "The smaller jug held 1,500 mL and the bigger jug held 2 L."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  - id: measurement-spell-out-unfamiliar-units-first-use
+    type: llm-assertion
+    category: numbers-dates
+    title: Spell out unfamiliar measurement units on first use
+    description: >
+      If readers may not recognise a unit symbol, write the full unit name
+      on first use followed by the symbol in brackets. After that, use the
+      symbol alone.
+    test:
+      pass:
+        - "The noise from the building site was 120 decibels (dB). Workers in the nearby office preferred a limit of only 50 dB."
+      fail:
+        - "The noise from the building site was 120 dB with no prior explanation of dB."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  - id: measurement-avoid-imperial
+    type: llm-assertion
+    category: numbers-dates
+    title: Avoid imperial units in Australian content
+    description: >
+      Australia uses the metric (SI) system. Do not use imperial units
+      (miles, gallons, inches, feet, etc.) unless quoting historical
+      documents or writing specifically for audiences in countries where
+      imperial measures apply.
+    test:
+      pass:
+        - "The speed limit is 100 km/h."
+        - "In the 1970s, the speed limit was set at 60 miles per hour (97 km/h)."
+      fail:
+        - "The speed limit is 62 miles per hour."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  - id: measurement-no-mixed-symbols-and-words
+    type: deterministic
+    category: numbers-dates
+    title: Do not mix unit symbols with words for the same unit
+    description: >
+      Choose either the unit symbol or the spelled-out word for a unit, and
+      use it consistently. Do not combine symbols and words for the same
+      unit in the same expression.
+    test:
+      pass:
+        - "Queensland is 1,853 million km² in area."
+        - "Queensland is 1,853 million square kilometres in area."
+      fail:
+        - "Queensland is 1,853 million square km in area."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/measurement-and-units
+    agsm_source_date: "2026-09-22"
+
+  # ─── ORDINAL NUMBERS ────────────────────────────────────────────────────────
+
+  - id: ordinals-words-first-to-ninth
+    type: deterministic
+    category: numbers-dates
+    title: Spell out ordinals from "first" to "ninth"; use numerals from "10th" onwards
+    description: >
+      Write ordinal numbers one through nine as words (first, second, …
+      ninth). From 10th onward, use the numeral followed by the appropriate
+      suffix (th, st, nd, rd).
+    test:
+      pass:
+        - "The first item on the agenda was to confirm the agenda."
+        - "In 2013, Canberra celebrated its 100th anniversary."
+        - "This is the department's 22nd graduate intake."
+      fail:
+        - "The 1st item on the agenda was to confirm the agenda."
+        - "In 2013, Canberra celebrated its one-hundredth anniversary."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/ordinal-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: ordinals-centuries-always-numeral
+    type: deterministic
+    category: numbers-dates
+    title: Use numerals for ordinals with centuries (even below 10th)
+    description: >
+      As an exception to the general ordinal rule, centuries always use
+      numerals — even when the ordinal is below 10. Write "1st century"
+      not "first century". Write "century" in lowercase.
+    test:
+      pass:
+        - "In the 1st century CE, Tiberius succeeded Augustus Caesar."
+        - "Vikings established a Norse kingdom in the 9th century."
+        - "The gallery bought a 15th-century painting."
+      fail:
+        - "In the first century CE, Tiberius succeeded Augustus Caesar."
+        - "Vikings established a Norse kingdom in the ninth century."
+    severity: warning
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/ordinal-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: ordinals-no-superscript-suffix
+    type: deterministic
+    category: numbers-dates
+    title: Do not write ordinal suffixes in superscript
+    description: >
+      Ordinal suffixes (st, nd, rd, th) must be written inline in regular
+      text, never in superscript. Superscript can cause accessibility
+      problems for screen reader users.
+    test:
+      pass:
+        - "22nd graduate intake"
+        - "10th anniversary"
+      fail:
+        - "22nd graduate intake (with superscript nd)"
+        - "10th anniversary (with superscript th)"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/ordinal-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: ordinals-not-in-full-dates
+    type: deterministic
+    category: numbers-dates
+    title: Do not use ordinal suffixes in full date expressions
+    description: >
+      When writing a date that includes the month, use a plain numeral for
+      the day with no ordinal suffix. Ordinal form is only appropriate when
+      the day is mentioned without its month.
+    test:
+      pass:
+        - "12 February 2020"
+        - "1 May 1997"
+        - "She will leave by the 20th."
+      fail:
+        - "12th February 2020"
+        - "1st May 1997"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/ordinal-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: ordinals-regnal-not-as-ordinal
+    type: deterministic
+    category: numbers-dates
+    title: Use Roman numerals for regnal numbers — not ordinal form
+    description: >
+      Monarchs, popes and family name sequences use uppercase Roman numerals
+      (e.g. Elizabeth I, Henry VIII), not ordinal suffixes (e.g. Elizabeth
+      Ist, Henry VIIIth).
+    test:
+      pass:
+        - "Elizabeth I"
+        - "Henry VIII"
+      fail:
+        - "Elizabeth Ist"
+        - "Henry VIIIth"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/ordinal-numbers
+    agsm_source_date: "2026-09-22"
+
+  # ─── PERCENTAGES ────────────────────────────────────────────────────────────
+
+  - id: percentage-numeral-and-symbol-no-space
+    type: deterministic
+    category: numbers-dates
+    title: Write percentages as a numeral followed immediately by the % sign
+    description: >
+      When expressing a percentage in text, use the numeral directly followed
+      by the % sign with no space between them.
+    test:
+      pass:
+        - "15%"
+        - "The price of Tapis oil is up by 0.25%."
+        - "A 1% levy on industry funded the remediation."
+      fail:
+        - "15 %"
+        - "15 percent"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/percentages
+    agsm_source_date: "2026-09-22"
+
+  - id: percentage-no-fraction-with-symbol
+    type: deterministic
+    category: numbers-dates
+    title: Use decimals (not fractions) alongside the percentage sign
+    description: >
+      Always use a decimal number with the % symbol. Do not combine a
+      fractional expression with the % sign.
+    test:
+      pass:
+        - "The price is up by 0.25%."
+        - "The plan was 50% complete."
+      fail:
+        - "The price is up by 1/4%."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/percentages
+    agsm_source_date: "2026-09-22"
+
+  - id: percentage-not-at-sentence-start
+    type: deterministic
+    category: numbers-dates
+    title: Do not begin a sentence with a percentage
+    description: >
+      Avoid starting a sentence with a percentage numeral and symbol.
+      Reword the sentence, or write the percentage out in words if it must
+      come first.
+    test:
+      pass:
+        - "Fifty-five per cent of the council's revenue came from rates."
+        - "Rates accounted for 55% of revenue."
+      fail:
+        - "55% of the council's revenue came from rates."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/percentages
+    agsm_source_date: "2026-09-22"
+
+  - id: percentage-per-cent-two-words
+    type: deterministic
+    category: numbers-dates
+    title: Write "per cent" as two words in Australian English
+    description: >
+      The spelled-out form in Australian English is always two words: per
+      cent. The single-word form "percent" is not standard Australian
+      spelling.
+    test:
+      pass:
+        - "Fifty-five per cent of the council's revenue came from rates."
+      fail:
+        - "Fifty-five percent of the council's revenue came from rates."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/percentages
+    agsm_source_date: "2026-09-22"
+
+  - id: percentage-use-percentage-as-noun
+    type: deterministic
+    category: numbers-dates
+    title: Use "percentage" as the noun form — not "per cent"
+    description: >
+      "Per cent" is an adverb used alongside a figure. The noun form is
+      "percentage". Do not use "per cent" as a standalone noun.
+    test:
+      pass:
+        - "Statistics show the percentage of Australians with university degrees is increasing."
+      fail:
+        - "Statistics show the per cent of Australians with university degrees is increasing."
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/percentages
+    agsm_source_date: "2026-09-22"
+
+  # ─── TELEPHONE NUMBERS ─────────────────────────────────────────────────────
+
+  - id: phone-au-landline-format
+    type: deterministic
+    category: numbers-dates
+    title: Format Australian landlines as 2-digit area code + two 4-digit groups
+    description: >
+      Australian landline numbers in national format are written with the
+      2-digit area code, a space, then the remaining 8 digits split into two
+      groups of 4, also separated by a space.
+    test:
+      pass:
+        - "02 5550 4321"
+        - "03 7010 4321"
+      fail:
+        - "025550 4321"
+        - "02-5550-4321"
+        - "0255504321"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/telephone-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: phone-au-mobile-format
+    type: deterministic
+    category: numbers-dates
+    title: Format Australian mobile numbers as 4 + 3 + 3 digits
+    description: >
+      Australian mobile numbers in national format are written as one group
+      of 4 digits followed by two groups of 3 digits, with spaces between
+      the groups.
+    test:
+      pass:
+        - "0491 570 159"
+        - "0400 123 456"
+      fail:
+        - "04 9157 0159"
+        - "049-157-0159"
+        - "0491570159"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/telephone-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: phone-international-format-plus-61
+    type: deterministic
+    category: numbers-dates
+    title: Write Australian numbers in international format with +61 and no leading zero
+    description: >
+      For international audiences, replace the leading zero of the area code
+      or mobile number with +61 (Australia's country code). For landlines:
+      +61 [area code without 0] [two groups of 4]. For mobiles: +61 [three
+      groups of 3 without the leading 0].
+    test:
+      pass:
+        - "+61 2 5550 4321"
+        - "+61 491 570 159"
+      fail:
+        - "+61 02 5550 4321"
+        - "+610491 570 159"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/telephone-numbers
+    agsm_source_date: "2026-09-22"
+
+  - id: phone-no-phonewords
+    type: deterministic
+    category: numbers-dates
+    title: Display telephone numbers as digits only — no phone words
+    description: >
+      Always display telephone numbers as digits. Do not replace digits with
+      letters (phone words), as some people find it difficult to convert
+      letters to their corresponding keypad digits.
+    test:
+      pass:
+        - "13 83 87"
+        - "1300 975 707"
+      fail:
+        - "13 VETS"
+        - "1300 HEALTH"
+    severity: error
+    source: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions/numbers-and-measurements/telephone-numbers
+    agsm_source_date: "2026-09-22"

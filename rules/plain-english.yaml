@@ -1,10 +1,560 @@
 # Plain English Rules
-# Compiled from AGSM: https://www.stylemanual.gov.au/clear-language-and-writing-style
-# agsm_source_date: 2026-09-22
-# Rule type: llm-assertion (judgment required)
+# Extracted from the Australian Government Style Manual (AGSM)
+# Source: https://www.stylemanual.gov.au
+# Extracted: 2026-09-22
 
-rules: []
+rules:
 
-# Rules will be populated in Phase 3 via Claude extraction.
-# Plain English rules require LLM judgment — reading level, sentence length,
-# nominalisation density, hedging patterns, active vs passive voice.
+  - id: everyday-words-preferred
+    type: llm-assertion
+    category: plain-english
+    title: Use everyday words over formal alternatives
+    description: >
+      Choose words that most readers will immediately recognise. When a simpler
+      word conveys the same meaning, prefer it. Formal or legalistic vocabulary
+      (e.g. 'commence', 'ascertain', 'pursuant to', 'disclose', 'disburse') slows
+      comprehension and should be replaced with plain equivalents (e.g. 'start',
+      'find out', 'under', 'share', 'pay').
+    test:
+      pass:
+        - "Contact us if you need help with your application."
+        - "You can start your claim online."
+      fail:
+        - "You are required to commence the application process forthwith."
+        - "Please ascertain whether you are eligible prior to submitting documentation."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: filler-phrases-banned
+    type: deterministic
+    category: plain-english
+    title: Replace verbose filler phrases with plain alternatives
+    description: >
+      A set of common bureaucratic and verbose phrases must be replaced with
+      shorter plain equivalents. Key substitutions: 'in order to' with 'to';
+      'due to the fact that' with 'because'; 'at this point in time' with 'now';
+      'in the event that' with 'if'; 'prior to' with 'before'; 'utilise' with
+      'use'; 'assist' with 'help'; 'commence' with 'start'; 'subsequent to' with
+      'after'; 'in relation to' with 'about'; 'obtain' with 'get'.
+    test:
+      pass:
+        - "Apply before the deadline to get the benefit."
+        - "Contact us because we need more information."
+      fail:
+        - "Apply prior to the deadline in order to obtain the benefit."
+        - "Due to the fact that we require additional information, please contact us."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: personal-pronouns-user-facing
+    type: llm-assertion
+    category: plain-english
+    title: Use personal pronouns in user-facing content
+    description: >
+      Address readers directly using 'you', and refer to the organisation as
+      'we' or 'us' when appropriate. Avoid impersonal constructions that omit
+      the actor or refer to the reader in the third person.
+    test:
+      pass:
+        - "We will assess your application within 30 days."
+        - "You need to submit two forms of ID."
+      fail:
+        - "Applications are assessed within 30 days."
+        - "Two forms of identification are required for submission."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-jargon
+    type: llm-assertion
+    category: plain-english
+    title: Avoid jargon, technical terms, and insider language
+    description: >
+      Remove specialised terminology, technical jargon, and insider phrases that
+      readers outside a specific professional group may not understand. If a
+      technical term is unavoidable, define it on first use or include a glossary.
+    test:
+      pass:
+        - "They changed their decision after receiving new information."
+        - "The agency will review all submitted claims."
+      fail:
+        - "They pivoted their position in light of the new deliverables."
+        - "We need to leverage our synergies to drive uplift in this space."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: expand-acronyms-first-use
+    type: deterministic
+    category: plain-english
+    title: Spell out all acronyms and initialisms on first use
+    description: >
+      Every acronym or initialism must appear in full on its first use, with the
+      short form in parentheses immediately after. On subsequent mentions the
+      short form alone may be used. Exception: acronyms listed in a standard
+      dictionary as the primary entry (e.g. 'DNA', 'radar') may be used without
+      expansion. Avoid using an acronym that appears only once or twice.
+    test:
+      pass:
+        - "The Digital Transformation Agency (DTA) helps government agencies. The DTA was established in 2015."
+        - "Contact the Australian Taxation Office (ATO) for more information."
+      fail:
+        - "The DTA helps government agencies build digital services."
+        - "Submit your form to the ATO by 31 October."
+    severity: error
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-nominalisation
+    type: llm-assertion
+    category: plain-english
+    title: Use verbs directly rather than verb-derived noun phrases
+    description: >
+      Nominalisations convert a verb into a noun, requiring extra words and
+      weakening the sentence. Use the verb form directly instead. Examples:
+      'decide' not 'make a decision'; 'apply' not 'make an application';
+      'help' not 'provide assistance with'; 'respond' not 'provide a response to'.
+    test:
+      pass:
+        - "Please apply by 30 June."
+        - "The committee will decide next week."
+        - "Contact us if you need help."
+      fail:
+        - "Please make an application by 30 June."
+        - "The committee will make a decision next week."
+        - "Contact us if you require assistance."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: sentence-length-average
+    type: deterministic
+    category: plain-english
+    title: Keep average sentence length to approximately 15 words
+    description: >
+      Across any paragraph or passage, sentences should average around 15 words.
+      This keeps cognitive load low and supports scanning.
+    test:
+      pass:
+        - "Submit your form online. You will get a confirmation email within 24 hours. Check your spam folder if it does not arrive."
+      fail:
+        - "Applications submitted after the closing date will generally not be accepted unless there are exceptional circumstances, in which case the applicant should contact the relevant department to request consideration of a late submission, noting that approval is at the department's discretion."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: sentence-length-maximum
+    type: deterministic
+    category: plain-english
+    title: No individual sentence should exceed 25 words
+    description: >
+      Individual sentences must not exceed 25 words, especially in digital
+      content. Sentences over 25 words can almost always be split into two
+      sentences or restructured as a list.
+    test:
+      pass:
+        - "You can apply online or by post."
+        - "Eligible students can access the subsidy by completing the application form on our website."
+      fail:
+        - "If you are applying for a concession card and you are not sure whether you meet the eligibility requirements, you should contact the department before submitting your application to avoid unnecessary delays."
+    severity: error
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: active-voice-preferred
+    type: llm-assertion
+    category: plain-english
+    title: Prefer active voice over passive voice
+    description: >
+      In active voice the grammatical subject performs the action, making it
+      immediately clear who is responsible for what. Use passive voice only when
+      the actor is genuinely unknown or irrelevant to the reader.
+    test:
+      pass:
+        - "Eligible students can access the subsidy by completing the application."
+        - "The department will contact you within 10 business days."
+      fail:
+        - "The subsidy can be accessed by completing the application."
+        - "You will be contacted within 10 business days."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: positive-framing
+    type: llm-assertion
+    category: plain-english
+    title: Frame instructions and information positively, not negatively
+    description: >
+      State what users should or can do rather than what they cannot or must not
+      do. Positive sentences are typically shorter and more likely to prompt the
+      desired action.
+    test:
+      pass:
+        - "Include all required documents when you apply."
+        - "Please answer every question on this form."
+      fail:
+        - "You cannot submit your application if you do not include the required documents."
+        - "If you don't answer every question on this form, we won't be able to process your application."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-double-negatives
+    type: llm-assertion
+    category: plain-english
+    title: Do not use double negatives
+    description: >
+      Two negative elements in the same sentence force readers to perform a
+      mental reversal to extract the meaning. Replace double negatives with a
+      direct positive statement.
+    test:
+      pass:
+        - "The decision was acceptable."
+        - "Late applications are sometimes allowed."
+      fail:
+        - "The decision was not unacceptable."
+        - "It is not uncommon for late applications to not be rejected."
+    severity: error
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: eliminate-unnecessary-words
+    type: llm-assertion
+    category: plain-english
+    title: Remove words that do not contribute to meaning
+    description: >
+      Every word in a sentence should earn its place. Adverbs, adjectives, and
+      padding phrases that can be removed without changing the core meaning
+      should be cut.
+    test:
+      pass:
+        - "We provide trade statistics. Contact us with data requests and we will respond within 2 business days."
+      fail:
+        - "Our team will happily provide you with any statistics you might be seeking for the purpose of producing better and more factually accurate trade reports."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-there-is-there-are
+    type: deterministic
+    category: plain-english
+    title: Avoid 'there is' and 'there are' when they add no meaning
+    description: >
+      Starting a sentence with 'there is' or 'there are' often adds words
+      without adding meaning. Restructure the sentence so the real subject leads.
+    test:
+      pass:
+        - "If anything does not fit within this framework, contact us."
+        - "Several options are available to you."
+      fail:
+        - "There are several options available to you."
+        - "If there is anything that does not fit within this framework, please contact us."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: subject-verb-object-order
+    type: llm-assertion
+    category: plain-english
+    title: Follow standard subject-verb-object sentence order
+    description: >
+      Standard English sentences place the subject first, followed by the verb,
+      then the object or complement. Burying the subject after a long introductory
+      phrase makes sentences harder to process.
+    test:
+      pass:
+        - "The department reviewed all applications."
+        - "You must submit your form by Friday."
+      fail:
+        - "In respect of all applications received during the current intake period, a review was conducted by the department."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: no-mid-clause-modifiers
+    type: llm-assertion
+    category: plain-english
+    title: Do not split main clauses with inserted modifying phrases
+    description: >
+      Placing a modifier or subordinate clause between the subject and the verb
+      of a main clause slows reading. Position modifying phrases at the start or
+      end of the sentence rather than interrupting the core clause.
+    test:
+      pass:
+        - "You can delete your application within an hour of applying."
+      fail:
+        - "You can, within an hour of applying, delete your application."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: noun-train-limit
+    type: llm-assertion
+    category: plain-english
+    title: Avoid noun trains and strings of more than 3 stacked nouns or adjectives
+    description: >
+      Sequences of three or more nouns stacked together — noun trains — are
+      difficult to parse. Rephrase by converting part of the stack into a
+      relative clause or prepositional phrase.
+    test:
+      pass:
+        - "The goal is to analyse how we can reallocate human resources. The analysis will inform our business plan."
+      fail:
+        - "The human resource reallocation analysis will inform our business plan."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-if-unless-same-sentence
+    type: deterministic
+    category: plain-english
+    title: Do not combine 'if' and 'unless' in the same sentence
+    description: >
+      Using 'if' and 'unless' together in a single sentence creates ambiguity
+      about which conditions apply. Split the logic into separate sentences,
+      or rephrase using a direct positive statement.
+    test:
+      pass:
+        - "From 1 October, your partner can sign forms on your behalf."
+      fail:
+        - "If your partner signed the form on your behalf, we can accept it unless they signed it before 1 October."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-such-as-constructions
+    type: deterministic
+    category: plain-english
+    title: Avoid 'such...as' and 'being/not being' sentence constructions
+    description: >
+      The 'such...as' form ('take such steps as are appropriate') adds words
+      without adding meaning. Replace it with a direct statement ('take
+      appropriate steps'). Similarly, avoid using 'being' as a conjunction.
+    test:
+      pass:
+        - "Take appropriate steps to resolve the issue."
+        - "A person who is 70 or over and holds a current driving licence may..."
+      fail:
+        - "Take such steps as are appropriate to resolve the issue."
+        - "A person who is 70 or over, being a person who holds a current driving licence, may..."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/sentences
+    agsm_source_date: "2026-09-22"
+
+  - id: standard-tone-default
+    type: llm-assertion
+    category: plain-english
+    title: Default to standard tone for most government content
+    description: >
+      Most government content should use a standard tone: direct and clear,
+      without being overly formal or excessively casual. Standard tone can use
+      contractions and personal pronouns but avoids metaphors, idioms, and slang.
+    test:
+      pass:
+        - "Please arrive 15 minutes before the concert starts."
+        - "We will review your application and contact you within 10 business days."
+      fail:
+        - "The passenger is hereby advised to present themselves at the venue no less than 15 minutes prior to commencement of the performance."
+        - "Why don't you pop in early and grab a seat before things kick off?"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/voice-and-tone
+    agsm_source_date: "2026-09-22"
+
+  - id: second-person-address
+    type: llm-assertion
+    category: plain-english
+    title: Address individual readers as 'you' rather than 'the applicant' or 'users'
+    description: >
+      The second person ('you') is active, direct, and personal. Use 'you'
+      whenever content is aimed at an individual reader.
+    test:
+      pass:
+        - "You can apply online or by calling our helpline."
+        - "We will send you a confirmation email after you submit your form."
+      fail:
+        - "Applicants can apply online or by calling the helpline."
+        - "A confirmation email will be sent to the user upon submission."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/voice-and-tone
+    agsm_source_date: "2026-09-22"
+
+  - id: avoid-metaphors-idioms
+    type: llm-assertion
+    category: plain-english
+    title: Avoid metaphors and idiomatic expressions
+    description: >
+      Metaphors and idioms may confuse readers with English as a second language,
+      cognitive disability, or low literacy. Replace them with direct, literal
+      statements.
+    test:
+      pass:
+        - "They changed their decision after receiving new information."
+        - "We are increasing investment in cyber security."
+      fail:
+        - "They changed their decision in light of new information."
+        - "We are building an army of cyber experts."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/voice-and-tone
+    agsm_source_date: "2026-09-22"
+
+  - id: no-slang-government
+    type: llm-assertion
+    category: plain-english
+    title: Never use slang in government content
+    description: >
+      Slang is always inappropriate in government writing, including in social
+      media and blog contexts. Standard and informal tones allow contractions
+      but never slang.
+    test:
+      pass:
+        - "We have made it easier to apply online."
+        - "Check our website for the latest updates."
+      fail:
+        - "Sorted! Your application is in the bag."
+        - "Check our website for the latest goss on the new scheme."
+    severity: error
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/voice-and-tone
+    agsm_source_date: "2026-09-22"
+
+  - id: objective-impartial-writing
+    type: llm-assertion
+    category: plain-english
+    title: Write objectively using facts, not opinion or loaded language
+    description: >
+      Government content should rely on verifiable facts and avoid the appearance
+      of bias or subjectivity. Adjectives and adverbs that convey opinion rather
+      than fact — such as 'only', 'surprisingly', 'unfortunately' — should be
+      removed or replaced with objective, measurable comparators.
+    test:
+      pass:
+        - "There was 15 mm of rain last summer. This made it the driest summer for 120 years."
+      fail:
+        - "Only 15 mm of rain meant last summer was tragically the driest we've ever seen."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/voice-and-tone
+    agsm_source_date: "2026-09-22"
+
+  - id: front-load-key-information
+    type: llm-assertion
+    category: plain-english
+    title: Put the most important information at the start of the content
+    description: >
+      Most readers scan before reading in full. The primary message, key fact,
+      or call to action must appear at the very beginning of the content — not
+      buried mid-paragraph or at the end.
+    test:
+      pass:
+        - "Your application has been approved. We will transfer the funds within 5 business days. No further action is needed."
+      fail:
+        - "After careful review of the eligibility criteria and all supporting documentation you provided, and subject to final administrative processing, we are pleased to advise that your application has been approved."
+    severity: warning
+    source: https://www.stylemanual.gov.au/style-manual-resources/quick-guides/quick-guide-plain-language
+    agsm_source_date: "2026-09-22"
+
+  - id: short-paragraphs-one-topic
+    type: llm-assertion
+    category: plain-english
+    title: Limit each paragraph to one topic; open with a topic sentence
+    description: >
+      Each paragraph should cover a single idea or topic. Begin with a topic
+      sentence that states the paragraph's main point, enabling readers to
+      follow meaning while scanning.
+    test:
+      pass:
+        - "You need two documents to verify your identity. These can be a passport, driver's licence, or Medicare card. Bring originals to your appointment."
+      fail:
+        - "You need two documents to verify your identity and you should arrive 10 minutes early. The office opens at 8:30 am. Note that parking is available at the rear of the building."
+    severity: warning
+    source: https://www.stylemanual.gov.au/style-manual-resources/quick-guides/quick-guide-plain-language
+    agsm_source_date: "2026-09-22"
+
+  - id: use-lists-for-series
+    type: llm-assertion
+    category: plain-english
+    title: Present series of items or steps as lists rather than run-on prose
+    description: >
+      When presenting three or more related items, a sequential process, or
+      grouped information, use a bullet list (for grouped items) or numbered
+      list (for ordered steps) rather than embedding them in prose.
+    test:
+      pass:
+        - "To apply you will need: your passport, a recent utility bill, and your tax file number."
+      fail:
+        - "You will need to have ready your passport and a recent utility bill and also your tax file number as well as your bank account details before you start the application."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/style-manual-resources/quick-guides/quick-guide-plain-language
+    agsm_source_date: "2026-09-22"
+
+  - id: keywords-early-in-headings
+    type: llm-assertion
+    category: plain-english
+    title: Place keywords in the first 2–3 words of headings; keep headings concise
+    description: >
+      The most meaningful words should appear at the start of a heading so
+      users can identify relevance quickly. Headings should be kept short —
+      under 70 characters including spaces.
+    test:
+      pass:
+        - "Apply for a concession card"
+        - "Payment options for aged care"
+      fail:
+        - "Information about how you can go about applying for a concession card from the department"
+        - "A guide to understanding the various payment options that exist for aged care services"
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/style-manual-resources/quick-guides/quick-guide-plain-language
+    agsm_source_date: "2026-09-22"
+
+  - id: reading-level-year7
+    type: llm-assertion
+    category: plain-english
+    title: Write at approximately Year 7 (age 12–14) reading level
+    description: >
+      Content should be accessible to readers at around Year 7 level, consistent
+      with WCAG 2.1 AAA success criterion 3.1.5. This means short words, short
+      sentences, concrete language, and minimal specialised vocabulary.
+    test:
+      pass:
+        - "You can get help paying for medicine if you have a concession card."
+      fail:
+        - "Concessional beneficiaries may be eligible for subsidised pharmaceutical items pursuant to the relevant legislative instrument."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: plain-language-summary-for-complex-content
+    type: llm-assertion
+    category: plain-english
+    title: Provide a plain language summary when content is technical or complex
+    description: >
+      When content necessarily contains specialist terminology or complex concepts,
+      include a short summary written without specialist vocabulary. Alternatively,
+      explain technical terms inline or provide a glossary.
+    test:
+      pass:
+        - "Summary: You may be eligible for a payment if your income is below a set threshold. See the full eligibility criteria below."
+      fail:
+        - "Eligible claimants whose assessable income does not exceed the relevant income test threshold as prescribed under the Act may qualify for the relevant payment at the applicable rate."
+    severity: suggestion
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
+
+  - id: inclusive-language-plain-english
+    type: llm-assertion
+    category: plain-english
+    title: Use inclusive, respectful language for all readers
+    description: >
+      Choose words that respect all people, including their identity, rights, and
+      heritage. Avoid language that excludes, stereotypes, patronises, or demeans
+      any group.
+    test:
+      pass:
+        - "People with disability can access support through this service."
+        - "Contact us if you or your partner needs help."
+      fail:
+        - "Disabled people should use the special entrance."
+        - "If the applicant or his spouse requires assistance, he should contact us."
+    severity: warning
+    source: https://www.stylemanual.gov.au/writing-and-designing-content/clear-language-and-writing-style/plain-language-and-word-choice
+    agsm_source_date: "2026-09-22"
