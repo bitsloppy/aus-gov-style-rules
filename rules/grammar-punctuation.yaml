@@ -1,0 +1,20 @@
+# Grammar and Punctuation Rules
+# Compiled from AGSM: https://www.stylemanual.gov.au/grammar-punctuation-and-conventions
+# agsm_source_date: 2026-09-22
+# Rule type: deterministic (binary, consistent output)
+
+rules: []
+
+# Rules will be populated in Phase 2 via Claude extraction.
+# Each rule follows this schema:
+#
+# - id: string (kebab-case, unique)
+#   type: deterministic | llm-assertion
+#   category: grammar-punctuation
+#   title: string
+#   description: string (our words, not AGSM prose)
+#   test:
+#     pass: []     # examples that conform
+#     fail: []     # examples that violate
+#   source: https://www.stylemanual.gov.au/...
+#   agsm_source_date: YYYY-MM-DD

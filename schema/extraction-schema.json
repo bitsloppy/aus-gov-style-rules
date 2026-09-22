@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/bitsloppy/aus-gov-style-rules/schema/extraction-schema.json",
+  "title": "AGSM Rule",
+  "description": "Schema for a single compiled AGSM rule",
+  "type": "object",
+  "required": ["id", "type", "category", "title", "description", "source", "agsm_source_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique kebab-case rule identifier, e.g. 'date-format-dd-month-yyyy'"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["deterministic", "llm-assertion"],
+      "description": "deterministic: binary, consistent output. llm-assertion: model-evaluated judgment."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "grammar-punctuation",
+        "numbers-dates",
+        "capitalisation",
+        "inclusive-language",
+        "plain-english",
+        "referencing",
+        "structuring"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Short human-readable rule name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Rule in our own words — not AGSM prose verbatim"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Optional: why this rule exists"
+    },
+    "test": {
+      "type": "object",
+      "properties": {
+        "pass": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Example text that conforms to this rule"
+        },
+        "fail": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Example text that violates this rule"
+        }
+      }
+    },
+    "pattern": {
+      "type": "string",
+      "description": "Optional: regex pattern for deterministic rules"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["error", "warning", "suggestion"],
+      "default": "warning"
+    },
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "AGSM page URL this rule was compiled from"
+    },
+    "agsm_source_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date rules were read from stylemanual.gov.au (YYYY-MM-DD)"
+    }
+  }
+}

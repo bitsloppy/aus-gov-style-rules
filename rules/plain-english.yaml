@@ -1,0 +1,10 @@
+# Plain English Rules
+# Compiled from AGSM: https://www.stylemanual.gov.au/clear-language-and-writing-style
+# agsm_source_date: 2026-09-22
+# Rule type: llm-assertion (judgment required)
+
+rules: []
+
+# Rules will be populated in Phase 3 via Claude extraction.
+# Plain English rules require LLM judgment — reading level, sentence length,
+# nominalisation density, hedging patterns, active vs passive voice.

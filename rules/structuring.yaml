@@ -1,0 +1,8 @@
+# Structuring Content Rules
+# Compiled from AGSM: https://www.stylemanual.gov.au/structuring-content
+# agsm_source_date: 2026-09-22
+# Rule type: deterministic + llm-assertion (mixed)
+
+rules: []
+
+# Rules will be populated in Phase 2–3 via Claude extraction.
