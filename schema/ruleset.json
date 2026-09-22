@@ -7,9 +7,10 @@
     "compiled_by": "bitsloppy/aus-gov-style-rules",
     "phase": "Phase 2 — deterministic rules (regex + llm-deterministic)",
     "totals": {
-      "rule_count": 196,
+      "rule_count": 270,
       "regex_count": 104,
-      "llm_deterministic_count": 92
+      "llm_deterministic_count": 92,
+      "llm_assertion_count": 74
     }
   },
   "extraction_schema": {
@@ -3756,6 +3757,672 @@
         "op": "eq",
         "value": true
       }
+    },
+    {
+      "id": "dash-prefer-words-for-spans",
+      "title": "Use words (from/to, between/and) rather than en dashes for spans in general content",
+      "category": "grammar-punctuation",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use words (from/to, between/and) rather than en dashes for spans in general content\"?\n\nRule: In body text and headings, number or date spans should be written using words — \"from … to\" or \"between … and\" — rather than an en dash (–). En dashes for spans are acceptable only in financial year headings, titles, terms of office, lifespans, technical content with many ranges, or limited-space contexts such as tables, lists, and social media. A violation is an en dash used to represent a span in plain body text or a heading where words would fit.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "exclamation-mark-no-formal",
+      "title": "Do not use exclamation marks in formal government content",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Do not use exclamation marks in formal government content\"?\n\nRule: Exclamation marks are not appropriate in formal government documents such as reports, briefs, or official correspondence. They may appear sparingly in informal or promotional material and social media, but must be avoided where they could create a sense of panic or alarm. A violation is any exclamation mark present in text that is clearly formal or official in tone.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "semicolon-avoid-linking-sentences",
+      "title": "Avoid using semicolons to link sentences; prefer a full stop or comma + conjunction",
+      "category": "grammar-punctuation",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid using semicolons to link sentences\"?\n\nRule: Semicolons that join two independent clauses add unnecessary complexity to government writing. Use a full stop to begin a new sentence, or a comma followed by a coordinating conjunction (and, but, or, so). A semicolon used between two independent clauses is a violation unless the clausal connection is exceptionally close.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "spelling-one-dictionary",
+      "title": "Use one Australian English dictionary consistently throughout a document",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use one Australian English dictionary consistently throughout a document\"?\n\nRule: All spelling must follow a single Australian English dictionary. Mixing spellings from different dictionaries or using non-Australian variants within the same text is a violation. Look for pairs such as organisation/organization, programme/program, recognise/recognize, labour/labor, colour/color.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "spelling-first-listed-variant",
+      "title": "Use the first spelling listed in the preferred dictionary for variable spellings",
+      "category": "grammar-punctuation",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use the first spelling listed in the preferred dictionary for variable spellings\"?\n\nRule: When a word has multiple accepted spellings in the chosen Australian English dictionary, always use the first-listed (preferred) variant. Examples: 'acknowledgement' preferred over 'acknowledgment', 'judgement' over 'judgment', 'focused' over 'focussed'.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "currency-aud-prefix-when-ambiguous",
+      "title": "Use A$ prefix when Australian dollars may be confused with another currency",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use A$ prefix when Australian dollars may be confused with another currency\"?\n\nRule: When Australian dollar amounts appear alongside other dollar-denominated currencies, or in internationally-facing content, use 'A$' with no space between the letter and the symbol. A violation is a bare '$' used when currency ambiguity is genuinely possible.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "currency-inexact-amounts-use-words",
+      "title": "Use words for inexact or approximate money amounts",
+      "category": "numbers-dates",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use words for inexact or approximate money amounts\"?\n\nRule: Approximate or idiomatic money amounts must be expressed in words, not as a currency symbol with an imprecise quantity. For example, write 'thousands of dollars' not '$thousands', and 'several million dollars' not '$several million'.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "decimal-for-precision-not-fraction",
+      "title": "Use decimals (not fractions) when precision is required",
+      "category": "numbers-dates",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use decimals (not fractions) when precision is required\"?\n\nRule: When an exact value is being stated, express it as a decimal numeral, not as a fraction (such as ½, ¾, 1/4, or 7½). Fractions are acceptable only for approximate values. A violation is a fraction in a context where precision is clearly required — measurements, headcounts, financial figures, or statistical results.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "measurement-spell-out-unfamiliar-units-first-use",
+      "title": "Spell out unfamiliar measurement units on first use",
+      "category": "numbers-dates",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Spell out unfamiliar measurement units on first use\"?\n\nRule: If a unit symbol may not be immediately recognisable to the intended audience, the full unit name must be written out on its first appearance with the symbol in brackets — for example, 'decibels (dB)' or 'megapascals (MPa)'. A violation is a specialist unit symbol used without a prior spelled-out definition.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "measurement-avoid-imperial",
+      "title": "Avoid imperial units in Australian content",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid imperial units in Australian content\"?\n\nRule: Australian government content must use metric (SI) units. Imperial units — miles, gallons, inches, feet, yards, pounds, ounces, Fahrenheit — must not be used except when quoting historical documents verbatim or writing specifically for audiences where imperial measures apply.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "organisation-exact-name",
+      "title": "Organisation names are written exactly as the organisation writes them",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Organisation names are written exactly as the organisation writes them\"?\n\nRule: Every organisation's name must appear exactly as the organisation itself writes it — preserving its preferred capitalisation, punctuation, symbols, and ampersands. The only exception is an organisation with an entirely lower-case name, which receives an initial capital in body text.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "name-particles-capitalisation",
+      "title": "Particles in family names follow the person's own preference; capitalise at sentence start",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Particles in family names follow the person's own preference; capitalise at sentence start\"?\n\nRule: Particles in family names (van, de, von, di) are normally lower case but must match the individual's documented preference. Regardless of normal style, a particle must be capitalised when it opens a sentence. Violations: (1) capitalising a particle mid-sentence when the person uses lower case; (2) leaving a particle lower case when it opens a sentence.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "minimize-capitals-principle",
+      "title": "Minimise use of capitals — avoid capitalising for emphasis or perceived importance",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Minimise use of capitals — avoid capitalising for emphasis or perceived importance\"?\n\nRule: Capital letters must be used only where a specific AGSM rule explicitly requires them. Capitalising common nouns, generic job roles, or program descriptions out of deference or emphasis — without a formal-name justification — is a violation. Look for mid-sentence words capitalised with no proper-noun or rule-based justification.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "everyday-words-preferred",
+      "title": "Use everyday words over formal alternatives",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use everyday words over formal alternatives\"?\n\nRule: Choose words that most readers will immediately recognise. Formal or legalistic vocabulary should be replaced with plain equivalents — for example: 'commence' → 'start', 'ascertain' → 'find out', 'pursuant to' → 'under', 'disclose' → 'share', 'disburse' → 'pay', 'prior to' → 'before', 'utilise' → 'use', 'obtain' → 'get', 'endeavour' → 'try', 'advise' → 'tell', 'forthwith' → 'immediately', 'in relation to' → 'about'.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "personal-pronouns-user-facing",
+      "title": "Use personal pronouns in user-facing content",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use personal pronouns in user-facing content\"?\n\nRule: Address readers directly using 'you', and refer to the organisation as 'we' or 'us'. Avoid impersonal constructions or third-person references to the reader such as 'the applicant', 'the user', or 'individuals'. Mark as 'unclear' if the text is clearly internal or not user-facing.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "avoid-jargon",
+      "title": "Avoid jargon, technical terms, and insider language",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid jargon, technical terms, and insider language\"?\n\nRule: Remove specialised terminology, technical jargon, and insider phrases that readers outside a professional group may not understand. Examples: 'leverage synergies', 'pivot', 'deliverables', 'uplift', 'operationalise', 'stakeholder engagement', 'deep dive', 'in this space', 'going forward'. If a technical term is unavoidable, it must be defined on first use.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "avoid-nominalisation",
+      "title": "Use verbs directly rather than verb-derived noun phrases",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use verbs directly rather than verb-derived noun phrases\"?\n\nRule: A nominalisation converts a verb into a noun, requiring extra words and weakening the sentence. Common nominalisations to flag: 'make a decision' (use 'decide'), 'make an application' (use 'apply'), 'provide assistance' (use 'help'), 'conduct an investigation' (use 'investigate'), 'give consideration to' (use 'consider'), 'undertake a review' (use 'review').\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "active-voice-preferred",
+      "title": "Prefer active voice over passive voice",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Prefer active voice over passive voice\"?\n\nRule: In active voice the grammatical subject performs the action, making it clear who is responsible. Passive voice — where the logical actor is absent or placed after the verb using 'by' — should be avoided unless the actor is genuinely unknown or irrelevant. Examples to flag: 'Applications will be reviewed', 'You will be contacted', 'Funds are disbursed', 'Two forms of ID are required'.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "positive-framing",
+      "title": "Frame instructions and information positively, not negatively",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Frame instructions and information positively, not negatively\"?\n\nRule: State what users should or can do, rather than what they cannot or must not do. Flag negative patterns such as 'you cannot ... if you do not ...', 'we won't be able to ... unless ...', 'your application will be rejected if you do not ...' — instead state the required action directly.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "avoid-double-negatives",
+      "title": "Do not use double negatives",
+      "category": "plain-english",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Do not use double negatives\"?\n\nRule: Two negative elements in the same clause force readers to mentally reverse the logic. Replace with a direct positive statement. Examples to flag: 'not unacceptable', 'not uncommon', 'not without merit', 'cannot be rejected', 'not ... not ...', 'it is not unlikely'. Count negatives broadly: 'not', 'un-', 'in-', 'non-', 'never', 'without', 'lack' — two in the same clause is a violation.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "eliminate-unnecessary-words",
+      "title": "Remove words that do not contribute to meaning",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Remove words that do not contribute to meaning\"?\n\nRule: Every word should earn its place. Common padding patterns to flag: hedging adverbs ('happily', 'simply', 'really', 'quite'), filler phrases ('for the purpose of', 'it should be noted that', 'the fact that', 'as the case may be'), redundant qualifiers ('any and all', 'each and every'), and hedging phrases ('might possibly', 'could potentially').\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "subject-verb-object-order",
+      "title": "Follow standard subject-verb-object sentence order",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Follow standard subject-verb-object sentence order\"?\n\nRule: Standard English sentences place the subject first, then the verb, then the object or complement. Flag sentences that bury the logical subject after a long introductory phrase or invert natural word order, for example: 'In respect of all applications received during the intake period, a review was conducted by the department'.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "no-mid-clause-modifiers",
+      "title": "Do not split main clauses with inserted modifying phrases",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Do not split main clauses with inserted modifying phrases\"?\n\nRule: A modifier or subordinate clause inserted between the subject and verb of a main clause slows reading. For example: 'You can, within an hour of applying, delete your application' splits the main clause. Move modifying phrases to the start or end of the sentence instead.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "noun-train-limit",
+      "title": "Avoid noun trains and strings of more than 3 stacked nouns or adjectives",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid noun trains and strings of more than 3 stacked nouns or adjectives\"?\n\nRule: A noun train is a sequence of three or more nouns or adjective-noun combinations stacked together before a head noun — for example: 'human resource reallocation analysis', 'whole-of-government service delivery framework'. Flag any phrase where three or more nouns or nominal modifiers appear in an unbroken sequence before the head noun.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "standard-tone-default",
+      "title": "Default to standard tone for most government content",
+      "category": "plain-english",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Default to standard tone for most government content\"?\n\nRule: Most government content should use a standard tone — direct and clear, neither overly formal nor excessively casual. Flag text that sits clearly at either extreme: overly bureaucratic/legalistic ('the passenger is hereby advised to present themselves') or inappropriately chatty/colloquial ('Why don't you pop in early and grab a seat before things kick off?').\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "second-person-address",
+      "title": "Address individual readers as 'you' rather than 'the applicant' or 'users'",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Address individual readers as 'you' rather than 'the applicant' or 'users'\"?\n\nRule: When content is directed at an individual reader, use the second person 'you' rather than third-person references to the reader: 'the applicant', 'users', 'individuals', 'clients', 'participants'. Mark as 'unclear' if the text is clearly not user-facing (e.g. internal policy, legislation).\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "avoid-metaphors-idioms",
+      "title": "Avoid metaphors and idiomatic expressions",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid metaphors and idiomatic expressions\"?\n\nRule: Metaphors and idioms may confuse readers with English as a second language, cognitive disability, or low literacy. Examples to flag: 'in light of', 'building an army of', 'hit the ground running', 'moving the goalposts', 'cut red tape', 'at the end of the day', 'going forward', 'under the radar', 'on the same page', 'low-hanging fruit', 'drilling down'.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "no-slang-government",
+      "title": "Never use slang in government content",
+      "category": "plain-english",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Never use slang in government content\"?\n\nRule: Slang is always inappropriate in government writing, including social media and blog content. Examples: 'sorted', 'in the bag', 'goss', 'reckon', 'heaps good', 'no worries', 'pop in', 'grab a seat', 'kick off', 'arvo', 'smashing it', 'legend'. Any recognisably informal vernacular constitutes a violation.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "objective-impartial-writing",
+      "title": "Write objectively using facts, not opinion or loaded language",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Write objectively using facts, not opinion or loaded language\"?\n\nRule: Government content must rely on verifiable facts and avoid bias or subjectivity. Flag adjectives and adverbs that convey opinion rather than fact — 'only', 'surprisingly', 'unfortunately', 'tragically', 'unprecedented', 'excellent', 'world-class', 'alarming'. Replace opinion statements with objective, measurable comparators.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "front-load-key-information",
+      "title": "Put the most important information at the start of the content",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Put the most important information at the start of the content\"?\n\nRule: The primary message, key fact, or call to action must appear at the very beginning of the text — not buried mid-paragraph or at the end. A violation is when background context, qualifications, or preamble appear before the main point (e.g. leading with a lengthy process description before stating the outcome). Mark as 'unclear' if the text is too short to assess structure.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "short-paragraphs-one-topic",
+      "title": "Limit each paragraph to one topic; open with a topic sentence",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Limit each paragraph to one topic; open with a topic sentence\"?\n\nRule: Each paragraph must cover a single idea and begin with a topic sentence stating the paragraph's main point. A paragraph that mixes unrelated ideas, or buries the main point mid-paragraph or at the end, violates this rule. Mark as 'unclear' if the text is a single sentence or too short to assess paragraph structure.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "use-lists-for-series",
+      "title": "Present series of items or steps as lists rather than run-on prose",
+      "category": "plain-english",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Present series of items or steps as lists rather than run-on prose\"?\n\nRule: When presenting three or more related items or sequential steps, use a bullet or numbered list rather than embedding them in prose connected by 'and', 'also', 'as well as', or commas. Flag prose sentences that enumerate four or more items inline without a list structure.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "keywords-early-in-headings",
+      "title": "Place keywords in the first 2–3 words of headings; keep headings concise",
+      "category": "plain-english",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Place keywords in the first 2–3 words of headings; keep headings concise\"?\n\nRule: The most meaningful words in a heading must appear within the first 2–3 words. Headings must also be under 70 characters. Violations include headings that open with weak lead-ins such as 'Information about how you can apply for...', 'A guide to understanding...', or 'How to go about...', or headings that exceed 70 characters. Mark as 'unclear' if the text is not clearly a heading.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "reading-level-year7",
+      "title": "Write at approximately Year 7 (age 12–14) reading level",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Write at approximately Year 7 (age 12–14) reading level\"?\n\nRule: Content should be accessible to readers at around Year 7 level, consistent with WCAG 2.1 AAA. Signs of too-high reading level: long polysyllabic words ('concessional', 'pursuant', 'pharmaceutical', 'beneficiaries', 'assessable', 'legislative instrument'), complex nested sentence structures, and dense abstract or legalistic phrasing.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "plain-language-summary-for-complex-content",
+      "title": "Provide a plain language summary when content is technical or complex",
+      "category": "plain-english",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Provide a plain language summary when content is technical or complex\"?\n\nRule: When text contains specialist terminology or complex concepts that cannot be simplified inline, a short plain language summary must be provided — at the start, as inline definitions, or as a glossary. Text that is entirely technical or legalistic with no summary, definition, or glossary is a violation. Mark as 'no_violation' if the text is already in plain language, or 'unclear' if a summary may exist elsewhere on the page.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "inclusive-language-plain-english",
+      "title": "Use inclusive, respectful language for all readers",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use inclusive, respectful language for all readers\"?\n\nRule: Choose words that respect all people, including their identity, rights, and heritage. Flag: 'disabled people' instead of 'people with disability'; gendered pronouns as universal default ('he' or 'his' to mean everyone); terms that stigmatise based on race, gender, age, sexuality, religion, or disability; heteronormative assumptions ('husband or wife' instead of 'partner or spouse'); patronising or pitying language about any group.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "atsi-use-present-tense",
+      "title": "Write about First Nations peoples and cultures in the present tense",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Write about First Nations peoples and cultures in the present tense\"?\n\nRule: First Nations peoples, their cultures, languages, and practices must be described in the present tense unless the sentence refers to a specific, bounded historical event. Using past-tense verbs ('had', 'were', 'spoke', 'gathered', 'believed') applied to First Nations peoples or cultures in a general or timeless sense implies they no longer exist, which is inaccurate and harmful.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "atsi-avoid-possessive-language",
+      "title": "Avoid possessive or 'us versus them' language about First Nations peoples",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid possessive or 'us versus them' language about First Nations peoples\"?\n\nRule: Do not use possessive constructions such as 'our Aboriginal peoples' or 'our Indigenous communities'. Also avoid framing that creates a dichotomy between First Nations people and other Australians, as this perpetuates exclusion.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "atsi-preferred-collective-terms",
+      "title": "Prefer specific or community-endorsed terms over broad labels for First Nations peoples",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Prefer specific or community-endorsed terms over broad labels for First Nations peoples\"?\n\nRule: When referring to First Nations peoples collectively, prefer 'First Nations people', 'First Australians', or 'Aboriginal and/or Torres Strait Islander peoples'. Where possible, name the specific nation, community, or island group. Broad undifferentiated labels such as 'Aboriginals' (as a noun), or 'native Australians' are discouraged. Note: 'Aboriginal and Torres Strait Islander peoples' and 'First Nations' are acceptable.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "atsi-strengths-based-language",
+      "title": "Use empowering, strengths-based language about First Nations peoples and cultures",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use empowering, strengths-based language about First Nations peoples and cultures\"?\n\nRule: Content about First Nations peoples must emphasise strengths, achievements, and continuing connections to culture and country. Avoid deficit framing: 'helping to save Aboriginal culture', 'addressing Aboriginal problems', or language that foregrounds only disadvantage or dysfunction without acknowledging agency and strength.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "age-mention-only-when-relevant",
+      "title": "Only mention a person's age or age group when it is directly relevant",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Only mention a person's age or age group when it is directly relevant\"?\n\nRule: Do not mention a person's specific age or age-based descriptor unless that information is directly necessary to the point being made. If the sentence would make equal sense without the age reference and age is not the subject of the content, the mention is gratuitous. Content where age is explicitly the topic (e.g. age-eligibility rules) is not a violation.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "age-students-by-study-level",
+      "title": "Refer to students by level of study, not age",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Refer to students by level of study, not age\"?\n\nRule: When writing about students, describe them by their level of study ('preschool students', 'high-school students', 'postgraduate students') rather than by age or age-based labels. Age-based descriptors for students — 'mature-age students', 'younger students', 'older students' defined by age rather than study level — violate this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "cald-identity-only-when-relevant",
+      "title": "Mention cultural or linguistic identity only when it is necessary",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Mention cultural or linguistic identity only when it is necessary\"?\n\nRule: A person's cultural background, country of origin, ethnicity, or language should only be mentioned when directly relevant to the content. Foregrounding cultural identity when it is incidental — identifying someone as 'Chinese-born' or 'Vietnamese' when that heritage has no bearing on what is being reported — is othering. Ask: would this be mentioned if the person were Anglo-Australian?\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "cald-migrant-terminology",
+      "title": "Use 'migrants', 'immigrants', or 'new arrivals' only for recent arrivals; not settled citizens",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use migrant/immigrant terminology only for recent arrivals, not settled citizens\"?\n\nRule: Terms like 'migrant', 'immigrant', or 'new arrival' should only be used for people who have recently arrived in Australia. Applying these labels to people described as long-term residents, established community members, or citizens implies permanent outsider status.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "gender-neutral-language",
+      "title": "Use gender-neutral language throughout; avoid gendered assumptions",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use gender-neutral language throughout; avoid gendered assumptions\"?\n\nRule: Writing must not assume or impose a gender in generic contexts. Flag: masculine pronouns ('he', 'his', 'him') as a generic default when gender is unspecified; language implying a profession or activity is exclusively associated with a particular gender; gendered terms when a neutral alternative exists. Note: gendered pronouns are appropriate for a specific named individual whose gender is known.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "gender-singular-they",
+      "title": "Use singular 'they/them' as a gender-neutral pronoun",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use singular 'they/them' as a gender-neutral pronoun\"?\n\nRule: When referring to a person of unspecified or unknown gender in a generic context, use singular 'they', 'them', 'their'. Do not use 'he or she', 'his or her', 'him or her', or 'he/she'. Do not default to 'he' or 'his' alone in generic contexts. This applies to generic third-person references — not to named individuals whose gender is known.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "gender-use-preferred-pronouns",
+      "title": "Learn and use a person's stated pronouns; default to gender-neutral if unknown",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use a person's stated pronouns; default to gender-neutral if unknown\"?\n\nRule: When writing about a specific named individual, use the pronouns they have stated. If the text signals a named person's pronoun preference but uses different pronouns, that is a violation. If no preference is stated, the correct default is singular 'they' — using gendered pronouns ('he' or 'she') for an individual whose preference is unconfirmed is also a violation. This rule applies only to references to specific individuals.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "gender-sex-distinction",
+      "title": "Distinguish clearly between 'gender' and 'sex'; do not use them interchangeably",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Distinguish clearly between 'gender' and 'sex'\"?\n\nRule: 'Gender' refers to social and cultural identity and expression; 'sex' refers to legal status determined at birth. Violations occur when the text clearly uses one term in a context that requires the other — for example, a form field asking for 'gender' where only binary biological options are offered (implying 'sex' is meant), or using 'sex' when describing social identity or expression.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "disability-person-first-default",
+      "title": "Use person-first language for disability by default in Australian Government content",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use person-first language for disability by default\"?\n\nRule: Australian Government content must use person-first language: 'person with disability', 'person who is blind', 'person who is deaf or hard of hearing'. Identity-first constructions ('disabled person', 'blind person', 'deaf person') violate this rule unless there is explicit evidence the specific community or individual has stated a preference for identity-first language.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "disability-no-inspiration-hero-victim",
+      "title": "Do not frame people with disability as inspirational, heroic, or tragic merely because of their disability",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Do not frame people with disability as inspirational, heroic, or tragic merely because of their disability\"?\n\nRule: Do not describe a person as inspirational, brave, or heroic solely because they have a disability. Do not frame people with disability as victims of tragedy or objects of pity. Focus on the person's actual actions and achievements. Phrases like 'despite her disability', 'overcame enormous adversity' (when referring to disability), 'an inspiration to us all' tied to disability status, or 'wheelchair-bound' with heroic framing are violations.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "disability-mention-only-when-relevant",
+      "title": "Mention disability only when it is directly relevant to the content",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Mention disability only when it is directly relevant to the content\"?\n\nRule: A person's disability should only be mentioned when directly pertinent to the point being made. If disability has no bearing on what is being communicated, the mention is gratuitous and reduces the person to a single characteristic. Content explicitly about disability services or accessibility is not a violation.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "disability-neurodiversity-natural-variation",
+      "title": "Frame neurological differences as natural human variation, not deficits",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Frame neurological differences as natural human variation, not deficits\"?\n\nRule: Neurodiversity — autism, ADHD, dyslexia, and other neurological differences — must be framed as natural human variation, not as defects or problems. Violations include: 'suffers from autism', 'struggles with their ADHD disorder', 'managing their condition' in a way that frames neurodivergence purely as impairment. Note: referring to clinical diagnosis or support needs in a clinical context is not automatically a violation.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "headings-frontloaded-keywords",
+      "title": "Headings begin with the most relevant keyword",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Headings begin with the most relevant keyword\"?\n\nRule: The most important keyword(s) must appear at the very start of the heading phrase. Filler openers such as 'Find out about', 'Information about', 'Learn about', or 'Details on' push the key term to a later position and violate this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "headings-descriptive-not-vague",
+      "title": "Headings describe content specifically, not vague filler phrases",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Headings describe content specifically, not vague filler phrases\"?\n\nRule: A heading must specifically describe the topic of the content beneath it. Generic headings such as 'More information', 'Related information', 'Overview', 'Background', or 'Introduction' give no meaningful signal to the reader and violate this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "headings-no-questions",
+      "title": "Avoid phrasing headings as questions",
+      "category": "structuring",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Avoid phrasing headings as questions\"?\n\nRule: Headings should not be written as questions beginning with interrogative words such as 'why', 'how', 'what', 'when', or 'who'. Question-form headings delay the key information; the topic should be stated directly instead.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "headings-no-skipped-levels",
+      "title": "Do not skip heading levels",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Do not skip heading levels\"?\n\nRule: Headings must follow a complete sequential hierarchy — H1 to H2 to H3 to H4. Jumping directly from H1 to H3, H2 to H4, or any other non-sequential step is a violation. Every heading level must appear in order; none may be skipped.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "headings-text-between",
+      "title": "Include at least one sentence between consecutive headings",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Include at least one sentence between consecutive headings\"?\n\nRule: A heading must not immediately follow another heading with no body text in between. At least one sentence of body text must appear between any two consecutive headings at any level.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "headings-parallel-structure",
+      "title": "All headings at the same level share a parallel grammatical structure",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"All headings at the same level share a parallel grammatical structure\"?\n\nRule: Headings at the same hierarchical level within a section must use the same grammatical form — all imperative verbs or all noun phrases. Mixing grammatical forms among headings at the same level violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "lists-parallel-structure",
+      "title": "All items in a list share the same grammatical structure",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"All items in a list share the same grammatical structure\"?\n\nRule: Every item in a list must begin with the same word type (e.g. all imperative verbs or all nouns), use the same tense, and follow the same sentence pattern. Mixing forms — starting one item with an imperative verb, another with a gerund, another with a full sentence — violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "lists-numbered-for-ordered-steps",
+      "title": "Use numbered lists only when sequence matters",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use numbered lists only when sequence matters\"?\n\nRule: Numbered (ordered) lists must only be used when the order of items is meaningful — step-by-step instructions or a ranked sequence. Using a numbered list for items where sequence is arbitrary (e.g. a list of contact options or office locations) violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "paragraphs-one-topic",
+      "title": "Each paragraph covers one topic only",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Each paragraph covers one topic only\"?\n\nRule: A paragraph must be devoted to a single idea or theme. If a paragraph introduces a second distinct topic partway through rather than continuing to develop the same point, it violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "paragraphs-topic-sentence-first",
+      "title": "Each paragraph begins with a topic or transition sentence",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Each paragraph begins with a topic or transition sentence\"?\n\nRule: The opening sentence of every paragraph must either state the paragraph's main point (topic sentence) or explicitly link to the preceding paragraph (transition sentence). A paragraph that opens with background detail, supporting evidence, or a specific example before stating its main point violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "paragraphs-max-length",
+      "title": "Most paragraphs are 2–3 sentences; 6 sentences maximum",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Most paragraphs are 2–3 sentences; 6 sentences maximum\"?\n\nRule: Web and mobile content should limit paragraphs to 2 or 3 sentences; long-form documents may use up to 6. Any paragraph exceeding 6 sentences violates this rule. Single-sentence paragraphs are permitted but should not be overused.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "paragraphs-pronoun-clarity",
+      "title": "Pronouns at the start of a paragraph must have a clear referent",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Pronouns at the start of a paragraph must have a clear referent\"?\n\nRule: When a paragraph opens with a pronoun such as 'this', 'these', 'they', 'it', or 'those', the noun it refers to must be unambiguously established in the immediately preceding text. If the referent is ambiguous, the rule is violated.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "tables-appropriate-use",
+      "title": "Tables are only used for comparative or structured data",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Tables are only used for comparative or structured data\"?\n\nRule: A table should only be used when content is too complex for prose or a list, and when users need to compare values, find exact figures, or understand data categorisation. Using a table for simple information better presented as a sentence or bullet list is a violation.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "tables-cross-reference-in-text",
+      "title": "Reference tables by name in body text; not as 'above' or 'below'",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Reference tables by name in body text; not as 'above' or 'below'\"?\n\nRule: Every table must be referred to in the body text by its number or title (e.g. 'Table 2 shows...'). Using positional language such as 'the table below', 'the table above', or 'see the table' without a name or number violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "tables-complex-summary",
+      "title": "Complex tables include a summary for screen reader users",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Complex tables include a summary for screen reader users\"?\n\nRule: Tables with irregular headers, merged cells, or other structural complexity must include a brief summary describing what the rows and columns represent. A complex table that provides only a short caption and no structural summary violates this rule. Simple tables with straightforward headers do not require a summary.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "links-descriptive-text",
+      "title": "Link text must describe the destination without surrounding context",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Link text must describe the destination without surrounding context\"?\n\nRule: Link text must make sense when read in isolation. Generic link text such as 'click here', 'here', 'read more', 'more information', 'more', 'this link', or 'this page' is not acceptable and violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "links-frontloaded-keywords",
+      "title": "Link text begins with the most descriptive keyword",
+      "category": "structuring",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Link text begins with the most descriptive keyword\"?\n\nRule: The most important word(s) must appear at the very start of link text. Filler openers such as 'Find out about', 'Learn more about', 'Register for our', 'Download the', or 'See the' push the key term to a later position and violate this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "links-deep-link-to-specific-page",
+      "title": "Link directly to the specific page the user needs",
+      "category": "structuring",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Link directly to the specific page the user needs\"?\n\nRule: When linking to another site or service, the link must go directly to the specific page that meets the user's need (deep linking), not to a homepage or top-level landing page. A link that sends the user to a homepage when a more specific destination exists violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "links-no-duplicate-content",
+      "title": "Link to existing content rather than duplicating it",
+      "category": "structuring",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Link to existing content rather than duplicating it\"?\n\nRule: When information already exists on another authoritative page, link to that page rather than reproducing the information. Copying significant blocks of text that are already available elsewhere — instead of linking — violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "callouts-supporting-content-only",
+      "title": "Text boxes hold supporting content, not primary information",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Text boxes hold supporting content, not primary information\"?\n\nRule: Text boxes and callouts are appropriate for summaries, examples, checklists, and definitions — supplementary content. Placing critical information that must be read in sequence exclusively inside a text box or callout violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "callouts-no-overuse",
+      "title": "Use text boxes and callouts sparingly",
+      "category": "structuring",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Use text boxes and callouts sparingly\"?\n\nRule: Text boxes and callouts lose their impact when used too frequently. Using multiple callouts in quick succession — such as a callout after every paragraph — reduces their effectiveness and violates this guideline.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
+    },
+    {
+      "id": "legal-reflist-conditional",
+      "title": "Include a legal reference list only when genuinely needed",
+      "category": "referencing",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-assertion",
+      "evaluation_prompt": "Does the following text violate the AGSM rule: \"Include a legal reference list only when genuinely needed\"?\n\nRule: A formal legal reference list (headed 'Legislation' or 'Legal cases') should only be included when at least one of these conditions is met: readers genuinely need it to understand the content, the content also has a non-legal reference list, or the agency's style guide requires one. Including a formal legal reference list on a short general-audience page where none of these conditions apply violates this rule.\n\nText:\n{{text}}\n\nAnswer with JSON only: {\"verdict\": \"violation\"|\"no_violation\"|\"unclear\", \"explanation\": \"<one sentence max>\"}"
     }
   ]
 }
