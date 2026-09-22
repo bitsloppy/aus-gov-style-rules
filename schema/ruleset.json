@@ -7,9 +7,9 @@
     "compiled_by": "bitsloppy/aus-gov-style-rules",
     "phase": "Phase 2 — deterministic rules (regex + llm-deterministic)",
     "totals": {
-      "rule_count": 184,
-      "regex_count": 83,
-      "llm_deterministic_count": 101
+      "rule_count": 196,
+      "regex_count": 104,
+      "llm_deterministic_count": 92
     }
   },
   "extraction_schema": {
@@ -1984,7 +1984,7 @@
     {
       "id": "headings-sentence-case",
       "title": "Headings use sentence case",
-      "category": "capitalisation",
+      "category": "structuring",
       "severity": "error",
       "action": "block",
       "check_type": "llm-deterministic",
@@ -2010,7 +2010,7 @@
     {
       "id": "headings-no-full-stop",
       "title": "No full stop at the end of headings",
-      "category": "capitalisation",
+      "category": "structuring",
       "severity": "warning",
       "action": "flag",
       "check_type": "regex",
@@ -3401,31 +3401,6 @@
       }
     },
     {
-      "id": "headings-no-full-stop",
-      "title": "No full stop at the end of headings",
-      "description": "Headings must not end with a full stop, even when the heading is phrased as a complete sentence.",
-      "category": "structuring",
-      "severity": "error",
-      "action": "block",
-      "check_type": "regex",
-      "policy_text": "Headings must not end with a full stop.",
-      "when": {
-        "field": "text",
-        "op": "regex",
-        "value": "(?m)^#{1,6}\\s+[^\\n]+\\.$"
-      },
-      "test": {
-        "pass": [
-          "## Apply for a grant",
-          "### How the process works"
-        ],
-        "fail": [
-          "## Apply for a grant.",
-          "### How the process works."
-        ]
-      }
-    },
-    {
       "id": "headings-max-70-chars",
       "title": "Headings are 70 characters or fewer",
       "description": "Each heading should be no longer than 70 characters including spaces.",
@@ -3446,21 +3421,6 @@
         "fail": [
           "## How to successfully apply for a community development grant for your local area in the current financial year"
         ]
-      }
-    },
-    {
-      "id": "headings-sentence-case",
-      "title": "Headings use sentence case",
-      "description": "Headings must use sentence case: capitalise only the first word, proper nouns, and acronyms/initialisms.",
-      "category": "structuring",
-      "severity": "error",
-      "action": "block",
-      "check_type": "llm-deterministic",
-      "policy_text": "Headings must use sentence case, not title case or all-capitals.",
-      "when": {
-        "field": "HEADINGS_SENTENCE_CASE_VIOLATION",
-        "op": "eq",
-        "value": true
       }
     },
     {
