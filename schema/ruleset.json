@@ -1,13 +1,3801 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "AGSM Ruleset",
-  "description": "Compiled AGSM rules in Anthropic cookbook rule engine format",
   "meta": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "agsm_source_date": "2026-09-22",
     "source": "https://www.stylemanual.gov.au/",
     "compiled_by": "bitsloppy/aus-gov-style-rules",
-    "licence": "CC-BY 4.0"
+    "phase": "Phase 2 — deterministic rules (regex + llm-deterministic)",
+    "totals": {
+      "rule_count": 184,
+      "regex_count": 83,
+      "llm_deterministic_count": 101
+    }
   },
-  "rules": []
+  "extraction_schema": {
+    "text": {
+      "type": "string",
+      "description": "The complete text to be evaluated against these rules"
+    }
+  },
+  "derived_fields": {
+    "APOSTROPHE_POSSESSIVE_SINGULAR_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a singular noun that is showing possession but is written without an apostrophe followed by s? For example, 'the committee report' when it should be 'the committee's report'. True = violation. Null if no possessive relationships are expressed or indeterminate.",
+      "source_rule": "apostrophe-possessive-singular"
+    },
+    "APOSTROPHE_POSSESSIVE_PLURAL_S_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text add 's (apostrophe + s) after a plural noun that already ends in s to show possession, when it should use only an apostrophe? For example, 'both committees's reports' instead of 'both committees' reports'. True = violation. Null if indeterminate.",
+      "source_rule": "apostrophe-possessive-plural-s"
+    },
+    "APOSTROPHE_NO_DESCRIPTIVE_PHRASE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use an apostrophe in a descriptive noun phrase where the first noun categorises or describes the second rather than owning it? Examples of violations: 'worker's compensation', 'visitor's book', 'driver's licence'. True = violation. Null if indeterminate.",
+      "source_rule": "apostrophe-no-descriptive-phrase"
+    },
+    "APOSTROPHE_PLURAL_SINGLE_LETTER_DIGIT_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text pluralise a single letter or single digit without an apostrophe + s? For example, 'your is and ts' instead of 'your i's and t's', or '0s and 1s' instead of '0's and 1's'. True = violation. Null if indeterminate.",
+      "source_rule": "apostrophe-plural-single-letter-digit"
+    },
+    "APOSTROPHE_NO_PLACE_NAMES_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text write an official Australian place name with an apostrophe where the official form has none? For example, 'King's Cross' instead of 'Kings Cross'. True = violation. Null if indeterminate.",
+      "source_rule": "apostrophe-no-place-names"
+    },
+    "APOSTROPHE_ITS_CONFUSION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use 'it's' (with apostrophe) when 'its' (without apostrophe) is needed to show possession, or vice versa? For example, 'Put the report in it's place' or 'It's time is now' when 'Its time is now' is intended. True = violation. Null if indeterminate.",
+      "source_rule": "apostrophe-its-its-confusion"
+    },
+    "BRACKETS_NOT_REMOVABLE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain parentheses where the enclosed content is essential to the grammatical completeness of the sentence — i.e. removing the bracketed text would leave the sentence incomplete or change its core meaning? True = violation. Null if indeterminate.",
+      "source_rule": "brackets-parentheses-removable"
+    },
+    "BRACKETS_SQUARE_FOR_INSERTIONS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a quoted passage where editorial insertions or clarifications added by the author/editor are enclosed in round brackets rather than square brackets? True = violation. Null if no quotations with insertions are present.",
+      "source_rule": "brackets-square-for-insertions"
+    },
+    "COLON_BEFORE_LIST_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a list that is introduced either: (a) without a colon when one is needed (phrase lead-in with no colon), or (b) with a colon placed after a verb where the list items naturally complete the sentence and no colon is appropriate (e.g. 'The requirements are: strong communication skills')? True = violation. Null if no lists are present.",
+      "source_rule": "colon-before-list"
+    },
+    "COLON_LOWERCASE_AFTER_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text capitalise the first word after a colon when it is neither a proper noun nor the first word of a complete question sentence? Or does it use lower case after a colon that introduces a complete question sentence? True = violation. Null if indeterminate.",
+      "source_rule": "colon-lowercase-after"
+    },
+    "COMMA_INTRODUCTORY_PHRASE_MISSING": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a sentence that opens with an adverbial phrase, adverbial clause, or other introductory element of more than a few words, where the introductory element is NOT followed by a comma before the main clause? True = violation. Null if indeterminate.",
+      "source_rule": "comma-introductory-phrase"
+    },
+    "COMMA_NON_ESSENTIAL_CLAUSE_MISSING": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a non-essential clause or phrase (one that could be removed without changing the core meaning or grammatical completeness of the sentence) that is NOT surrounded by a matched pair of commas? True = violation. Null if indeterminate.",
+      "source_rule": "comma-non-essential-clause-pair"
+    },
+    "COMMA_OXFORD_OVERUSED": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text include a serial (Oxford) comma — a comma before 'and' or 'or' in a list — where the last item is a simple word or phrase (not itself a compound phrase joined by 'and'), and where omitting the comma would not create ambiguity? True = unnecessary Oxford comma present. Null if indeterminate.",
+      "source_rule": "comma-no-oxford-default"
+    },
+    "COMMA_SPLICE_PRESENT": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text join two complete independent clauses with only a comma — with no coordinating conjunction (and, but, or, so, yet, for, nor) after the comma? True = comma splice present. Null if indeterminate.",
+      "source_rule": "comma-no-splice"
+    },
+    "DASH_COORDINATE_NOUNS_HYPHEN": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use a hyphen where an en dash should be used to join two coordinate nouns (nouns each retaining their full independent meaning together describing one entity or relationship)? Examples of violations: 'Murray-Darling Basin' (should be 'Murray–Darling'), 'student-teacher ratio' (should be 'student–teacher'). True = violation. Null if indeterminate.",
+      "source_rule": "dash-coordinate-nouns-en-not-hyphen"
+    },
+    "FULL_STOP_MISSING_SENTENCE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a complete declarative sentence (not a heading, list item, or caption) that does not end with a full stop, question mark, or exclamation mark? True = violation. Null if indeterminate.",
+      "source_rule": "full-stop-end-of-sentence"
+    },
+    "FULL_STOP_HEADING_CAPTION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a heading, page header, footer, or figure/table caption that ends with a full stop? True = violation. Null if no headings or captions are present.",
+      "source_rule": "full-stop-no-headings-captions"
+    },
+    "HYPHEN_COMPOUND_ADJECTIVE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text either (a) omit a hyphen from a compound adjective that precedes a noun (e.g. 'up to date accounts' instead of 'up-to-date accounts'), or (b) use a hyphen in a compound adjective that follows the noun in predicative position (e.g. 'the accounts are up-to-date' instead of 'up to date')? True = violation. Null if indeterminate.",
+      "source_rule": "hyphen-compound-adjective-before-noun"
+    },
+    "QUOTATION_MARKS_DOUBLE_USED": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use double quotation marks as the primary marks for direct speech or short quotations (rather than single quotation marks, which are Australian government standard)? True = violation. Null if no quoted speech or quotations are present.",
+      "source_rule": "quotation-marks-single-primary"
+    },
+    "QUOTATION_MARKS_BLOCK_WITH_QUOTES": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a block quotation (approximately 30 or more words, formatted as an indented block) that is also enclosed in quotation marks? True = violation (block quotations must not also carry quotation marks). Null if no block quotations are present.",
+      "source_rule": "quotation-marks-block-no-quotes"
+    },
+    "QUOTATION_MARKS_PUNCTUATION_OUTSIDE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text place a full stop, question mark, or comma after a closing quotation mark when that punctuation mark belongs to the quoted text itself (i.e. the punctuation was in the original quotation)? True = violation. Null if indeterminate.",
+      "source_rule": "quotation-marks-punctuation-inside"
+    },
+    "QUOTATION_MARKS_DOUBLE_PUNCTUATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use two end punctuation marks together — for example, an exclamation mark inside the closing quotation mark followed by a full stop, or a question mark outside and a full stop inside — where only one mark should appear? True = violation. Null if indeterminate.",
+      "source_rule": "quotation-marks-one-punctuation-only"
+    },
+    "SEMICOLON_COMPLEX_LIST_NEEDED": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a run-on sentence list where the individual items already contain commas, but the items are separated by commas rather than semicolons, making it hard to see which words belong together in each item? True = violation (semicolons needed to separate items). Null if no complex in-sentence lists are present.",
+      "source_rule": "semicolon-complex-list-with-commas"
+    },
+    "ABBREVIATION_STARTS_SENTENCE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a sentence that begins with an abbreviated word (not an acronym or initialism, but a shortened form of a word such as 'App.', 'Para.', 'Dept.', 'Fig.') rather than the full word? True = violation. Null if indeterminate.",
+      "source_rule": "abbreviation-no-start-sentence"
+    },
+    "ACRONYM_UNDEFINED_FIRST_USE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use an acronym or initialism on what appears to be its first use without spelling out the full term immediately before it (with the short form in parentheses)? Exclude acronyms that are universally understood without definition (e.g. DNA, URL, PDF, GPS, NSW, ACT, QLD, NT, SA, WA, TAS, VIC). True = violation. Null if indeterminate.",
+      "source_rule": "acronym-define-first-use"
+    },
+    "ACRONYM_POSSESSIVE_AT_DEFINITION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use a possessive apostrophe + s or a plural s on an acronym at the very first occurrence where the acronym is being defined (introduced in parentheses after the full term)? True = violation. Null if no acronym definitions are present.",
+      "source_rule": "acronym-avoid-possessive-at-definition"
+    },
+    "CONTRACTION_STARTS_SENTENCE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does any sentence in the text begin with a single-word abbreviated contraction (such as 'Cth', 'Ltd', 'Pty', 'Dept', 'Govt') rather than the full written-out word? Note: grammatical contractions beginning a sentence (e.g. 'Don't', 'Can't') are acceptable and should not be flagged. True = violation. Null if indeterminate.",
+      "source_rule": "contraction-no-abbreviate-sentence-start"
+    },
+    "CONTRACTION_NO_MISUSED": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use the abbreviation 'no' (standing for 'number') in a context where it is NOT immediately followed by a numeral? For example, 'get their manager's no' or 'a no of options' are violations. 'Archive box no 152' is correct. True = violation. Null if 'no' is not used as an abbreviation for 'number'.",
+      "source_rule": "contraction-no-before-numeral"
+    },
+    "NUMERAL_THRESHOLD_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the body text write any number from 2 to 9 as a word ('two', 'three' etc.) rather than a numeral, in a context where neither a sentence-start nor a unit-of-measurement exception applies? Or does it write 'zero' or 'one' as a numeral (0 or 1) rather than as a word? True = violation. Null if indeterminate.",
+      "source_rule": "numeral-threshold-two-and-above"
+    },
+    "DATE_NUMERIC_FORMAT_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain an all-numeric date written in month/day/year order (US format) rather than day/month/year order (Australian format)? For example '6/4/2021' where the intended date is 4 June 2021 is a violation if context makes the US reading likely. True = violation. Null if the date order is ambiguous or indeterminate.",
+      "source_rule": "date-numeric-format-forward-slash"
+    },
+    "YEAR_SPAN_DASH_IN_BODY_TEXT": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the body text (excluding headings, titles, tables, and captions) connect a span of years with an en dash or hyphen rather than 'from ... to' or 'between ... and'? For example, 'the years 2015–2019' in body text is a violation. True = violation. Null if indeterminate.",
+      "source_rule": "year-spans-body-text-use-words"
+    },
+    "TIME_REDUNDANT_AM_PM": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text combine an 'am' or 'pm' indicator with a word that already conveys the same half of the day? For example, '7:30 am tomorrow morning' (redundant 'morning') or '4 pm on Tuesday afternoon' (redundant 'afternoon'). True = violation. Null if indeterminate.",
+      "source_rule": "time-no-redundant-am-pm-words"
+    },
+    "MEASUREMENT_MIXED_SYMBOLS_WORDS": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use a unit symbol mixed with a spelled-out word for the same unit within the same expression? For example, 'square km' instead of 'km²' or 'square kilometres' consistently. True = violation. Null if no measurements are present.",
+      "source_rule": "measurement-no-mixed-symbols-and-words"
+    },
+    "ORDINALS_NUMERAL_BELOW_TENTH": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text write an ordinal number from first to ninth as a numeral (1st through 9th) rather than as a word, in a context that is not a century reference, not a full date expression, and not a space-constrained context like a table? True = violation. Null if indeterminate.",
+      "source_rule": "ordinals-words-first-to-ninth"
+    },
+    "ORDINALS_SUPERSCRIPT_SUFFIX": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use superscript formatting (text raised above the baseline) for ordinal suffixes (st, nd, rd, th)? True = violation. Null if no ordinal numbers are present or superscript cannot be detected.",
+      "source_rule": "ordinals-no-superscript-suffix"
+    },
+    "HEADINGS_SENTENCE_CASE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any heading (Markdown # lines or HTML heading elements) that uses title case (most words capitalised) or all-capitals rather than sentence case (only first word and proper nouns capitalised)? True = violation. Null if no headings present.",
+      "source_rule": "headings-sentence-case"
+    },
+    "BODY_TEXT_SENTENCE_CASE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the body text capitalise any common noun or general adjective that is not a proper noun, an acronym, or the first word of a sentence? Answer true if such incorrect capitalisation is found. Answer null if the text contains only headings or it is impossible to determine.",
+      "source_rule": "body-text-sentence-case"
+    },
+    "PROPER_NOUNS_INITIAL_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does any proper noun (specific name of a person, place, organisation, or official body) appear in this text without initial capitals on each word? Answer true if a proper noun is incorrectly lowercased. Answer null if no proper nouns are present or it is impossible to determine.",
+      "source_rule": "proper-nouns-initial-caps"
+    },
+    "COMMON_NOUNS_LOWERCASE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text incorrectly capitalise a common noun or general adjective that is not a proper noun, acronym, or the first word of a sentence? Answer true if such incorrect capitalisation exists. Answer null if indeterminate.",
+      "source_rule": "common-nouns-lowercase"
+    },
+    "ACRONYM_SPELLED_OUT_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "When an acronym is spelled out in full in this text, is the capitalisation based on the acronym's letters rather than on whether the full form is a proper noun or common noun? Answer true if such a violation exists. Answer null if no acronym expansions are present.",
+      "source_rule": "acronym-spelled-out-caps"
+    },
+    "TITLE_BEFORE_NAME_CAPITALISED_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text either (a) use a lowercase official title immediately before a named individual's name, or (b) capitalise an official title when used generically without a specific named individual following it? Answer true if either violation exists. Answer null if no official titles are present.",
+      "source_rule": "title-before-name-capitalised"
+    },
+    "AUSTRALIAN_GOVERNMENT_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text either (a) use 'the Government' (capitalised) as a standalone generic reference, or (b) use lowercase 'australian government' instead of 'Australian Government' as the formal name? Answer true if either violation exists. Answer null if indeterminate.",
+      "source_rule": "australian-government-caps"
+    },
+    "GOVERNMENT_WORD_IN_NAMES_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text capitalise 'Government' in a context where it is used generically, descriptively, or in plural form rather than as part of a specific formal name? Answer true if such a violation exists. Answer null if indeterminate.",
+      "source_rule": "government-word-in-names"
+    },
+    "BUDGET_CAPITALISATION_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text either (a) use lowercase 'budget' when referring to the specific annual federal or state Budget as an event or document, or (b) capitalise 'Budget' when it functions as a descriptive adjective or appears in plural form? Answer true if either violation exists. Answer null if indeterminate.",
+      "source_rule": "budget-capitalisation"
+    },
+    "CABINET_CROWN_TREASURY_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use lowercase 'cabinet', 'crown', or 'treasury' when referring to the specific Australian government institutions? Answer true if any of these are incorrectly lowercased. Answer null if none of these terms appear.",
+      "source_rule": "cabinet-crown-treasury-caps"
+    },
+    "DEPARTMENTS_AGENCIES_FORMAL_NAME_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text capitalise a generic or subsequent reference to a government department or agency ('the Department', 'the Agency', etc.) when it is not part of the full formal name? Answer true if such incorrect capitalisation appears. Answer null if indeterminate.",
+      "source_rule": "departments-agencies-formal-name"
+    },
+    "FEDERAL_WORD_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text capitalise 'Federal' when it is used as a descriptive adjective rather than as part of a formal proper noun name? Answer true if such a violation exists. Answer null if indeterminate.",
+      "source_rule": "federal-word-caps"
+    },
+    "FEDERATION_CAPITALISATION_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use lowercase 'federation' when referring to Australian Federation in 1901, or capitalise 'Federation' in non-historical contexts? Answer true if either violation exists. Answer null if 'federation/Federation' is not mentioned.",
+      "source_rule": "federation-capitalisation"
+    },
+    "GOVERNMENT_PROGRAMS_TREATIES_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text either fail to capitalise a complete formal program/treaty title, or capitalise a shortened/generic reference to such a program? Answer true if either violation exists. Answer null if indeterminate.",
+      "source_rule": "government-programs-treaties"
+    },
+    "MINISTER_TITLE_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text either capitalise a generic ministerial/secretary reference, or fail to capitalise a complete official title? Answer true if either violation exists. Answer null if indeterminate.",
+      "source_rule": "minister-title-caps"
+    },
+    "CURRENT_HEADS_OF_STATE_TITLES_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use lowercase for a current head of state or prime minister's title, or capitalise it for a former holder or generic reference? Answer true if either violation exists. Answer null if indeterminate.",
+      "source_rule": "current-heads-of-state-titles"
+    },
+    "LEGISLATION_ACT_CAPITALISATION_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use lowercase 'act' when referring to a specific Act of Parliament, or incorrectly capitalise 'Bill', 'Regulation', or 'Ordinance' in generic use? Answer true if either violation exists. Answer null if legislation is not mentioned.",
+      "source_rule": "legislation-act-capitalisation"
+    },
+    "PARLIAMENT_FORMAL_NAMES_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text fail to capitalise a formal parliamentary name, or incorrectly capitalise a generic parliamentary term? Answer true if either violation exists. Answer null if indeterminate.",
+      "source_rule": "parliament-formal-names"
+    },
+    "SENATE_HOUSE_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use lowercase when referring to the Senate, House of Representatives, or equivalent chamber, or capitalise the generic phrase 'houses of parliament'? Answer true if either violation exists. Answer null if these bodies are not mentioned.",
+      "source_rule": "senate-house-caps"
+    },
+    "STATES_TERRITORIES_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text fail to capitalise a state/territory formal name, incorrectly capitalise generic references, or use lowercase 'territory' as the NT short form? Answer true if any violation exists. Answer null if indeterminate.",
+      "source_rule": "states-territories-caps"
+    },
+    "ORGANISATION_GENERIC_REF_LOWERCASE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "After the full formal name of an organisation appears, does any subsequent generic reference incorrectly use capitals? Answer true if such a violation exists. Answer null if indeterminate.",
+      "source_rule": "organisation-generic-ref-lowercase"
+    },
+    "ORGANISATION_THE_ARTICLE_LOWERCASE_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text capitalise 'The' at the start of an organisation name when it appears within body text (not in formal correspondence or an alphabetical list)? Answer true if such a violation exists. Answer null if indeterminate.",
+      "source_rule": "organisation-the-article-lowercase"
+    },
+    "PLACE_NAMES_INITIAL_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text fail to capitalise any word in an official Australian place name, or incorrectly capitalise a generic subsequent reference to the same type of feature? Answer true if such a violation exists. Answer null if indeterminate.",
+      "source_rule": "place-names-initial-caps"
+    },
+    "DUAL_PLACE_NAMES_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text write an official dual place name without spaces around the forward slash, or in the wrong order? Answer true if either violation exists. Answer null if no dual place names are present.",
+      "source_rule": "dual-place-names"
+    },
+    "PERSONAL_NAMES_INITIAL_CAPS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text fail to capitalise a real or fictitious person's name with initial capitals, where the person has not deliberately adopted a non-standard form? Answer true if a personal name is incorrectly lowercased. Answer null if indeterminate.",
+      "source_rule": "personal-names-initial-caps"
+    },
+    "ACRONYM_UNEXPANDED_ON_FIRST_USE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain an acronym or initialism (two or more uppercase letters used as an abbreviation) that appears without being spelled out in full — with the expanded form followed by the short form in parentheses — on its first use? True = violation (unexpanded acronym found on first use). Null if the text contains no acronyms or is too short to determine first-use context.",
+      "source_rule": "expand-acronyms-first-use"
+    },
+    "AVERAGE_SENTENCE_LENGTH_EXCEEDS_15": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a paragraph or passage where the average number of words per sentence substantially exceeds 15? Split the text into sentences at full stops, exclamation marks, and question marks, count the words in each sentence, then compute the average. True = the average clearly exceeds 15 words. Null if the text is a single short sentence or is otherwise too brief to meaningfully assess.",
+      "source_rule": "sentence-length-average"
+    },
+    "SENTENCE_EXCEEDS_25_WORDS": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any individual sentence with more than 25 words? Split the text into sentences at full stops, exclamation marks, and question marks, and count the words in each. True = at least one sentence exceeds 25 words. Null if the text cannot be meaningfully split into sentences.",
+      "source_rule": "sentence-length-maximum"
+    },
+    "ATSI_ITALICISED_LANGUAGE_WORD": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a word or name from a First Nations Australian language — such as a nation name (e.g. Ngunnawal, Wiradjuri, Yolŋu), a place name, or a cultural term — that has been italicised using markdown asterisks (e.g. *Ngunnawal*)? Answer true if such an italicised First Nations language word is found (this is a violation). Answer false if italicised words are present but clearly not from a First Nations language. Answer null if no italicised words appear or if it cannot be determined.",
+      "source_rule": "atsi-no-italics-first-nations-languages"
+    },
+    "AUTHOR_DATE_TOO_MANY_AUTHORS_INTEXT": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain an in-text author-date citation for a work with three or more authors where all author names are listed rather than using only the first author's name followed by 'et al.'? True = violation. Null if no multi-author in-text citations are present.",
+      "source_rule": "author-date-three-plus-et-al-intext"
+    },
+    "AUTHOR_DATE_PAGE_NUMBERS_NOT_DIRECT_QUOTE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text include page numbers in an author-date in-text citation for a paraphrase or summary (not a direct quotation enclosed in quotation marks)? True = violation. Null if no page-numbered citations are present.",
+      "source_rule": "author-date-page-numbers-direct-quote-only"
+    },
+    "AUTHOR_DATE_MULTIPLE_WORKS_ORDER": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a parenthetical citation with multiple works that are separated by semicolons but NOT arranged in alphabetical order by the first author's name? True = violation. Null if no multi-work citations are present.",
+      "source_rule": "author-date-multiple-works-semicolon-alphabetical"
+    },
+    "AUTHOR_DATE_SAME_YEAR_NO_SUFFIX": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text cite the same author twice with the same year, and both citations lack a letter suffix (a, b, etc.) to distinguish them? True = violation. Null if no same-author same-year citations are present.",
+      "source_rule": "author-date-same-author-same-year-letter-suffix"
+    },
+    "AUTHOR_DATE_ORG_FULL_NAME_INTEXT": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does an in-text author-date citation use the full name of an organisation (rather than its recognised shortened form or abbreviation) as the author? True = violation. Null if no organisation-authored citations are present.",
+      "source_rule": "author-date-org-shortened-form-intext"
+    },
+    "AUTHOR_DATE_REFLIST_NAME_FORMAT": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a reference list entry place initials after the family name with a comma between them (e.g. 'Smith, AB'), or include full stops within the initials (e.g. 'A.B. Smith'), rather than placing initials after the family name without a comma and without full stops (e.g. 'Smith AB')? True = violation. Null if no reference list entries are present.",
+      "source_rule": "author-date-reflist-name-format"
+    },
+    "AUTHOR_DATE_TITLE_ITALICS_VIOLATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a reference list entry fail to italicise the title of a complete standalone work (book, report, journal name), or incorrectly italicise the title of a part of a publication (article, chapter, poem) that should be enclosed in single quotation marks instead? True = violation. Null if no reference list entries are present.",
+      "source_rule": "author-date-title-italics-complete-works"
+    },
+    "AUTHOR_DATE_ONLINE_NO_ACCESSED_DATE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a reference list entry for a freely available online source lack an 'accessed [date]' notation at the end? True = violation. Null if no online sources are referenced or indeterminate.",
+      "source_rule": "author-date-online-hyperlink-and-accessed-date"
+    },
+    "AUTHOR_DATE_NEWSPAPER_NO_FULL_DATE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a reference list entry for a newspaper article, blog post, or social media post show only a year (e.g. '2018') rather than a full date (day month year, e.g. '24 May 2018')? True = violation. Null if no such sources are referenced.",
+      "source_rule": "author-date-full-date-for-newspapers-social-media"
+    },
+    "AUTHOR_DATE_REFLIST_ELEMENT_ORDER": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a reference list entry place the publication date before the author name, or the title before the date in a position other than after the author, in a way that does not follow author → date → title → publisher → accessed-date order? True = violation. Null if no reference list entries are present.",
+      "source_rule": "author-date-reflist-element-order"
+    },
+    "DOC_NOTE_MARKER_BEFORE_PUNCTUATION": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text place a footnote or endnote reference marker (superscript number or symbol) before a comma, full stop, or other closing punctuation, rather than after it? True = violation. Null if no footnote/endnote markers are present.",
+      "source_rule": "doc-note-marker-after-punctuation"
+    },
+    "DOC_NOTE_MULTIPLE_CONSECUTIVE_MARKERS": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text place two or more footnote/endnote reference markers consecutively at the same point in the text (e.g. ¹² or ¹,²), rather than combining all citations in a single note? True = violation. Null if no footnote/endnote markers are present.",
+      "source_rule": "doc-note-one-marker-multiple-citations"
+    },
+    "DOC_NOTE_AUTHOR_NAME_FORMAT": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a documentary-note footnote or endnote citation write an author's name with the family name first followed by initials (e.g. 'Smith AB'), rather than initials first followed by the family name (e.g. 'AB Smith')? True = violation. Null if no documentary-note citations are present.",
+      "source_rule": "doc-note-author-name-initials-first"
+    },
+    "DOC_NOTE_SHORT_CITATION_TOO_LONG": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a subsequent (short-form) documentary-note citation include more than the author's family name and a short title — for example, including publisher, date, or full initials? True = violation. Null if no subsequent short-form citations are present.",
+      "source_rule": "doc-note-short-citation-name-and-title-only"
+    },
+    "DOC_NOTE_ELEMENT_ORDER": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does a full documentary-note citation place the publication date immediately after the author name (as in author-date style) rather than after the title? The correct order is: author → title → publisher → date. True = violation. Null if no full documentary-note citations are present.",
+      "source_rule": "doc-note-element-order"
+    },
+    "DOC_NOTE_SECTION_HEADING": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text use a heading other than 'Notes' (such as 'Footnotes', 'Endnotes', 'References', or 'Sources') to head a documentary-note section in digital content? True = violation. Null if no documentary-note section heading is present.",
+      "source_rule": "doc-note-section-notes-heading"
+    },
+    "LEGAL_REFLIST_NOT_SEPARATE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text mix legislation titles and case names in a single reference list rather than separating them into distinct sections headed 'Legislation' and 'Legal cases'? True = violation. Null if no legal reference list is present.",
+      "source_rule": "legal-separate-lists-legislation-cases"
+    },
+    "LEGAL_UNAUTHORISED_TITLE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text cite a piece of legislation using a title that differs from the authorised title on the Federal Register of Legislation or the relevant state/territory legislative database — for example, using an incorrect year, a misspelling, or a variant name? True = violation. Null if no legislation is cited or the authorised title cannot be verified from the text alone.",
+      "source_rule": "legal-use-authorised-titles"
+    },
+    "HEADINGS_MULTIPLE_H1": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain more than one level-1 heading (Markdown # followed by space, or HTML <h1>)? True = violation. Null if heading levels cannot be determined.",
+      "source_rule": "headings-one-h1-per-page"
+    },
+    "LISTS_SINGLE_ITEM": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any list (bulleted or numbered) with exactly one item and no second item following? True = violation. Null if list structure cannot be determined.",
+      "source_rule": "lists-minimum-two-items"
+    },
+    "LISTS_LEAD_IN_MISSING_COLON": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any list introduced by a phrase lead-in (incomplete sentence fragment) where that lead-in does NOT end with a colon? True = violation. Null if no phrase-introduced lists are present.",
+      "source_rule": "lists-lead-in-colon"
+    },
+    "LISTS_FRAGMENT_UPPERCASE_START": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a fragment-style list where any item begins with an uppercase letter that is not a proper noun or acronym? True = violation. Null if the list type cannot be determined.",
+      "source_rule": "lists-fragment-lowercase-start"
+    },
+    "PARAGRAPHS_LONG_SENTENCE": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any sentence in body text (excluding headings and list items) longer than 25 words? Count words in each sentence; if any exceeds 25, answer true. True = violation. Null if sentence boundaries cannot be determined.",
+      "source_rule": "paragraphs-max-sentence-length"
+    },
+    "TABLES_MISSING_CAPTION_OR_HEADERS": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any table missing either a descriptive caption/title OR row/column headings? True = violation. Null if no tables present.",
+      "source_rule": "tables-must-have-caption-and-headers"
+    },
+    "TABLES_EMPTY_CELL": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain any table with at least one completely empty cell (no text, number, 'nil', 'n/a', or '0')? True = violation. Null if no tables present.",
+      "source_rule": "tables-no-empty-cells"
+    },
+    "TABLES_COLOUR_ONLY_MEANING": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text describe or contain a table where colour alone (no accompanying text label) conveys meaning in cells? True = violation. Null if no tables present.",
+      "source_rule": "tables-no-colour-only-meaning"
+    },
+    "TABLES_NESTED": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text contain a table with another table nested inside one of its cells? True = violation. Null if no tables present.",
+      "source_rule": "tables-no-nested-tables"
+    },
+    "CALLOUTS_WORD_FLOATING_TEXTBOX": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "judge": "Does the text describe content placed in a floating text box via Insert > Text Box in Word or PowerPoint, rather than an accessible bordered paragraph style or one-by-one table? True = violation. Null if document type cannot be determined.",
+      "source_rule": "callouts-no-word-floating-textboxes"
+    }
+  },
+  "rules": [
+    {
+      "id": "apostrophe-possessive-singular",
+      "title": "Singular noun possession uses apostrophe + s",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "APOSTROPHE_POSSESSIVE_SINGULAR_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "apostrophe-possessive-proper-name-s",
+      "title": "Proper names ending in s still take apostrophe + s",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Proper names ending in s take apostrophe + s (e.g. Burns's, James's). The form 'Burns'' with apostrophe only is incorrect.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[A-Z][a-z]+s'\\s"
+      }
+    },
+    {
+      "id": "apostrophe-possessive-plural-s",
+      "title": "Plural nouns ending in s take apostrophe only",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "APOSTROPHE_POSSESSIVE_PLURAL_S_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "apostrophe-no-possessive-pronouns",
+      "title": "Possessive pronouns never take an apostrophe",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Possessive pronouns (its, yours, theirs, ours, hers, whose) never take an apostrophe. 'it's' = it is; 'its' = possessive.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(your's|their's|our's|her's|who's\\s+(?!going|coming|there|here|this|that|the|a|an|been|got|had|has|have))\\b"
+      }
+    },
+    {
+      "id": "apostrophe-no-descriptive-phrase",
+      "title": "Descriptive noun phrases do not use an apostrophe",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "APOSTROPHE_NO_DESCRIPTIVE_PHRASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "apostrophe-no-plural-nouns",
+      "title": "Do not use an apostrophe to make a noun plural",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Apostrophes never form the plural of ordinary nouns, decade names, or shortened forms.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:19|20)\\d{2}'s\\b"
+      }
+    },
+    {
+      "id": "apostrophe-plural-single-letter-digit",
+      "title": "Use apostrophe + s to pluralise single letters and single digits",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "APOSTROPHE_PLURAL_SINGLE_LETTER_DIGIT_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "apostrophe-plural-acronym-no-apostrophe",
+      "title": "Plural of an acronym uses plain s, not apostrophe + s",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Pluralise acronyms with a plain lowercase s, no apostrophe: MPs not MP's, LGAs not LGA's.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[A-Z]{2,}'s\\b"
+      }
+    },
+    {
+      "id": "apostrophe-no-place-names",
+      "title": "Australian place names do not use apostrophes",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "APOSTROPHE_NO_PLACE_NAMES_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "apostrophe-its-its-confusion",
+      "title": "Distinguish it's (contraction) from its (possessive determiner)",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "APOSTROPHE_ITS_CONFUSION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "brackets-parentheses-removable",
+      "title": "Only use brackets when bracketed text can be removed without changing meaning",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "BRACKETS_NOT_REMOVABLE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "brackets-square-for-insertions",
+      "title": "Use square brackets to mark insertions in quoted text",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "BRACKETS_SQUARE_FOR_INSERTIONS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "brackets-sic-square",
+      "title": "Use square brackets with italicised sic to flag errors in quoted text",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "[sic] must appear in square brackets, not round parentheses.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\(sic\\)"
+      }
+    },
+    {
+      "id": "brackets-nested-use-square",
+      "title": "Use square brackets, not double parentheses, when nesting inside parentheses",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Nested parenthetical information uses square brackets inside round brackets, not double round brackets.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\([^()]*\\([^()]*\\)[^()]*\\)"
+      }
+    },
+    {
+      "id": "colon-before-list",
+      "title": "Use a colon to introduce a list correctly",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COLON_BEFORE_LIST_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "colon-lowercase-after",
+      "title": "Use lower case after a colon unless a proper noun or full question follows",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COLON_LOWERCASE_AFTER_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "colon-ratio-no-space",
+      "title": "Write mathematical ratios with a colon and no surrounding spaces",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Ratios use a colon with no spaces: 50:50 not 50 : 50.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\d+\\s+:\\s+\\d+"
+      }
+    },
+    {
+      "id": "comma-introductory-phrase",
+      "title": "Place a comma after introductory phrases and clauses",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COMMA_INTRODUCTORY_PHRASE_MISSING",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "comma-non-essential-clause-pair",
+      "title": "Enclose non-essential clauses with a pair of commas",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COMMA_NON_ESSENTIAL_CLAUSE_MISSING",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "comma-no-oxford-default",
+      "title": "Omit the Oxford (serial) comma unless needed to prevent ambiguity",
+      "category": "grammar-punctuation",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COMMA_OXFORD_OVERUSED",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "comma-no-splice",
+      "title": "Do not join two independent sentences with only a comma (comma splice)",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COMMA_SPLICE_PRESENT",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "comma-numbers-four-digits",
+      "title": "Use commas to group digits in numbers of 4 or more digits",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Numbers of 4+ digits use commas every 3 digits from the right. Do not use spaces as separators.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{4,}\\b(?![,.]\\d)(?![\\d,])"
+      }
+    },
+    {
+      "id": "comma-no-latin-abbreviation",
+      "title": "Do not follow Latin shortened forms (e.g., i.e.) with a comma",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Latin shortened forms inside parentheses (e.g., i.e.) must not be followed by a comma.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\((?:e\\.g\\.|i\\.e\\.|viz\\.|cf\\.),"
+      }
+    },
+    {
+      "id": "dash-financial-year-format",
+      "title": "Write financial years as 4-digit–2-digit with an unspaced en dash",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Financial year spans use four digits, an en dash, then two digits: 2022–23 not 2022-23 or 2022/23.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b20\\d{2}[-/]\\d{2}\\b"
+      }
+    },
+    {
+      "id": "dash-spaced-en-not-em",
+      "title": "Use a spaced en dash, not an em dash, for parenthetical information",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Australian government style uses a spaced en dash (space–space) for parenthetical asides. Unspaced em dashes are not standard.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\S—\\S|\\s—\\S|\\S—\\s"
+      }
+    },
+    {
+      "id": "dash-coordinate-nouns-en-not-hyphen",
+      "title": "Join coordinate nouns with an en dash, not a hyphen",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DASH_COORDINATE_NOUNS_HYPHEN",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "ellipsis-three-dots-symbol",
+      "title": "Use the single ellipsis character (…), not three separate full stops",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Use the ellipsis character (…) not three separate full stops (...).",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\.{3}"
+      }
+    },
+    {
+      "id": "ellipsis-spaces",
+      "title": "Place a single space before and after an ellipsis",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "An ellipsis must have a single space on each side.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "[^\\s]…|…[^\\s!?]"
+      }
+    },
+    {
+      "id": "ellipsis-no-following-punctuation",
+      "title": "Do not follow an ellipsis with a full stop, comma, or semicolon",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "After an ellipsis, do not add a full stop, comma, or semicolon.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "…[.,;]"
+      }
+    },
+    {
+      "id": "exclamation-mark-single-only",
+      "title": "Use only one exclamation mark per sentence — never two or more",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Only one exclamation mark may follow a sentence. Multiple consecutive exclamation marks are not acceptable.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "!!+"
+      }
+    },
+    {
+      "id": "full-stop-end-of-sentence",
+      "title": "End every declarative sentence with a full stop",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "FULL_STOP_MISSING_SENTENCE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "full-stop-no-url-or-email",
+      "title": "Do not add a full stop after a standalone URL or email address",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "A standalone URL or email address on its own line must not be followed by a full stop.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?:https?://[^\\s]+|[\\w.+-]+@[\\w-]+\\.[\\w.-]+)\\.\\s*$"
+      }
+    },
+    {
+      "id": "full-stop-not-in-link-text",
+      "title": "Do not include a full stop inside hyperlink text",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "The full stop that closes a sentence goes after the closing tag of a hyperlink, not inside the link text.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\[[^\\]]+\\.\\]\\("
+      }
+    },
+    {
+      "id": "full-stop-no-headings-captions",
+      "title": "Do not end headings, captions, or units of measurement with a full stop",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "FULL_STOP_HEADING_CAPTION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "hyphen-compound-adjective-before-noun",
+      "title": "Hyphenate compound adjectives before a noun but not when they follow the noun",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "HYPHEN_COMPOUND_ADJECTIVE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "hyphen-prefix-same-vowel",
+      "title": "Use a hyphen when a prefix ends and the base word begins with the same vowel",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Single-syllable prefixes that end in the same vowel as the base word begins require a hyphen (e.g. de-emphasise, re-enter, pre-eminent).",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:de|re|pre|co|pro|anti)(?:e[aeiou]|[aiu][aeiou])\\w"
+      }
+    },
+    {
+      "id": "hyphen-prefix-capital",
+      "title": "Hyphenate a prefix when it attaches to a word beginning with a capital letter",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "When a prefix attaches to a proper noun or other word beginning with a capital letter, always use a hyphen.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:un|non|anti|pro|pre|post|ex|neo|semi|sub|super)(?!-)[A-Z]"
+      }
+    },
+    {
+      "id": "hyphen-ex-prefix-always",
+      "title": "Always hyphenate the prefix ex- when it means former",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Every word formed with 'ex-' meaning 'former' requires a hyphen: ex-president not expresident.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bex(?!-(?:act|am|cept|cess|change|cite|claim|clude|clus|haust|ist|pect|plain|plore|port|press|tend|tra|treme|ude|ult))(?!act|am|cept|cess|change|cite|claim|clude|clus|haust|ist|pect|plain|plore|port|press|tend|tra|treme|ude|ult)[a-z]"
+      }
+    },
+    {
+      "id": "hyphen-no-ly-adverb-participle",
+      "title": "Do not hyphenate a compound where an adverb ending in -ly modifies a participle",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Adverbs ending in -ly before a participle are not hyphenated (e.g. fully loaded, rapidly declining). Exceptions: fully-fashioned, fully-fledged.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?!fully-fashioned|fully-fledged)[a-z]+ly-[a-z]+(?:ed|ing)\\b"
+      }
+    },
+    {
+      "id": "hyphen-numbers-21-99",
+      "title": "Hyphenate written-out numbers from twenty-one to ninety-nine",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Written-out numbers between 21 and 99 must be hyphenated: twenty-one not twenty one.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\\s+(?:one|two|three|four|five|six|seven|eight|nine)\\b"
+      }
+    },
+    {
+      "id": "hyphen-no-hanging",
+      "title": "Repeat shared words rather than using hanging (floating) hyphens",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Avoid hanging hyphens such as 'full- and part-time'. Repeat the full word: 'full-time and part-time'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[a-z]+-\\s+(?:and|or)\\s+[a-z]+-[a-z]+"
+      }
+    },
+    {
+      "id": "quotation-marks-single-primary",
+      "title": "Use single quotation marks for direct speech and short quotations",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "QUOTATION_MARKS_DOUBLE_USED",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "quotation-marks-block-no-quotes",
+      "title": "Block quotations (approx. 30+ words) are formatted without quotation marks",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "QUOTATION_MARKS_BLOCK_WITH_QUOTES",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "quotation-marks-punctuation-inside",
+      "title": "Punctuation belonging to quoted text goes inside the closing quotation mark",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "QUOTATION_MARKS_PUNCTUATION_OUTSIDE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "quotation-marks-one-punctuation-only",
+      "title": "Use only one end punctuation mark when quotation and sentence marks conflict",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "QUOTATION_MARKS_DOUBLE_PUNCTUATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "semicolon-no-list-items",
+      "title": "Do not end bullet or numbered list items with semicolons",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "List items must not end with a semicolon.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^[-*+•]\\s+[^\\n]+;\\s*$"
+      }
+    },
+    {
+      "id": "semicolon-complex-list-with-commas",
+      "title": "Use semicolons to separate items in a complex sentence list when items contain commas",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "SEMICOLON_COMPLEX_LIST_NEEDED",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "abbreviation-no-full-stop",
+      "title": "Do not add a full stop after most abbreviations",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Abbreviations do not take a full stop in Australian government style (e.g. 'misc' not 'misc.', 'para' not 'para.').",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:misc|para|approx|dept|govt|no|vol|chap|figs?|app|ed|etc|asst|mgr|dir|assoc|corp|pty|ltd|inc|bros)\\.[\\s,;]"
+      }
+    },
+    {
+      "id": "abbreviation-no-start-sentence",
+      "title": "Do not begin a sentence with an abbreviation",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ABBREVIATION_STARTS_SENTENCE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "acronym-define-first-use",
+      "title": "Define acronyms and initialisms at first use",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ACRONYM_UNDEFINED_FIRST_USE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "acronym-no-full-stop",
+      "title": "Do not place full stops within or after acronyms and initialisms",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Acronyms and initialisms are written without full stops between or after the letters.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:[A-Z]\\.){2,}"
+      }
+    },
+    {
+      "id": "acronym-avoid-possessive-at-definition",
+      "title": "Avoid possessive or plural forms of an acronym when first defining it",
+      "category": "grammar-punctuation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ACRONYM_POSSESSIVE_AT_DEFINITION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "contraction-no-full-stop",
+      "title": "Do not add a full stop after a contraction unless it ends the sentence",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Contractions (Dr, Ltd, Cth, Pty) do not take a trailing full stop mid-sentence.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:Dr|Mr|Mrs|Ms|Prof|Pty|Ltd|Cth|Dept|Govt|Assoc|Bros)\\.[\\s,;]"
+      }
+    },
+    {
+      "id": "contraction-single-apostrophe-only",
+      "title": "Use only one apostrophe in a grammatical contraction",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "A grammatical contraction uses exactly one apostrophe. 'sha'n't' and 'wo'n't' are incorrect.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\w+'\\w+[']\\w+\\b"
+      }
+    },
+    {
+      "id": "contraction-no-abbreviate-sentence-start",
+      "title": "Do not start a sentence with a single-word contraction; write the full word",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "CONTRACTION_STARTS_SENTENCE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "contraction-no-before-numeral",
+      "title": "Use the contraction 'no' (for number) only immediately before a numeral",
+      "category": "grammar-punctuation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "CONTRACTION_NO_MISUSED",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "numeral-threshold-two-and-above",
+      "title": "Use numerals for 2 and above in body text",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "NUMERAL_THRESHOLD_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "number-at-sentence-start-use-words",
+      "title": "Write numbers as words when starting a sentence",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^\\d+\\s+[A-Za-z]"
+      }
+    },
+    {
+      "id": "comma-separator-four-or-more-digits",
+      "title": "Use commas to group digits in numbers with 4 or more digits",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{1,3}(?: \\d{3})+\\b"
+      }
+    },
+    {
+      "id": "currency-symbol-no-space-before-numeral",
+      "title": "No space between currency symbol and numeral",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?:A?\\$|US\\$|£|€)\\s+\\d"
+      }
+    },
+    {
+      "id": "currency-decimal-always-two-places",
+      "title": "Use exactly two decimal places for decimal currency amounts",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\$0\\.[0-9](?!\\d)"
+      }
+    },
+    {
+      "id": "currency-no-symbol-and-iban-together",
+      "title": "Do not use both a currency symbol and an IBAN code",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?:\\$|£|€)\\s*[\\d,.]+\\s+(?:USD|AUD|GBP|EUR|NZD)\\b|\\b(?:USD|AUD|GBP|EUR|NZD)\\s*[\\d,.]+\\s*(?:\\$|£|€)"
+      }
+    },
+    {
+      "id": "date-format-day-month-year",
+      "title": "Write dates in day month year order with no commas",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{1,2},\\s+\\d{4}"
+      }
+    },
+    {
+      "id": "date-no-ordinal-suffix-in-full-dates",
+      "title": "Do not use ordinal suffixes in full date expressions",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{1,2}(?:st|nd|rd|th)\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\b"
+      }
+    },
+    {
+      "id": "date-no-abbreviation-in-body-text",
+      "title": "Do not abbreviate month or day names in body text",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{1,2}\\s+(?:Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\.?\\b|\\b(?:Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\.?\\s+\\d{1,2}\\b"
+      }
+    },
+    {
+      "id": "date-numeric-format-forward-slash",
+      "title": "Use forward slash (d/m/yyyy) for all-numeric dates",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DATE_NUMERIC_FORMAT_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "decades-no-apostrophe",
+      "title": "Write decades with an 's' — no apostrophe for the plural",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:19|20)\\d{2}'s\\b"
+      }
+    },
+    {
+      "id": "year-spans-body-text-use-words",
+      "title": "Use 'from … to' or 'between … and' for year spans in body text",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "YEAR_SPAN_DASH_IN_BODY_TEXT",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "financial-year-en-dash",
+      "title": "Use an unspaced en dash for financial year spans",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:19|20)\\d{2}[-/]\\d{2}\\b"
+      }
+    },
+    {
+      "id": "year-written-in-full",
+      "title": "Write years as full four-digit numerals",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "'\\d{2}\\b(?![\\s]?(?:am|pm|km|kg|cm|mm))"
+      }
+    },
+    {
+      "id": "time-colon-separator",
+      "title": "Use a colon (not a full stop) to separate hours and minutes",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{1,2}\\.\\d{2}\\s*(?:am|pm|AM|PM)\\b"
+      }
+    },
+    {
+      "id": "time-am-pm-lowercase",
+      "title": "Write 'am' and 'pm' in lowercase",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{1,2}(?::\\d{2})?\\s*(?:AM|PM|Am|Pm)\\b"
+      }
+    },
+    {
+      "id": "time-no-redundant-am-pm-words",
+      "title": "Do not combine 'am' or 'pm' with words that repeat their meaning",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "TIME_REDUNDANT_AM_PM",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "time-noon-midday-midnight",
+      "title": "Use 'noon', 'midday' or 'midnight' instead of '12 am' or '12 pm'",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b12\\s*(?:am|pm|AM|PM)\\b"
+      }
+    },
+    {
+      "id": "time-24hr-clock-leading-zero",
+      "title": "24-hour clock times always use four digits with a leading zero",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[1-9]:[0-5]\\d\\b(?!\\s*(?:am|pm|AM|PM))"
+      }
+    },
+    {
+      "id": "time-24hr-no-am-pm",
+      "title": "Do not add 'am' or 'pm' to 24-hour clock times",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:[01]\\d|2[0-3]):[0-5]\\d\\s+(?:am|pm|AM|PM)\\b"
+      }
+    },
+    {
+      "id": "decimal-leading-zero",
+      "title": "Include a leading zero before the decimal point for values less than one",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?<![\\d])\\.[0-9]+"
+      }
+    },
+    {
+      "id": "decimal-full-stop-not-comma",
+      "title": "Use a full stop (not a comma) as the decimal separator",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d+,\\d{2}\\b(?!\\d)(?!,)"
+      }
+    },
+    {
+      "id": "measurement-non-breaking-space",
+      "title": "Use a space between a number and its unit of measurement",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d+(?:km|kg|cm|mm|mg|ml|kW|MW|GB|MB|kB|Hz|MHz|ha|kPa|MPa|kJ|MJ|kWh|MWh)\\b"
+      }
+    },
+    {
+      "id": "measurement-no-plural-s-on-symbols",
+      "title": "Do not add 's' to unit symbols to indicate the plural",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d+\\s*(?:kms|cms|mms|kgs|gms|mgs|mls|hrs)\\b"
+      }
+    },
+    {
+      "id": "measurement-no-full-stop-after-unit",
+      "title": "Do not place a full stop after a unit symbol mid-sentence",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d+\\s*(?:km|kg|cm|mm|mg|ml|kW|MW|L|m|g|t|ha)\\.[^\\s\\d]"
+      }
+    },
+    {
+      "id": "measurement-no-mixed-symbols-and-words",
+      "title": "Do not mix unit symbols with words for the same unit",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "MEASUREMENT_MIXED_SYMBOLS_WORDS",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "ordinals-words-first-to-ninth",
+      "title": "Spell out ordinals from 'first' to 'ninth'; use numerals from '10th' onwards",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ORDINALS_NUMERAL_BELOW_TENTH",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "ordinals-centuries-always-numeral",
+      "title": "Use numerals for ordinals with centuries",
+      "category": "numbers-dates",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)\\s+century\\b"
+      }
+    },
+    {
+      "id": "ordinals-no-superscript-suffix",
+      "title": "Do not write ordinal suffixes in superscript",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ORDINALS_SUPERSCRIPT_SUFFIX",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "ordinals-not-in-full-dates",
+      "title": "Do not use ordinal suffixes in full date expressions",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d{1,2}(?:st|nd|rd|th)\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\b"
+      }
+    },
+    {
+      "id": "ordinals-regnal-not-as-ordinal",
+      "title": "Use Roman numerals for regnal numbers — not ordinal form",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[A-Z][a-z]+\\s+[IVXLCDM]+(?:st|nd|rd|th)\\b"
+      }
+    },
+    {
+      "id": "percentage-numeral-and-symbol-no-space",
+      "title": "Write percentages as a numeral followed immediately by the % sign",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b\\d+(?:\\.\\d+)?\\s+%"
+      }
+    },
+    {
+      "id": "percentage-no-fraction-with-symbol",
+      "title": "Use decimals (not fractions) alongside the percentage sign",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\d+\\/\\d+\\s*%|[½⅓⅔¼¾]\\s*%"
+      }
+    },
+    {
+      "id": "percentage-per-cent-two-words",
+      "title": "Write 'per cent' as two words in Australian English",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bpercent\\b"
+      }
+    },
+    {
+      "id": "percentage-use-percentage-as-noun",
+      "title": "Use 'percentage' as the noun form — not 'per cent'",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:the|a|this|that|any|some)\\s+per cent\\b"
+      }
+    },
+    {
+      "id": "phone-no-phonewords",
+      "title": "Display telephone numbers as digits only — no phone words",
+      "category": "numbers-dates",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:13|1300|1800)\\s+[A-Z]{3,}\\b"
+      }
+    },
+    {
+      "id": "headings-sentence-case",
+      "title": "Headings use sentence case",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "HEADINGS_SENTENCE_CASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "headings-no-all-caps",
+      "title": "No all-capitals in headings",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[A-Z]{2,}(?:\\s+[A-Z]{2,})+\\b"
+      }
+    },
+    {
+      "id": "headings-no-full-stop",
+      "title": "No full stop at the end of headings",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\.$"
+      }
+    },
+    {
+      "id": "body-text-sentence-case",
+      "title": "Body text uses sentence case",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "BODY_TEXT_SENTENCE_CASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "proper-nouns-initial-caps",
+      "title": "Proper nouns take initial capitals on each word",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "PROPER_NOUNS_INITIAL_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "common-nouns-lowercase",
+      "title": "Common nouns and adjectives stay in lower case",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "COMMON_NOUNS_LOWERCASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "acronym-spelled-out-caps",
+      "title": "Spelled-out acronyms follow proper/common noun rules",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ACRONYM_SPELLED_OUT_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "title-before-name-capitalised",
+      "title": "Official titles immediately before a name are capitalised",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "TITLE_BEFORE_NAME_CAPITALISED_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "australian-government-caps",
+      "title": "'Australian Government' is capitalised; 'government' alone is not",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUSTRALIAN_GOVERNMENT_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "government-word-in-names",
+      "title": "'Government' is only capitalised when part of a formal name",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "GOVERNMENT_WORD_IN_NAMES_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "budget-capitalisation",
+      "title": "'Budget' is capitalised when referring to the annual federal Budget",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "BUDGET_CAPITALISATION_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "cabinet-crown-treasury-caps",
+      "title": "'Cabinet', 'Crown', and 'Treasury' are always capitalised",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "CABINET_CROWN_TREASURY_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "commonwealth-capitalisation",
+      "title": "'Commonwealth' is always capitalised; 'Commonwealth government' is not used",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bCommonwealth\\s+government\\b"
+      }
+    },
+    {
+      "id": "departments-agencies-formal-name",
+      "title": "Department and agency formal names are capitalised; generic references are not",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DEPARTMENTS_AGENCIES_FORMAL_NAME_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "federal-word-caps",
+      "title": "'Federal' is capitalised only in formal names",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "FEDERAL_WORD_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "federation-capitalisation",
+      "title": "'Federation' is capitalised only when referring to Australia's 1901 Federation",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "FEDERATION_CAPITALISATION_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "government-programs-treaties",
+      "title": "Full names of government programs, treaties and protocols are capitalised",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "GOVERNMENT_PROGRAMS_TREATIES_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "minister-title-caps",
+      "title": "Minister and secretary titles are capitalised in full; generic references are not",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "MINISTER_TITLE_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "current-heads-of-state-titles",
+      "title": "Titles of current heads of state and prime ministers are capitalised",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "CURRENT_HEADS_OF_STATE_TITLES_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "legislation-act-capitalisation",
+      "title": "'Act' is always capitalised",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "LEGISLATION_ACT_CAPITALISATION_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "parliament-formal-names",
+      "title": "Formal parliamentary names are capitalised; generic terms are not",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "PARLIAMENT_FORMAL_NAMES_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "senate-house-caps",
+      "title": "'Senate' and 'House of Representatives' are always capitalised",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "SENATE_HOUSE_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "states-territories-caps",
+      "title": "State and territory formal names are capitalised; generic references are not",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "STATES_TERRITORIES_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "organisation-generic-ref-lowercase",
+      "title": "Generic references to organisations use lower case",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ORGANISATION_GENERIC_REF_LOWERCASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "organisation-the-article-lowercase",
+      "title": "'The' in an organisation name uses lower case in body text",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "ORGANISATION_THE_ARTICLE_LOWERCASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "place-names-initial-caps",
+      "title": "Australian place names use initial capitals",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "PLACE_NAMES_INITIAL_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "dual-place-names",
+      "title": "Official dual place names use a spaced forward slash",
+      "category": "capitalisation",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DUAL_PLACE_NAMES_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "personal-names-initial-caps",
+      "title": "Personal names use initial capitals",
+      "category": "capitalisation",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "PERSONAL_NAMES_INITIAL_CAPS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "filler-phrases-banned",
+      "title": "Replace verbose filler phrases with plain alternatives",
+      "description": "A set of common bureaucratic and verbose phrases must be replaced with shorter plain equivalents.",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace verbose filler phrases with plain equivalents (e.g. 'in order to' → 'to', 'prior to' → 'before', 'utilise' → 'use', 'commence' → 'start').",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(in order to|due to the fact that|at this point in time|in the event that|prior to|utilise|assist|commence|subsequent to|in relation to|obtain)\\b"
+      },
+      "test": {
+        "pass": [
+          "Apply before the deadline to get the benefit.",
+          "Contact us because we need more information."
+        ],
+        "fail": [
+          "Apply prior to the deadline in order to obtain the benefit.",
+          "Due to the fact that we require additional information, please contact us."
+        ]
+      }
+    },
+    {
+      "id": "expand-acronyms-first-use",
+      "title": "Spell out all acronyms and initialisms on first use",
+      "description": "Every acronym or initialism must appear in full on its first use, with the short form in parentheses immediately after.",
+      "category": "plain-english",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Spell out every acronym or initialism in full on first use, immediately followed by the short form in parentheses.",
+      "when": {
+        "field": "ACRONYM_UNEXPANDED_ON_FIRST_USE",
+        "op": "eq",
+        "value": true
+      },
+      "test": {
+        "pass": [
+          "The Digital Transformation Agency (DTA) helps government agencies."
+        ],
+        "fail": [
+          "The DTA helps government agencies build digital services."
+        ]
+      }
+    },
+    {
+      "id": "sentence-length-average",
+      "title": "Keep average sentence length to approximately 15 words",
+      "description": "Sentences should average around 15 words.",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "policy_text": "Average sentence length across a paragraph or passage should be approximately 15 words.",
+      "when": {
+        "field": "AVERAGE_SENTENCE_LENGTH_EXCEEDS_15",
+        "op": "eq",
+        "value": true
+      },
+      "test": {
+        "pass": [
+          "Submit your form online. You will get a confirmation email within 24 hours."
+        ],
+        "fail": [
+          "Applications submitted after the closing date will generally not be accepted unless there are exceptional circumstances, in which case the applicant should contact the relevant department."
+        ]
+      }
+    },
+    {
+      "id": "sentence-length-maximum",
+      "title": "No individual sentence should exceed 25 words",
+      "description": "Individual sentences must not exceed 25 words.",
+      "category": "plain-english",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "No individual sentence may exceed 25 words.",
+      "when": {
+        "field": "SENTENCE_EXCEEDS_25_WORDS",
+        "op": "eq",
+        "value": true
+      },
+      "test": {
+        "pass": [
+          "You can apply online or by post."
+        ],
+        "fail": [
+          "If you are applying for a concession card and you are not sure whether you meet the eligibility requirements, you should contact the department before submitting your application to avoid unnecessary delays."
+        ]
+      }
+    },
+    {
+      "id": "avoid-there-is-there-are",
+      "title": "Avoid 'there is' and 'there are' when they add no meaning",
+      "description": "Starting a sentence with 'there is' or 'there are' often adds words without adding meaning.",
+      "category": "plain-english",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "regex",
+      "policy_text": "Avoid 'there is' and 'there are' constructions.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bthere (is|are)\\b"
+      },
+      "test": {
+        "pass": [
+          "Several options are available to you."
+        ],
+        "fail": [
+          "There are several options available to you."
+        ]
+      }
+    },
+    {
+      "id": "avoid-if-unless-same-sentence",
+      "title": "Do not combine 'if' and 'unless' in the same sentence",
+      "description": "Using 'if' and 'unless' together in a single sentence creates ambiguity.",
+      "category": "plain-english",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Do not use both 'if' and 'unless' within the same sentence.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bif\\b[^.!?]*\\bunless\\b|\\bunless\\b[^.!?]*\\bif\\b"
+      },
+      "test": {
+        "pass": [
+          "From 1 October, your partner can sign forms on your behalf."
+        ],
+        "fail": [
+          "If your partner signed the form on your behalf, we can accept it unless they signed it before 1 October."
+        ]
+      }
+    },
+    {
+      "id": "avoid-such-as-constructions",
+      "title": "Avoid 'such...as' and 'being/not being' sentence constructions",
+      "description": "The 'such...as' form adds words without adding meaning.",
+      "category": "plain-english",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "regex",
+      "policy_text": "Avoid 'such ... as' constructions and 'being' as a conjunction.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)(\\bsuch\\b.{1,30}\\bas\\b|,\\s*being\\b)"
+      },
+      "test": {
+        "pass": [
+          "Take appropriate steps to resolve the issue."
+        ],
+        "fail": [
+          "Take such steps as are appropriate to resolve the issue."
+        ]
+      }
+    },
+    {
+      "id": "atsi-avoid-shorthand-terms",
+      "title": "Avoid shorthand terms and acronyms for First Nations peoples",
+      "description": "Do not use abbreviated or shorthand terms such as 'Aborigines' or the acronym 'ATSI'.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Use 'Aboriginal and Torres Strait Islander peoples', 'First Nations people', or 'First Australians' in place of shorthand terms such as ATSI or Aborigines.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bATSI\\b|\\bAborigines\\b"
+      },
+      "test": {
+        "pass": [
+          "The program was developed in consultation with Aboriginal and Torres Strait Islander peoples."
+        ],
+        "fail": [
+          "The policy affects ATSI communities across Australia.",
+          "Aborigines and Islanders are welcome to attend."
+        ]
+      }
+    },
+    {
+      "id": "atsi-avoid-blood-quantum",
+      "title": "Do not use blood quantum or part-lineage terms for First Nations people",
+      "description": "Terms describing degree of First Nations ancestry — 'half-caste', 'full-blood', 'half-Aboriginal' — are deeply offensive.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Never describe a person's First Nations ancestry using blood quantum or lineage fractions.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(half[\\s-]caste|full[\\s-]blood|part[\\s-]Aboriginal|half[\\s-]Aboriginal)\\b"
+      },
+      "test": {
+        "pass": [
+          "She is a proud Wiradjuri woman."
+        ],
+        "fail": [
+          "She is half-Aboriginal.",
+          "He is a quarter Torres Strait Islander."
+        ]
+      }
+    },
+    {
+      "id": "atsi-capitalise-welcome-acknowledgement",
+      "title": "Capitalise 'Welcome to Country' and 'Acknowledgement of Country'",
+      "description": "Both 'Welcome to Country' and 'Acknowledgement of Country' must always be written with initial capitals.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Write 'Welcome to Country' and 'Acknowledgement of Country' with initial capitals on every word.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "[Ww]elcome to country|[Aa]cknowledgement of country"
+      },
+      "test": {
+        "pass": [
+          "The conference opened with a Welcome to Country."
+        ],
+        "fail": [
+          "The event opened with a welcome to country.",
+          "We gave an acknowledgement of country before the meeting."
+        ]
+      }
+    },
+    {
+      "id": "atsi-no-italics-first-nations-languages",
+      "title": "Do not italicise words or names from First Nations languages",
+      "description": "Words and names from First Nations languages must not be italicised.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "policy_text": "Do not italicise words from First Nations languages — they are not foreign terms.",
+      "when": {
+        "field": "ATSI_ITALICISED_LANGUAGE_WORD",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "atsi-languages-not-extinct",
+      "title": "Describe dormant First Nations languages as 'sleeping', not 'extinct'",
+      "description": "First Nations languages not in widespread use should be described as 'sleeping' rather than 'extinct'.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Use 'sleeping' to describe First Nations languages not in widespread use. 'Extinct' implies permanence.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\blanguages?\\b[^.!?]{0,60}\\bextinct\\b|\\bextinct\\b[^.!?]{0,60}\\blanguages?\\b"
+      },
+      "test": {
+        "pass": [
+          "Some First Nations languages are currently sleeping."
+        ],
+        "fail": [
+          "Many Aboriginal languages are now extinct."
+        ]
+      }
+    },
+    {
+      "id": "atsi-capitalise-dreaming",
+      "title": "Capitalise 'the Dreaming' when used in its spiritual or cultural context",
+      "description": "'The Dreaming' must be capitalised when referring to spiritual belief systems of Aboriginal peoples.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Write 'the Dreaming' with a capital D. Avoid 'Dreamtime'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "[Tt]he dreaming|\\bdreamtime\\b"
+      },
+      "test": {
+        "pass": [
+          "The Dreaming encompasses the spiritual and physical worlds."
+        ],
+        "fail": [
+          "The dreaming is an important concept.",
+          "Aboriginal people believe in the dreamtime."
+        ]
+      }
+    },
+    {
+      "id": "atsi-indigenous-capitalisation",
+      "title": "Capitalise 'Indigenous' when referring to First Nations Australians",
+      "description": "'Indigenous' must always be capitalised when referring to First Nations Australians.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Capitalise 'Indigenous' when referring to First Nations Australians.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bindigenous (Australians?|peoples?|people|communities|community)\\b"
+      },
+      "test": {
+        "pass": [
+          "The report examines outcomes for Indigenous Australians."
+        ],
+        "fail": [
+          "The report examines outcomes for indigenous Australians."
+        ]
+      }
+    },
+    {
+      "id": "atsi-avoid-myth-legend-spiritual",
+      "title": "Do not use 'myth', 'legend', or 'folklore' for First Nations spiritual beliefs",
+      "description": "Terms like 'myth', 'legend', or 'folklore' are minimising when applied to First Nations beliefs.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Do not use 'myth', 'legend', 'folklore', or 'mythology' for First Nations spiritual beliefs.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(myth|myths|legend|legends|folklore|mythology|mythological)\\b"
+      },
+      "test": {
+        "pass": [
+          "Many Aboriginal peoples hold deep beliefs about the Rainbow Serpent as an ancestral being."
+        ],
+        "fail": [
+          "The Aboriginal legend of the Rainbow Serpent is well known.",
+          "Aboriginal mythology includes Dreamtime stories."
+        ]
+      }
+    },
+    {
+      "id": "age-avoid-elderly-old-people",
+      "title": "Avoid 'elderly' and 'old people'",
+      "description": "'Elderly' carries stereotyping connotations. 'Old people' is disrespectful. Use 'older people', 'older Australians', or 'seniors'.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'elderly' with 'older Australians', 'seniors', etc. Replace 'old people' with 'older people'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(elderly|old people)\\b"
+      },
+      "test": {
+        "pass": [
+          "More older Australians are using smartphones."
+        ],
+        "fail": [
+          "The program targets elderly Australians.",
+          "Old people are more likely to experience social isolation."
+        ]
+      }
+    },
+    {
+      "id": "age-young-people-preferred",
+      "title": "Use 'young people' or 'youth'; avoid 'juniors' and exercise caution with 'youths'",
+      "description": "'Juniors' should be avoided. 'Youths' can carry negative connotations.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'juniors' with 'young people'. Use 'youths' only with care.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(juniors|youths)\\b"
+      },
+      "test": {
+        "pass": [
+          "The program supports young people."
+        ],
+        "fail": [
+          "The juniors were involved in the decision-making process.",
+          "Youths in the suburb were responsible for the incident."
+        ]
+      }
+    },
+    {
+      "id": "cald-avoid-ethnic",
+      "title": "Avoid 'ethnic Australians' or 'ethnic groups' as general descriptors",
+      "description": "These terms imply that migrant heritage makes someone less authentically Australian.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'ethnic Australians' or 'ethnic groups' with 'multicultural communities'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bethnic (Australians?|groups?)\\b"
+      },
+      "test": {
+        "pass": [
+          "The campaign is aimed at multicultural communities."
+        ],
+        "fail": [
+          "Ethnic Australians are encouraged to apply."
+        ]
+      }
+    },
+    {
+      "id": "cald-given-name-family-name",
+      "title": "Use 'given name' and 'family name' instead of 'Christian name', 'first name', or 'surname'",
+      "description": "These terms assume European naming conventions and exclude other cultures.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Use 'given name' and 'family name' in all name fields and correspondence.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(Christian name|first name|last name|forename|surname)\\b"
+      },
+      "test": {
+        "pass": [
+          "Please provide your given name and family name."
+        ],
+        "fail": [
+          "Please provide your Christian name and surname.",
+          "Enter your first name and last name."
+        ]
+      }
+    },
+    {
+      "id": "cald-dual-identity-en-dash",
+      "title": "Use an en dash (not a hyphen) to express dual cultural identity as a compound adjective",
+      "description": "Dual cultural identity compound adjectives use an en dash, not a hyphen.",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "regex",
+      "policy_text": "Use an en dash (–) not a hyphen (-) for dual cultural identity compound adjectives.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b[A-Z][a-z]+-Australian\\b"
+      },
+      "test": {
+        "pass": [
+          "The Vietnamese–Australian community celebrated.",
+          "Vietnamese Australians celebrated."
+        ],
+        "fail": [
+          "The Vietnamese-Australian community celebrated."
+        ]
+      }
+    },
+    {
+      "id": "gender-neutral-job-titles",
+      "title": "Use gender-neutral job titles",
+      "description": "Replace gendered job titles with gender-neutral equivalents.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Use gender-neutral job titles: 'police officer', 'firefighter', 'actor', 'flight attendant'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(policeman|policewoman|fireman|foreman|businessman|businesswoman|salesman|actress|stewardess|waitress|hostess|chairm[ae]n|manageress)\\b"
+      },
+      "test": {
+        "pass": [
+          "The report was prepared by a police officer.",
+          "The actor received a standing ovation."
+        ],
+        "fail": [
+          "The report was prepared by a policeman.",
+          "The actress received a standing ovation."
+        ]
+      }
+    },
+    {
+      "id": "gender-title-ms-mx",
+      "title": "Use 'Ms' as the default title for women; use 'Mx' only when specified",
+      "description": "'Ms' does not disclose marital status and is the default title for women.",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "regex",
+      "policy_text": "Use 'Ms' as the default title for women. Avoid 'Miss' without the person's preference.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bMiss\\s+[A-Z][a-z]"
+      },
+      "test": {
+        "pass": [
+          "The letter was addressed to Ms Chen."
+        ],
+        "fail": [
+          "The letter was addressed to Miss Chen, who appears to be unmarried."
+        ]
+      }
+    },
+    {
+      "id": "gender-lgbtiq-terminology",
+      "title": "Use 'LGBTI' or 'LGBTIQ+' when referring to these communities",
+      "description": "Avoid 'LGBT' alone, which excludes intersex people.",
+      "category": "inclusive-language",
+      "severity": "suggestion",
+      "action": "suggest",
+      "check_type": "regex",
+      "policy_text": "Use 'LGBTI' or 'LGBTIQ+' rather than 'LGBT' alone.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bLGBT\\b"
+      },
+      "test": {
+        "pass": [
+          "The policy includes protections for LGBTI Australians."
+        ],
+        "fail": [
+          "The policy includes protections for LGBT people."
+        ]
+      }
+    },
+    {
+      "id": "disability-uncountable-noun",
+      "title": "Use 'disability' as an uncountable noun (not 'a disability')",
+      "description": "Write 'person with disability' not 'person with a disability'.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Write 'people with disability' without the article 'a'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bwith a disability\\b"
+      },
+      "test": {
+        "pass": [
+          "People with disability are encouraged to apply."
+        ],
+        "fail": [
+          "People with a disability are encouraged to apply."
+        ]
+      }
+    },
+    {
+      "id": "disability-avoid-offensive-terms",
+      "title": "Avoid outdated and offensive disability-related terms",
+      "description": "Do not use 'handicapped', 'crippled', 'invalid', 'incapacitated', 'mute', 'deaf and dumb', 'differently abled', or 'handicapable'.",
+      "category": "inclusive-language",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Use respectful, current terminology for disability.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(handicapped|crippled|invalid|incapacitated|mute|deaf and dumb|differently abled|handicapable)\\b"
+      },
+      "test": {
+        "pass": [
+          "Accessible parking is available near the entrance.",
+          "She is a person who is blind."
+        ],
+        "fail": [
+          "The handicapped parking space is near the entrance.",
+          "He is mute and communicates by sign language.",
+          "The deaf and dumb community requires specialised support."
+        ]
+      }
+    },
+    {
+      "id": "disability-comparison-terms",
+      "title": "Use 'person without disability' not 'able-bodied'",
+      "description": "Replace 'able-bodied' with 'person without disability'. Replace 'hearing-impaired' with 'person who is deaf or hard of hearing'.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'able-bodied' with 'person without disability'. Replace 'hearing-impaired' with 'person who is deaf or hard of hearing'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(able[\\s-]bodied|hearing[\\s-]impaired)\\b"
+      },
+      "test": {
+        "pass": [
+          "The study compared people with disability and people without disability."
+        ],
+        "fail": [
+          "The study compared disabled and able-bodied participants.",
+          "Instructions for hearing-impaired users."
+        ]
+      }
+    },
+    {
+      "id": "disability-deaf-hard-of-hearing",
+      "title": "Use 'person who is deaf or hard of hearing'; avoid 'hearing impaired'",
+      "description": "Refer to people with hearing loss as 'person who is deaf or hard of hearing'.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'hearing impaired' or 'hearing-impaired' with 'person who is deaf or hard of hearing'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bhearing[-\\s]?impaired\\b"
+      },
+      "test": {
+        "pass": [
+          "The video includes captions for people who are deaf or hard of hearing."
+        ],
+        "fail": [
+          "The video includes captions for hearing-impaired viewers."
+        ]
+      }
+    },
+    {
+      "id": "disability-blind-low-vision",
+      "title": "Use 'person who is blind' or 'person who has low vision'; avoid 'the blind'",
+      "description": "Do not use collective terms like 'the blind' or the phrase 'person without sight'.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'the blind' with 'people who are blind'. Replace 'person without sight' with 'person who is blind'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bthe blind\\b|\\bpersons? without sight\\b"
+      },
+      "test": {
+        "pass": [
+          "Screen reader software is available for people who are blind or have low vision."
+        ],
+        "fail": [
+          "The app was designed for the blind.",
+          "Resources are available for persons without sight."
+        ]
+      }
+    },
+    {
+      "id": "disability-mental-illness-having-not-being",
+      "title": "Describe people as 'having' a mental health condition, not 'being' the diagnosis",
+      "description": "Write 'has schizophrenia' not 'is a schizophrenic'; 'has depression' not 'is a depressive'.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Describe mental health conditions as things a person has, not defining identities. Use 'people with mental illness', not 'the mentally ill'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\bis (a )?depressive\\b|\\bis schizophrenic\\b|\\bis bipolar\\b|\\bis autistic\\b|\\bthe mentally ill\\b"
+      },
+      "test": {
+        "pass": [
+          "Alice has depression and receives ongoing support.",
+          "The program supports people with mental illness."
+        ],
+        "fail": [
+          "Alice is a depressive who struggles at work.",
+          "The program supports the mentally ill.",
+          "Lu is bipolar."
+        ]
+      }
+    },
+    {
+      "id": "disability-accessible-parking",
+      "title": "Use 'accessible parking' not 'handicapped parking' or 'disabled parking'",
+      "description": "Use 'accessible parking' to refer to parking reserved for people with disability.",
+      "category": "inclusive-language",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Replace 'handicapped parking' and 'disabled parking' with 'accessible parking'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\b(handicapped parking|disabled parking)\\b"
+      },
+      "test": {
+        "pass": [
+          "Accessible parking is available near the main entrance."
+        ],
+        "fail": [
+          "Handicapped parking is available near the main entrance.",
+          "Disabled parking is located at the rear of the building."
+        ]
+      }
+    },
+    {
+      "id": "author-date-name-year-no-comma",
+      "title": "No comma between author name and year in author-date citations",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\([A-Z][a-záéíóúāēīōū]+(?:\\s+and\\s+[A-Z][a-z]+)?,\\s*\\d{4}\\)"
+      }
+    },
+    {
+      "id": "author-date-two-authors-and-not-ampersand",
+      "title": "Use 'and' not '&' between two authors in author-date citations",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "[A-Z][a-z]+\\s*&\\s*[A-Z][a-z]+\\s*\\(\\d{4}\\)|\\([A-Z][a-z]+\\s*&\\s*[A-Z][a-z]+\\s*\\d{4}\\)"
+      }
+    },
+    {
+      "id": "author-date-three-plus-et-al-intext",
+      "title": "Use 'et al.' for 3+ authors in in-text citations",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_TOO_MANY_AUTHORS_INTEXT",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-et-al-not-italicised",
+      "title": "Do not italicise 'et al.' in citations",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "[*_]{1,2}et al\\.[*_]{1,2}"
+      }
+    },
+    {
+      "id": "author-date-page-numbers-direct-quote-only",
+      "title": "Include page numbers in author-date citations only for direct quotations",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_PAGE_NUMBERS_NOT_DIRECT_QUOTE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-multiple-works-semicolon-alphabetical",
+      "title": "Separate multiple works in one citation with semicolons, in alphabetical order",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_MULTIPLE_WORKS_ORDER",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-same-author-same-year-letter-suffix",
+      "title": "Add letter suffixes to years when citing multiple works by the same author in the same year",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_SAME_YEAR_NO_SUFFIX",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-no-date-nd",
+      "title": "Use 'n.d.' when a source has no date of publication",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\(\\w+\\s+no\\s+date\\)|\\(\\w+\\s+-\\s*\\)"
+      }
+    },
+    {
+      "id": "author-date-org-shortened-form-intext",
+      "title": "Use shortened form of organisation names in author-date in-text citations",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_ORG_FULL_NAME_INTEXT",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-reflist-heading-references",
+      "title": "Head the reference list 'References'",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^(?:Bibliography|Sources|Works Cited|Works cited|Further Reading|Further reading)\\s*$"
+      }
+    },
+    {
+      "id": "author-date-reflist-name-format",
+      "title": "In the reference list, write family name before initials with no comma and no full stops in initials",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_REFLIST_NAME_FORMAT",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-reflist-all-authors",
+      "title": "List all authors in the reference list (no 'et al.' abbreviation)",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^[A-Z][a-z]+\\s+[A-Z]{1,2}.*et al\\."
+      }
+    },
+    {
+      "id": "author-date-title-italics-complete-works",
+      "title": "Italicise titles of complete works; use single quotes for parts of a publication",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_TITLE_ITALICS_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-online-hyperlink-and-accessed-date",
+      "title": "Hyperlink the title of online works and include an accessed date",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_ONLINE_NO_ACCESSED_DATE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-full-date-for-newspapers-social-media",
+      "title": "Include full date for newspaper articles and social media posts",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_NEWSPAPER_NO_FULL_DATE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "author-date-reflist-element-order",
+      "title": "Follow the prescribed element order in author-date reference list entries",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "AUTHOR_DATE_REFLIST_ELEMENT_ORDER",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "doc-note-marker-after-punctuation",
+      "title": "Place footnote/endnote reference markers after sentence punctuation, not before",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DOC_NOTE_MARKER_BEFORE_PUNCTUATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "doc-note-one-marker-multiple-citations",
+      "title": "Use a single reference marker for multiple citations at the same point",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DOC_NOTE_MULTIPLE_CONSECUTIVE_MARKERS",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "doc-note-no-latin-abbreviations",
+      "title": "Do not use 'ibid.', 'op. cit.', or 'loc. cit.' in documentary-note citations",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bibid\\.\\b|\\bop\\.\\s*cit\\.\\b|\\bloc\\.\\s*cit\\.\\b"
+      }
+    },
+    {
+      "id": "doc-note-author-name-initials-first",
+      "title": "In documentary-note citations, write initials before family name",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DOC_NOTE_AUTHOR_NAME_FORMAT",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "doc-note-short-citation-name-and-title-only",
+      "title": "Use author family name and short title only in subsequent citations",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DOC_NOTE_SHORT_CITATION_TOO_LONG",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "doc-note-element-order",
+      "title": "Follow the prescribed element order in documentary-note citations",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DOC_NOTE_ELEMENT_ORDER",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "doc-note-section-notes-heading",
+      "title": "Use the heading 'Notes' for documentary-note footnotes in digital content",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "DOC_NOTE_SECTION_HEADING",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "legal-separate-lists-legislation-cases",
+      "title": "Provide separate reference lists for legislation and legal cases, in alphabetical order",
+      "category": "referencing",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "LEGAL_REFLIST_NOT_SEPARATE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "legal-use-authorised-titles",
+      "title": "Use the authorised legislation title from official government databases",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "when": {
+        "field": "LEGAL_UNAUTHORISED_TITLE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "shortened-forms-no-full-stops-except-latin-and-nd",
+      "title": "English citation abbreviations have no full stops; Latin shortened forms and 'n.d.' retain full stops",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\b(?:vol|edn|ed|ch|pp?|no)\\.[^\\d]"
+      }
+    },
+    {
+      "id": "shortened-forms-avoid-latin-abbreviations",
+      "title": "Avoid 'ibid.', 'op. cit.', 'loc. cit.', and 'id.' unless a publisher requires them",
+      "category": "referencing",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\bibid\\.\\b|\\bop\\.\\s*cit\\.\\b|\\bloc\\.\\s*cit\\.\\b|\\bid\\.,"
+      }
+    },
+    {
+      "id": "headings-no-full-stop",
+      "title": "No full stop at the end of headings",
+      "description": "Headings must not end with a full stop, even when the heading is phrased as a complete sentence.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Headings must not end with a full stop.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^#{1,6}\\s+[^\\n]+\\.$"
+      },
+      "test": {
+        "pass": [
+          "## Apply for a grant",
+          "### How the process works"
+        ],
+        "fail": [
+          "## Apply for a grant.",
+          "### How the process works."
+        ]
+      }
+    },
+    {
+      "id": "headings-max-70-chars",
+      "title": "Headings are 70 characters or fewer",
+      "description": "Each heading should be no longer than 70 characters including spaces.",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Headings must be 70 characters or fewer.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^#{1,6} .{71,}$"
+      },
+      "test": {
+        "pass": [
+          "## Apply for a community grant"
+        ],
+        "fail": [
+          "## How to successfully apply for a community development grant for your local area in the current financial year"
+        ]
+      }
+    },
+    {
+      "id": "headings-sentence-case",
+      "title": "Headings use sentence case",
+      "description": "Headings must use sentence case: capitalise only the first word, proper nouns, and acronyms/initialisms.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Headings must use sentence case, not title case or all-capitals.",
+      "when": {
+        "field": "HEADINGS_SENTENCE_CASE_VIOLATION",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "headings-one-h1-per-page",
+      "title": "Only one H1 heading per page",
+      "description": "Each webpage should have exactly one level-1 heading.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "A page must have exactly one H1 heading.",
+      "when": {
+        "field": "HEADINGS_MULTIPLE_H1",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "lists-minimum-two-items",
+      "title": "Lists must have at least two items",
+      "description": "A list must contain at least two items.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Lists must contain at least two items.",
+      "when": {
+        "field": "LISTS_SINGLE_ITEM",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "lists-no-trailing-semicolons-or-commas",
+      "title": "No semicolons or commas at the end of list items",
+      "description": "Individual list items must not end with a semicolon or comma.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "List items must not end with a semicolon or comma.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^[-*+]\\s+[^\\n]+[;,]\\s*$"
+      },
+      "test": {
+        "pass": [
+          "- apples\n- oranges\n- bananas"
+        ],
+        "fail": [
+          "- apples;\n- oranges;\n- bananas."
+        ]
+      }
+    },
+    {
+      "id": "lists-no-and-or-between-items",
+      "title": "Do not place 'and' or 'or' after list items",
+      "description": "List items should not have 'and' or 'or' placed after intermediate items.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Do not end list items with ', and' or ', or'.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^[-*+]\\s+[^\\n]+,\\s+(and|or)\\s*$"
+      },
+      "test": {
+        "pass": [
+          "- phone\n- email\n- post"
+        ],
+        "fail": [
+          "- phone, or\n- email, or\n- post."
+        ]
+      }
+    },
+    {
+      "id": "lists-no-etc",
+      "title": "Do not end a list with 'etc.'",
+      "description": "Do not append 'etc.' to the end of a list.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Lists must not end with 'etc.'",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^[-*+]\\s+[^\\n]*\\betc\\.\\s*$"
+      },
+      "test": {
+        "pass": [
+          "- a passport\n- a birth certificate"
+        ],
+        "fail": [
+          "- a passport\n- a birth certificate\n- etc."
+        ]
+      }
+    },
+    {
+      "id": "lists-lead-in-colon",
+      "title": "Phrase lead-ins for lists end with a colon",
+      "description": "When a list is introduced by a phrase, the lead-in must end with a colon.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Phrase-based list lead-ins must end with a colon.",
+      "when": {
+        "field": "LISTS_LEAD_IN_MISSING_COLON",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "lists-fragment-lowercase-start",
+      "title": "Fragment list items begin with a lowercase letter",
+      "description": "In fragment lists, list items should begin with a lowercase letter, unless starting with a proper noun or acronym.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Fragment list items must start with a lowercase letter unless they begin with a proper noun or acronym.",
+      "when": {
+        "field": "LISTS_FRAGMENT_UPPERCASE_START",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "lists-fragment-final-full-stop",
+      "title": "Fragment lists place a full stop only on the final item",
+      "description": "In a fragment list, a full stop is added only after the very last item.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Only the final item in a fragment list may end with a full stop.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^[-*+]\\s+[^\\n]+\\.\\n[-*+]\\s+"
+      },
+      "test": {
+        "pass": [
+          "- phone\n- email\n- post."
+        ],
+        "fail": [
+          "- phone.\n- email.\n- post."
+        ]
+      }
+    },
+    {
+      "id": "lists-multilevel-en-dash",
+      "title": "Use en dashes for the second level of multilevel lists",
+      "description": "Second-level items must use en dashes (–) as the list marker.",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "Second-level list items must use en dashes (–), not 'o', '*', or other markers.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?m)^\\s{2,}[o*]\\s+"
+      },
+      "test": {
+        "pass": [
+          "- tree nuts\n  – almonds"
+        ],
+        "fail": [
+          "- tree nuts\n  o almonds"
+        ]
+      }
+    },
+    {
+      "id": "paragraphs-max-sentence-length",
+      "title": "Sentences are 25 words or fewer",
+      "description": "Every sentence in body text should be 25 words or fewer.",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "llm-deterministic",
+      "policy_text": "Sentences in body text must be 25 words or fewer.",
+      "when": {
+        "field": "PARAGRAPHS_LONG_SENTENCE",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "tables-must-have-caption-and-headers",
+      "title": "Every table requires a caption and row/column headings",
+      "description": "All tables must have a descriptive title or caption and proper row and column headings.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Tables must have a descriptive caption and row/column headings.",
+      "when": {
+        "field": "TABLES_MISSING_CAPTION_OR_HEADERS",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "tables-no-empty-cells",
+      "title": "Table cells must not be empty",
+      "description": "Every cell in a table must contain content. Where data is absent, use 'nil', 'n/a', or 0.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Table cells must not be empty; use 'nil', 'n/a', or '0' where data is absent.",
+      "when": {
+        "field": "TABLES_EMPTY_CELL",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "tables-no-colour-only-meaning",
+      "title": "Do not use colour as the sole way to convey meaning in tables",
+      "description": "Tables must not rely on colour alone to communicate information.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Colour must not be the only means of conveying meaning in table cells.",
+      "when": {
+        "field": "TABLES_COLOUR_ONLY_MEANING",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "tables-no-nested-tables",
+      "title": "Do not nest tables inside other tables",
+      "description": "A table must not contain another table inside it.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Tables must not be nested inside other tables.",
+      "when": {
+        "field": "TABLES_NESTED",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "id": "links-file-type-and-size",
+      "title": "Links to downloadable files include file type and size",
+      "description": "When linking to a non-HTML file, the link text must include file type and size.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Links to downloadable files must include file type and size in the link text.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "(?i)\\[[^\\]\\[]*\\]\\([^)]*\\.(?:pdf|docx|xlsx|xls|doc|ppt|pptx|csv|zip)\\b[^)]*\\)"
+      },
+      "test": {
+        "pass": [
+          "[Annual Report 2023–24 [PDF 2.1 MB]](#)"
+        ],
+        "fail": [
+          "[Annual Report](annual-report.pdf)"
+        ]
+      }
+    },
+    {
+      "id": "links-email-as-link-text",
+      "title": "Use the email address itself as the link text for mailto links",
+      "description": "The visible link text must be the email address itself.",
+      "category": "structuring",
+      "severity": "warning",
+      "action": "flag",
+      "check_type": "regex",
+      "policy_text": "The visible text of a mailto link must be the email address (must contain @).",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "\\[[^\\]@]*\\]\\(mailto:"
+      },
+      "test": {
+        "pass": [
+          "[grants@agency.gov.au](mailto:grants@agency.gov.au)"
+        ],
+        "fail": [
+          "[Contact the grants team](mailto:grants@agency.gov.au)"
+        ]
+      }
+    },
+    {
+      "id": "callouts-html-aside-element",
+      "title": "Use the HTML aside element to mark up web text boxes",
+      "description": "In HTML, text boxes must use <aside> or role='complementary', not a plain <div>.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "regex",
+      "policy_text": "Web callout content must use <aside> or role='complementary', not a plain <div>.",
+      "when": {
+        "field": "text",
+        "op": "regex",
+        "value": "<div[^>]+class=[\"'][^\"']*(?:callout|aside|textbox|text-box|note|alert|info|warning|highlight)[^\"']*[\"']"
+      },
+      "test": {
+        "pass": [
+          "<aside>Example content.</aside>"
+        ],
+        "fail": [
+          "<div class='callout'>Example content.</div>"
+        ]
+      }
+    },
+    {
+      "id": "callouts-no-word-floating-textboxes",
+      "title": "Do not use floating text boxes in Microsoft Word or PowerPoint",
+      "description": "Floating text boxes in Word/PowerPoint are inaccessible to screen readers.",
+      "category": "structuring",
+      "severity": "error",
+      "action": "block",
+      "check_type": "llm-deterministic",
+      "policy_text": "Do not use floating Insert > Text Box in Word or PowerPoint.",
+      "when": {
+        "field": "CALLOUTS_WORD_FLOATING_TEXTBOX",
+        "op": "eq",
+        "value": true
+      }
+    }
+  ]
 }
